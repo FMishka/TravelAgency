@@ -6,6 +6,19 @@ import java.sql.Statement;
 import java.sql.SQLException;
 
 public class DbFunctions {
+    //Создает либо пересоздает таблицы и заполняет их начальными данными
+    public void initDB(Connection conn) {
+        Statement statement;
+        try {
+            String query = "";      //SQL запрос сюда вставить надо (не забыть сначала дропнуть таблицы)
+            statement = conn.createStatement();
+            statement.execute(query);
+            System.out.println("Database initialized");
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+
     public Connection connect_to_db(String dbname,String user,String pass){
         Connection conn=null;
         try{

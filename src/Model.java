@@ -16,7 +16,7 @@ public class Model {
         String password = new String(Files.readAllBytes(Paths.get("password.txt")), StandardCharsets.UTF_8);
 
         db = new DbFunctions();
-        conn = db.connect_to_db("TravelAgency","postgres",password);
+        conn = db.connection("TravelAgency","postgres",password);
 
         db.initDB(conn);
 

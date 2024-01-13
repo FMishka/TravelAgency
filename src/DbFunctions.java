@@ -1,16 +1,21 @@
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.security.spec.ECField;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.sql.SQLException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 
 public class DbFunctions {
+
     //Создает либо пересоздает таблицы и заполняет их начальными данными
     public void initDB(Connection conn) {
         Statement statement;
         try {
-            String query = "";      //SQL запрос сюда вставить надо (не забыть сначала дропнуть таблицы)
+            String query = new String(Files.readAllBytes(Paths.get("DB_init_script.sql")), StandardCharsets.UTF_8);
             statement = conn.createStatement();
             statement.execute(query);
             System.out.println("Database initialized");

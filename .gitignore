@@ -27,3 +27,5 @@ bin/
 
 ### Mac OS ###
 .DS_Store
+/password.txt
+/postgresql-42.7.1.jar

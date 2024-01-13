@@ -1,6 +1,4 @@
-import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.security.spec.ECField;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -24,7 +22,7 @@ public class DbFunctions {
         }
     }
 
-    public Connection connect_to_db(String dbname,String user,String pass){
+    public Connection connection(String dbname, String user, String pass){
         Connection conn=null;
         try{
             Class.forName("org.postgresql.Driver");
@@ -41,30 +39,31 @@ public class DbFunctions {
         }
         return conn;
     }
-    public void createTable(Connection conn, String table_name){
-        Statement statement;
-        try{
-            String query="create table "+table_name+"(empid SERIAL,name varchar(200),address varchar(200),primary key(empid));";
-            statement=conn.createStatement();
-            statement.executeUpdate(query);
-            System.out.println("Table Created");
-        }catch (Exception e){
-            System.out.println(e);
-        }
-    }
 
-    public void insert_row(Connection conn,String table_name,String name, String address){
+    public void insertRow(Connection conn,String tableName, String[] arrTableFields, String[] arrValues){
         Statement statement;
         try {
-            String query=String.format("insert into %s(name,address) values('%s','%s');",table_name,name,address);
-            statement=conn.createStatement();
+            String query = "";
+            if (arrTableFields != null){
+                String strTableFields = String.join(",", arrTableFields);
+                String strValues = String.join(",", arrValues);
+                query = String.format("insert into %s(%s) values(%s);",tableName,strTableFields,strValues);
+            }
+            else{
+                String strValues = String.join(",", arrValues);
+                query = String.format("insert into %s values(%s);",tableName,strValues);
+            }
+            statement = conn.createStatement();
             statement.executeUpdate(query);
             System.out.println("Row Inserted");
         }catch (Exception e){
             System.out.println(e);
         }
     }
-    public void read_data(Connection conn, String table_name) {
+    public void insertRow(Connection conn,String tableName, String[] arrValues){
+        insertRow(conn, tableName, null, arrValues);
+    }
+    public void readData(Connection conn, String table_name) {
         System.out.println("Reading data from " + table_name);
         String query = String.format("SELECT * FROM %s", table_name);
 
@@ -80,7 +79,7 @@ public class DbFunctions {
             e.printStackTrace();
         }
     }
-    public void update_name(Connection conn,String table_name, String old_name,String new_name){
+    public void updateName(Connection conn, String table_name, String old_name, String new_name){
         Statement statement;
         try {
             String query=String.format("update %s set name='%s' where name='%s'",table_name,new_name,old_name);
@@ -91,7 +90,7 @@ public class DbFunctions {
             System.out.println(e);
         }
     }
-    public void search_by_name(Connection conn, String table_name,String name){
+    public void searchByName(Connection conn, String table_name, String name){
         Statement statement;
         ResultSet rs=null;
         try {
@@ -108,7 +107,7 @@ public class DbFunctions {
             System.out.println(e);
         }
     }
-    public void search_by_id(Connection conn, String table_name,int id){
+    public void searchById(Connection conn, String table_name, int id){
         Statement statement;
         ResultSet rs=null;
         try {
@@ -126,7 +125,7 @@ public class DbFunctions {
         }
     }
 
-    public void delete_row_by_name(Connection conn,String table_name, String name){
+    public void deleteRowByName(Connection conn, String table_name, String name){
         Statement statement;
         try{
             String query=String.format("delete from %s where name='%s'",table_name,name);
@@ -137,7 +136,7 @@ public class DbFunctions {
             System.out.println(e);
         }
     }
-    public void delete_row_by_id(Connection conn,String table_name, int id){
+    public void deleteRowById(Connection conn, String table_name, int id){
         Statement statement;
         try{
             String query=String.format("delete from %s where empid= %s",table_name,id);
@@ -149,7 +148,7 @@ public class DbFunctions {
         }
     }
 
-    public void delete_table(Connection conn, String table_name){
+    public void deleteTable(Connection conn, String table_name){
         Statement statement;
         try {
             String query= String.format("drop table %s",table_name);

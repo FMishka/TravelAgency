@@ -40,7 +40,7 @@
       <component id="21fb3" class="javax.swing.JLabel" binding="label">
         <constraints border-constraint="Center"/>
         <properties>
-          <text value="Label"/>
+          <text value=""/>
         </properties>
       </component>
     </children>

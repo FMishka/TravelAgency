@@ -4,8 +4,8 @@ import java.awt.*;
 public class View {
     private static JFrame mainFrame;
 
-    private HomePage homePage;
-    private AnotherPage anotherPage;
+    private final HomePage homePage;
+    private final AnotherPage anotherPage;
 
     public void goToHomePage() {
         mainFrame.setContentPane(homePage.getContent());
@@ -28,6 +28,7 @@ public class View {
         mainFrame.setVisible(true);
         Toolkit toolkit = Toolkit.getDefaultToolkit();
         Dimension dimension = toolkit.getScreenSize();
+        mainFrame.setIconImage(new ImageIcon(getClass().getResource("logo.png")).getImage());
         mainFrame.setSize(500, 500);
         mainFrame.setLocation(dimension.width / 2 - 250, dimension.height / 2 - 250);
         mainFrame.setTitle("Самолеты");

@@ -23,15 +23,9 @@ public class AnotherPage {
         return panel1;
     }
 
-    public AnotherPage(View view) {
-        this.view = view;
-
-        homePageButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                view.goToHomePage();
-            }
-        });
+    public AnotherPage() {
+        homePageButton.addActionListener(Controller.navigateHome());
+        anotherPageButton.addActionListener(Controller.navigateAnother());
 
         try {
             img = new ImageIcon(getClass().getResource("planeIcon.png"));

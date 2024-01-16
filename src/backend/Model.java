@@ -13,7 +13,6 @@ public class Model {
     private static DbFunctions db;
     private static Connection conn;
 
-    private static View view;
 
     public Model() throws IOException {
         String password = new String(Files.readAllBytes(Paths.get("password.txt")), StandardCharsets.UTF_8);
@@ -23,7 +22,15 @@ public class Model {
 
         db.initDB(conn);
 
-        view = new View();
+        View.init();    //Initializing GUI
+    }
+
+
+    //Этот метод должен возвращать -1 если креды невалидные, 0 если они валидные и пользователь не админ и 1 если креды валидные и это админ
+    public static int validateCredentials(String login, String password) {
+        if(login.equals("admin")) return 1;
+        if(login.equals("user")) return 0;
+        return -1;
     }
 
     public void addFlight(String flightName, LocalDateTime departureTime, LocalDateTime arrivalTime, int departureCountryId, int arrivalCountryId, int planeId, int price) {

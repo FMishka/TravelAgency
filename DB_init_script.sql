@@ -112,10 +112,10 @@ CREATE TABLE IF NOT EXISTS paymentData
 (
     fk_user_ID integer REFERENCES users (user_ID) not NULL,
     cardNumber varchar not NULL,
-    expireDate date not NULL,
+    expireDate varchar not NULL,
     cardName varchar not NULL,
-    cvv integer not NULL,
+    cvv varchar not NULL,
     PRIMARY KEY (fk_user_ID, cardNumber)
     );
-INSERT INTO  paymentData VALUES (0002, 4580010554876947, '01-02-2027', 'Andrey_Savvteev', 123);
+INSERT INTO  paymentData VALUES (2, '4580010554876947', '02/27', 'Andrey_Savvteev', '123');
 

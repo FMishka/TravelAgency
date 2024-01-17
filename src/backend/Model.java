@@ -1,17 +1,17 @@
 package backend;
 import frontend.*;
 
+import javax.crypto.Cipher;
+import javax.crypto.SecretKey;
+import javax.crypto.spec.SecretKeySpec;
+import javax.xml.bind.DatatypeConverter;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDateTime;
-
-import java.io.*;
-import java.util.Date;
 
 public class Model {
     private static DbFunctions db;
@@ -65,8 +65,84 @@ public class Model {
         return -1;
     }
 
-    public static boolean isCorrectRequisites(String cardNumber, String expireDate, int cvv){
+    public static boolean isCorrectCreditCardDetails(String cardNumber, String expireDate, int cvv){
         return cardNumber.length() == 16 && expireDate.matches("\\d{2}/\\d{2}") && cvv > 99 && cvv < 1000;
+    }
+
+    public static String aesEncrypt(String element){
+        try{
+            Cipher cipher = Cipher.getInstance("AES");
+            SecretKeySpec secretKeySpec = new SecretKeySpec("bestProjectInTheWorld!!!".getBytes(), "AES");
+            cipher.init(Cipher.ENCRYPT_MODE, secretKeySpec);
+            byte[] encryptedElement = cipher.doFinal(element.getBytes());
+            return DatatypeConverter.printHexBinary(encryptedElement);
+        }
+        catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+
+        return null;
+    }
+
+    public static String aesDecrypt(String element){
+        try{
+            Cipher cipher =  Cipher.getInstance("AES");
+            SecretKeySpec secretKeySpec = new SecretKeySpec("bestProjectInTheWorld!!!".getBytes(), "AES");
+            cipher.init(Cipher.DECRYPT_MODE, secretKeySpec);
+            byte[] dectyptElement = cipher.doFinal(DatatypeConverter.parseHexBinary(element));
+            return new String(dectyptElement);
+        }
+        catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
+
+    public static void addPaymentData(int id, String cardNumber, String expireDate, String cardName, String cvv){
+        try{
+            if(isCorrectCreditCardDetails(cardNumber, expireDate, Integer.parseInt(cvv))){
+                String[] paymentData = new String[] {Integer.toString(id),
+                        "'" + Model.aesEncrypt(cardNumber) + "'",
+                        "'" + Model.aesEncrypt(expireDate) + "'",
+                        "'" + Model.aesEncrypt(cardName) + "'",
+                        "'" + Model.aesEncrypt(cvv) + "'"
+                };
+                db.insertRow(conn, "paymentData", paymentData);
+            }
+            else{
+                System.out.println("Credit card details are not correct!");
+            }
+
+        }
+        catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+
+
+    }
+
+    public static String[] getUserPaymentData(int id){
+        Statement statement;
+        String userPaymentDataQuery = String.format("SELECT * FROM paymentData WHERE fk_user_ID = %s", id);
+        String[] userPaymentData = new String[5];
+        try{
+            ResultSet resultSet;
+            statement = conn.createStatement();
+            resultSet = statement.executeQuery(userPaymentDataQuery);
+
+            while(resultSet.next()){
+                userPaymentData[0] = Integer.toString(resultSet.getInt(1));
+                userPaymentData[1] = Model.aesDecrypt(resultSet.getString(2));
+                userPaymentData[2] = Model.aesDecrypt(resultSet.getString(3));
+                userPaymentData[3] = Model.aesDecrypt(resultSet.getString(4));
+                userPaymentData[4] = Model.aesDecrypt(resultSet.getString(5));
+            }
+        }
+        catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+
+        return userPaymentData;
     }
 
     public void addFlight(String flightName, LocalDateTime departureTime, LocalDateTime arrivalTime, int departureCountryId, int arrivalCountryId, int planeId, int price) {

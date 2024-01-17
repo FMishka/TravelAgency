@@ -1,40 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="frontend.HomePage">
-  <grid id="27dc6" binding="content" layout-manager="BorderLayout" hgap="0" vgap="0">
+  <grid id="27dc6" binding="content" layout-manager="GridLayoutManager" row-count="2" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+    <margin top="0" left="0" bottom="0" right="0"/>
     <constraints>
-      <xy x="20" y="20" width="500" height="400"/>
+      <xy x="20" y="20" width="696" height="557"/>
     </constraints>
-    <properties/>
+    <properties>
+      <background color="-8004419"/>
+      <focusable value="false"/>
+    </properties>
     <border type="none"/>
     <children>
-      <grid id="e1176" binding="navigation" layout-manager="GridLayoutManager" row-count="1" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-        <margin top="0" left="0" bottom="0" right="0"/>
-        <constraints border-constraint="North"/>
-        <properties/>
-        <border type="none"/>
-        <children>
-          <component id="19bf1" class="javax.swing.JButton" binding="homePageButton">
-            <constraints>
-              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-            </constraints>
-            <properties>
-              <text value="Home page"/>
-            </properties>
-          </component>
-          <component id="6730d" class="javax.swing.JButton" binding="anotherPageButton" default-binding="true">
-            <constraints>
-              <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-            </constraints>
-            <properties>
-              <text value="Another page"/>
-            </properties>
-          </component>
-        </children>
-      </grid>
-      <component id="576c6" class="javax.swing.JTextField" binding="helloAllThisIsTextField" default-binding="true">
-        <constraints border-constraint="South"/>
+      <component id="ee470" class="javax.swing.JButton" binding="anotherPageButton" default-binding="true">
+        <constraints>
+          <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="1" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
         <properties>
-          <text value="Hello all this is home page have fun"/>
+          <text value="Another page"/>
+        </properties>
+      </component>
+      <component id="a2361" class="javax.swing.JButton" binding="homePageButton" default-binding="true">
+        <constraints>
+          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="1" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="Home page"/>
+        </properties>
+      </component>
+      <component id="e6f4c" class="javax.swing.JButton" binding="logout">
+        <constraints>
+          <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="6" fill="0" indent="0" use-parent-layout="false">
+            <preferred-size width="70" height="-1"/>
+          </grid>
+        </constraints>
+        <properties>
+          <background color="-12471389"/>
+          <focusable value="false"/>
+          <font name="Droid Sans" size="16" style="1"/>
+          <foreground color="-16777216"/>
+          <icon value="frontend/logout.png"/>
+          <inheritsPopupMenu value="false"/>
+          <text value="logout"/>
         </properties>
       </component>
     </children>

@@ -28,6 +28,11 @@ public abstract class View {
         mainFrame.revalidate();
     }
 
+    public static void goToAuthForm() {
+        mainFrame.setContentPane(authForm.getContent());
+        mainFrame.revalidate();
+    }
+
     public static void init() {
         mainFrame = new JFrame("Page1");
         //mainFrame.setContentPane(homePage.getContent());

@@ -21,7 +21,7 @@
           <background color="-12471389"/>
           <editable value="false"/>
           <focusable value="false"/>
-          <font name="Droid Sans" size="26" style="0"/>
+          <font name="Droid Sans" size="26" style="1"/>
           <foreground color="-16777216"/>
           <horizontalAlignment value="4"/>
           <text value="login:"/>
@@ -39,7 +39,7 @@
           <font name="Droid Sans" size="26" style="1"/>
           <foreground color="-16777216"/>
           <horizontalAlignment value="2"/>
-          <text value="admin"/>
+          <text value=""/>
         </properties>
       </component>
       <component id="1a5a1" class="javax.swing.JTextField" default-binding="true">
@@ -52,7 +52,7 @@
           <background color="-12471389"/>
           <editable value="false"/>
           <focusable value="false"/>
-          <font name="Droid Sans" size="26" style="0"/>
+          <font name="Droid Sans" size="26" style="1"/>
           <foreground color="-16777216"/>
           <horizontalAlignment value="4"/>
           <text value="password:"/>
@@ -66,7 +66,7 @@
         </constraints>
         <properties>
           <autoscrolls value="true"/>
-          <background color="-1529732"/>
+          <background color="-12471389"/>
           <caretColor color="-1529732"/>
           <disabledTextColor color="-8004419"/>
           <editable value="false"/>
@@ -97,7 +97,7 @@
           <font name="Droid Sans" size="26" style="1"/>
           <foreground color="-16777216"/>
           <horizontalAlignment value="2"/>
-          <text value="admin"/>
+          <text value=""/>
         </properties>
       </component>
       <component id="48db1" class="javax.swing.JButton" binding="submitButton" default-binding="true">

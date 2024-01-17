@@ -16,16 +16,13 @@ public abstract class Controller {
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-//                System.out.println(authForm.login.getText());
-//                System.out.println(authForm.password.getText());
-
                 switch (Model.validateCredentials(authForm.login.getText(), authForm.password.getText())) {
                     case USER:
                         showMessageDialog(null, "You have successfully logged in", "", JOptionPane.INFORMATION_MESSAGE);
                         View.setSize(500, 500);
                         View.goToHomePage();
                         break;
-                    case ADMIN: //Admin
+                    case ADMIN:
                         showMessageDialog(null, "You have successfully logged in", "", JOptionPane.INFORMATION_MESSAGE);
                         View.setSize(500, 500);
                         View.goToAnotherPage();
@@ -53,6 +50,16 @@ public abstract class Controller {
             @Override
             public void actionPerformed(ActionEvent e) {
                 View.goToAnotherPage();
+            }
+        };
+    }
+
+    public static ActionListener logout() {
+        return new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                View.goToAuthForm();
+                View.setSize(400, 350);
             }
         };
     }

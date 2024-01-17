@@ -8,9 +8,8 @@ public class HomePage {
 
     private JButton homePageButton;
     private JPanel content;
-    private JPanel navigation;
     private JButton anotherPageButton;
-    private JTextField helloAllThisIsTextField;
+    private JButton logout;
 
     public JPanel getContent() {
         return content;
@@ -19,5 +18,6 @@ public class HomePage {
     public HomePage() {
         homePageButton.addActionListener(Controller.navigateHome());
         anotherPageButton.addActionListener(Controller.navigateAnother());
+        logout.addActionListener(Controller.logout());
     }
 }

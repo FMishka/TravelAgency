@@ -8,6 +8,7 @@ import java.io.*;
 
 public class Main {
     public static void main(String[] args){
-        Model model = new Model();
+        //Model model = new Model();
+        System.out.println(Model.isCorrectRequisites("4580010554876947", "02/27", 123));
     }
 }

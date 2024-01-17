@@ -11,6 +11,7 @@ import java.sql.Statement;
 import java.time.LocalDateTime;
 
 import java.io.*;
+import java.util.Date;
 
 public class Model {
     private static DbFunctions db;
@@ -62,6 +63,10 @@ public class Model {
         if(isAdmin) return 1;
         if(isAuthCorrect) return 0;
         return -1;
+    }
+
+    public static boolean isCorrectRequisites(String cardNumber, String expireDate, int cvv){
+        return cardNumber.length() == 16 && expireDate.matches("\\d{2}/\\d{2}") && cvv > 99 && cvv < 1000;
     }
 
     public void addFlight(String flightName, LocalDateTime departureTime, LocalDateTime arrivalTime, int departureCountryId, int arrivalCountryId, int planeId, int price) {

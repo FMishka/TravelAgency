@@ -44,6 +44,7 @@ CREATE TABLE IF NOT EXISTS users
     passport integer not NULL
 );
 
+INSERT INTO users VALUES (0, 'admin','', TRUE, 0);
 INSERT INTO users VALUES (0001, 'Eduard',12345, TRUE, 0000000);
 INSERT INTO users VALUES (0002, 'Shimon','j1krd7', FALSE, 74596770);
 INSERT INTO users VALUES (0003, 'Andrey','9ztnga', FALSE, 28091427);

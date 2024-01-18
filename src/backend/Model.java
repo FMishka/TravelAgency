@@ -1,8 +1,8 @@
 package backend;
-import frontend.*;
+
+import frontend.View;
 
 import javax.crypto.Cipher;
-import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import javax.xml.bind.DatatypeConverter;
 import java.nio.charset.StandardCharsets;
@@ -12,14 +12,14 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
+import java.util.Date;
 
 public class Model {
     private static DbFunctions db;
     private static Connection conn;
     private static int userId = -1;
 
-    public Model() {
+    public static void initConnection(){
         String password = "";
         try{
             password = new String(Files.readAllBytes(Paths.get("password.txt")), StandardCharsets.UTF_8);
@@ -27,20 +27,18 @@ public class Model {
         catch (Exception e){
             System.out.println(e.getMessage());
         }
-
         db = new DbFunctions();
         conn = db.connection("TravelAgency","postgres",password);
-
         db.initDB(conn);
-
-        View.init();    //Initializing GUI
     }
 
-
+    public Model() {
+        initConnection();
+        View.init();    //Initializing GUI
+    }
     //Этот метод должен возвращать -1 если креды невалидные, 0 если они валидные и пользователь не админ и 1 если креды валидные и это админ
     public static int validateCredentials(String login, String password) {
         Statement statement;
-
         String user = String.format("SELECT * FROM users WHERE login = '%s' AND userpassword = '%s'", login, password);
         String admin = String.format("SELECT isAdmin FROM users WHERE login = '%s' AND userpassword = '%s'", login, password);
         boolean isAdmin = false;
@@ -61,7 +59,6 @@ public class Model {
         catch (Exception e){
             System.out.println(e.getMessage());
         }
-
         if(isAdmin) return 1;
         if(isAuthCorrect) return 0;
         return -1;
@@ -82,7 +79,6 @@ public class Model {
         catch (Exception e){
             System.out.println(e.getMessage());
         }
-
         return null;
     }
 
@@ -114,13 +110,10 @@ public class Model {
             else{
                 System.out.println("Credit card details are not correct!");
             }
-
         }
         catch (Exception e){
             System.out.println(e.getMessage());
         }
-
-
     }
 
     public static String[] getUserPaymentData(int id){
@@ -143,7 +136,6 @@ public class Model {
         catch (Exception e){
             System.out.println(e.getMessage());
         }
-
         return userPaymentData;
     }
     public static int[][] getAllFlyghtSeats(int flightId){
@@ -192,47 +184,56 @@ public class Model {
             System.out.println(e.getMessage());
         }
     }
-    public void addFlight(String flightName, LocalDateTime departureTime, LocalDateTime arrivalTime, int departureCountryId, int arrivalCountryId, int planeId, int price) {
-
+    private static boolean isSeatFree(int flyightId, int seatRow, int seatColumn){
+        int[][] allSeats = Model.getAllFlyghtSeats(flyightId);
+        if (allSeats[seatRow][seatColumn] < 0){
+            return true;
+        }
+        return false;
     }
-
-    //Тут лютый говнокод
-    public static String[][] getAllFlights() {
+    private static boolean isFlightValid(int flyightId){
+        String getDate = String.format("SELECT departureDate, flight_ID FROM flights WHERE flight_ID = %s", flyightId);
         Statement statement;
-        String query = "SELECT * FROM flights";
-
-        ResultSet resultSet = null;
-        String[][] res = null;
-        ArrayList<String[]> resArrayList = new ArrayList<>();
-
-        try {
+        try{
             statement = conn.createStatement();
-            resultSet = statement.executeQuery(query);
-
-            int numberOfColumns = resultSet.getMetaData().getColumnCount();
-
-            while (resultSet.next()) {
-                String[] tmp = new String[numberOfColumns];
-
-                for (int j = 0; j < numberOfColumns; j++) {
-                    tmp[j] = resultSet.getString(j + 1);
-                }
-
-                resArrayList.add(tmp);
+            ResultSet resultSet = statement.executeQuery(getDate);
+            resultSet.next();
+            Date date = resultSet.getDate(1);
+            Date today = new Date();
+            if (today.before(date)){
+                return true;
             }
-
-            int numberOfRows = resArrayList.size();
-
-            res = new String[numberOfRows][numberOfColumns];
-            for(int i = 0; i < numberOfRows; i++) {
-                res[i] = resArrayList.get(i);
-            }
-
-
-        } catch (Exception e) {
+        }
+        catch (Exception e){
             System.out.println(e.getMessage());
         }
+        return false;
+    }
+    public static boolean orderingTicket(int flyightId, int userId, int seatRow, int seatColumn, boolean isPayed, String passengerFirstName, String passengerSecondName, Date passengerBirthDate, char passengerSex){
+        String[] valuesTickets = new String[]{
+                Integer.toString(flyightId),
+                Integer.toString(userId),
+                Integer.toString(seatRow),
+                Integer.toString(seatColumn),
+                Boolean.toString(isPayed),
+                "'" + passengerFirstName + "'",
+                "'" + passengerSecondName + "'",
+                "'" + passengerBirthDate.getDate() + "-" + (passengerBirthDate.getMonth() + 1) + "-" + (passengerBirthDate.getYear() + 1900) + "'",
+                "'" + passengerSex + "'"
+        };
+        Statement statement;
+        try{
+            if (isSeatFree(flyightId, seatRow, seatColumn) && isFlightValid(flyightId)){
+                db.insertRow(conn, "tickets", valuesTickets);
+                return true;
+            }
+        }
+        catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+        return false;
+    }
+    public void addFlight(String flightName, LocalDateTime departureTime, LocalDateTime arrivalTime, int departureCountryId, int arrivalCountryId, int planeId, int price) {
 
-        return res;
     }
 }

@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 public class Model {
     private static DbFunctions db;
     private static Connection conn;
-
+    private static int userId = -1;
 
     public Model() {
         String password = "";
@@ -50,6 +50,7 @@ public class Model {
             resultSet = statement.executeQuery(user);
             if (resultSet.next()){
                 isAuthCorrect = true;
+                userId = resultSet.getInt(1);
             }
             resultSet = statement.executeQuery(admin);
             if (resultSet.next()){
@@ -65,11 +66,11 @@ public class Model {
         return -1;
     }
 
-    public static boolean isCorrectCreditCardDetails(String cardNumber, String expireDate, int cvv){
+    private static boolean isCorrectCreditCardDetails(String cardNumber, String expireDate, int cvv){
         return cardNumber.length() == 16 && expireDate.matches("\\d{2}/\\d{2}") && cvv > 99 && cvv < 1000;
     }
 
-    public static String aesEncrypt(String element){
+    private static String aesEncrypt(String element){
         try{
             Cipher cipher = Cipher.getInstance("AES");
             SecretKeySpec secretKeySpec = new SecretKeySpec("bestProjectInTheWorld!!!".getBytes(), "AES");
@@ -144,7 +145,52 @@ public class Model {
 
         return userPaymentData;
     }
-
+    public static int[][] getAllFlyghtSeats(int flightId){
+        String flightQuery = "";
+        Statement statement;
+        int[][] allFlightSeats = null;
+        try{
+            flightQuery = String.format("SELECT flights.flight_ID, flights.fk_plane_ID, planes.rowsNumber, planes.columnsNumber FROM flights LEFT JOIN planes\n" +
+                    "ON flights.fk_plane_id = plane_ID WHERE flights.flight_ID = %s", flightId);
+            statement = conn.createStatement();;
+            ResultSet resultSet = statement.executeQuery(flightQuery);
+            resultSet.next();
+            allFlightSeats = new int[resultSet.getInt("rowsnumber")][resultSet.getInt("columnsnumber")];
+            initAllFlyghtSeats(flightId, allFlightSeats);
+        }
+        catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+        return allFlightSeats;
+    }
+    private static void initAllFlyghtSeats(int flyghtId, int[][] allFlightSeats){
+        String ticketQuery = "";
+        Statement statement;
+        try{
+            ticketQuery = String.format("SELECT fk_flight_ID, fk_user_ID, seatRow, seatColumn FROM tickets\n" +
+                    "WHERE fk_flight_ID = %s", flyghtId);
+            statement = conn.createStatement();
+            ResultSet resultSet =statement.executeQuery(ticketQuery);
+            for(int i = 0; i < allFlightSeats.length; i++){
+                for (int j = 0; j < allFlightSeats[0].length; j++){
+                    allFlightSeats[i][j] = -1;
+                }
+            }
+            while(resultSet.next()){
+                int seatRow = resultSet.getInt("seatrow") - 1;
+                int seatColumn = resultSet.getInt("seatcolumn") - 1;
+                if (resultSet.getInt("fk_user_id") == userId){
+                    allFlightSeats[seatRow][seatColumn] = 1;
+                }
+                else{
+                    allFlightSeats[seatRow][seatColumn] = 0;
+                }
+            }
+        }
+        catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+    }
     public void addFlight(String flightName, LocalDateTime departureTime, LocalDateTime arrivalTime, int departureCountryId, int arrivalCountryId, int planeId, int price) {
 
     }

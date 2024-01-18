@@ -39,7 +39,7 @@
           <font name="Droid Sans" size="26" style="1"/>
           <foreground color="-16777216"/>
           <horizontalAlignment value="2"/>
-          <text value=""/>
+          <text value="admin"/>
         </properties>
       </component>
       <component id="1a5a1" class="javax.swing.JTextField" default-binding="true">

@@ -11,13 +11,8 @@ import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
-<<<<<<< HEAD
-=======
-import java.time.format.DateTimeFormatter;
->>>>>>> bbfb3fc2adeace2eca3c4c027dc970d27e9458e0
+import java.util.ArrayList;
 import java.util.Date;
 
 public class Model {
@@ -241,5 +236,45 @@ public class Model {
     }
     public void addFlight(String flightName, LocalDateTime departureTime, LocalDateTime arrivalTime, int departureCountryId, int arrivalCountryId, int planeId, int price) {
 
+    }
+
+    //Тут лютый говнокод
+    public static String[][] getAllFlights() {
+        Statement statement;
+        String query = "SELECT * FROM flights";
+
+        ResultSet resultSet = null;
+        String[][] res = null;
+        ArrayList<String[]> resArrayList = new ArrayList<>();
+
+        try {
+            statement = conn.createStatement();
+            resultSet = statement.executeQuery(query);
+
+            int numberOfColumns = resultSet.getMetaData().getColumnCount();
+
+            while (resultSet.next()) {
+                String[] tmp = new String[numberOfColumns];
+
+                for (int j = 0; j < numberOfColumns; j++) {
+                    tmp[j] = resultSet.getString(j + 1);
+                }
+
+                resArrayList.add(tmp);
+            }
+
+            int numberOfRows = resArrayList.size();
+
+            res = new String[numberOfRows][numberOfColumns];
+            for(int i = 0; i < numberOfRows; i++) {
+                res[i] = resArrayList.get(i);
+            }
+
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
+        return res;
     }
 }

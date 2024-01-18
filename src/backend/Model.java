@@ -48,7 +48,7 @@ public class Model {
         boolean isAuthCorrect = false;
         try{
             ResultSet resultSet;
-            statement = conn.createStatement();
+            statement = conn  .createStatement();
             resultSet = statement.executeQuery(user);
             if (resultSet.next()){
                 isAuthCorrect = true;

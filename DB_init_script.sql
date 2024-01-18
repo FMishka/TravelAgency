@@ -98,15 +98,15 @@ CREATE TABLE IF NOT EXISTS tickets
     );
 INSERT INTO tickets VALUES (1, 0002, 10, 1, TRUE, 'Shimon', 'Roitman', '11-01-2002', 'M');
 INSERT INTO tickets VALUES (2, 0002, 8, 2, TRUE, 'Shimon', 'Roitman', '11-01-2002', 'M');
-INSERT INTO tickets VALUES (3, 0003, 7, 6, TRUE, 'Andrey', 'Savvteev', '06-09-2000', 'M');
+INSERT INTO tickets VALUES (1, 0003, 7, 6, TRUE, 'Andrey', 'Savvteev', '06-09-2000', 'M');
 INSERT INTO tickets VALUES (4, 0003, 15, 4, TRUE, 'Andrey', 'Savvteev', '06-09-2000', 'M');
 INSERT INTO tickets VALUES (5, 0003, 20, 2, TRUE, 'Andrey', 'Savvteev', '06-09-2000', 'M');
 INSERT INTO tickets VALUES (6, 0003, 20, 2, TRUE, 'Andrey', 'Savvteev', '06-09-2000', 'M');
-INSERT INTO tickets VALUES (7, 0004, 9, 5, TRUE, 'Bizalel', 'Basin', '08-03-2001', 'M');
+INSERT INTO tickets VALUES (1, 0004, 9, 5, TRUE, 'Bizalel', 'Basin', '08-03-2001', 'M');
 INSERT INTO tickets VALUES (8, 0004, 6, 1, TRUE, 'Bizalel', 'Basin', '08-03-2001', 'M');
-INSERT INTO tickets VALUES (9, 0005, 5, 3, TRUE, 'Avigail', 'Jacobson', '08-07-1999', 'F');
+INSERT INTO tickets VALUES (1, 0005, 5, 3, TRUE, 'Avigail', 'Jacobson', '08-07-1999', 'F');
 INSERT INTO tickets VALUES (10, 0005, 6, 6, TRUE, 'Avigail', 'Jacobson', '08-07-1999', 'F');
-INSERT INTO tickets VALUES (11, 0006, 6, 6, FALSE, 'David', 'Mikhelson', '11-09-1990', 'M');
+INSERT INTO tickets VALUES (1, 0006, 6, 6, FALSE, 'David', 'Mikhelson', '11-09-1990', 'M');
 
 
 CREATE TABLE IF NOT EXISTS paymentData

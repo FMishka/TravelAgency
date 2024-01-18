@@ -44,14 +44,21 @@
           </component>
         </children>
       </grid>
-      <grid id="37417" binding="mainPanel" layout-manager="BorderLayout" hgap="0" vgap="0">
+      <component id="1476a" class="javax.swing.JTable" binding="table">
         <constraints>
-          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
+            <preferred-size width="150" height="50"/>
+          </grid>
         </constraints>
-        <properties/>
-        <border type="none"/>
-        <children/>
-      </grid>
+        <properties>
+          <autoResizeMode value="2"/>
+          <background color="-8004419"/>
+          <focusable value="true"/>
+          <font name="Droid Sans" size="18" style="0"/>
+          <foreground color="-16777216"/>
+          <gridColor color="-16777216"/>
+        </properties>
+      </component>
     </children>
   </grid>
 </form>

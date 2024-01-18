@@ -21,21 +21,25 @@ public abstract class View {
     }
 
     public static void goToHomePage() {
+        setSize(800, 600);
         mainFrame.setContentPane(homePage.getContent());
         mainFrame.revalidate();
     }
 
     public static void goToAnotherPage() {
+        setSize(800, 600);
         mainFrame.setContentPane(anotherPage.getContent());
         mainFrame.revalidate();
     }
 
     public static void goToFlightsPage() {
+        setSize(800, 600);
         mainFrame.setContentPane(flightsPage.getContent());
         mainFrame.revalidate();
     }
 
     public static void goToAuthForm() {
+        setSize(400, 350);
         mainFrame.setContentPane(authForm.getContent());
         mainFrame.revalidate();
     }

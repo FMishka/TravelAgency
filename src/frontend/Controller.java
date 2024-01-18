@@ -15,13 +15,11 @@ public abstract class Controller {
         switch (Model.validateCredentials(authForm.login.getText(), authForm.password.getText())) {
             case USER:
                 showMessageDialog(null, "You have successfully logged in", "", JOptionPane.INFORMATION_MESSAGE);
-                View.setSize(500, 500);
                 View.goToHomePage();
                 break;
             case ADMIN:
                 showMessageDialog(null, "You have successfully logged in", "", JOptionPane.INFORMATION_MESSAGE);
-                View.setSize(500, 500);
-                View.goToAnotherPage();
+                View.goToFlightsPage();
                 break;
             default:
                 showMessageDialog(null, "Wrong login or password", "Error", JOptionPane.ERROR_MESSAGE);
@@ -80,7 +78,6 @@ public abstract class Controller {
             @Override
             public void actionPerformed(ActionEvent e) {
                 View.goToAuthForm();
-                View.setSize(400, 350);
             }
         };
     }

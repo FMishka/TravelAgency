@@ -25,8 +25,5 @@ public class Main {
 
         Model model = new Model();
 
-        Date date = new Date();
-
-        System.out.println(Model.orderingTicket(2, 1, 1,1,true,"Shimon", "Roytman", date, 'M'));
     }
 }

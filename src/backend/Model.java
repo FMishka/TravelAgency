@@ -46,7 +46,7 @@ public class Model {
         boolean isAuthCorrect = false;
         try{
             ResultSet resultSet;
-            statement = conn  .createStatement();
+            statement = conn.createStatement();
             resultSet = statement.executeQuery(user);
             if (resultSet.next()){
                 isAuthCorrect = true;
@@ -241,35 +241,29 @@ public class Model {
     //Тут лютый говнокод
     public static String[][] getAllFlights() {
         Statement statement;
-        String query = "SELECT * FROM flights";
-
+        String getAllFlightQuery = "SELECT flights.flight_id, flights.flightname, flights.departuredate, flights.arrivaldate, c1.countryname, c2.countryname, flights.price, pl.planeModel\n" +
+                "FROM flights\n" +
+                "LEFT JOIN countries c1 ON flights.departurecountry_id = c1.country_ID\n" +
+                "LEFT JOIN countries c2 ON flights.arrivalcountry_id = c2.country_ID\n" +
+                "LEFT JOIN planes pl ON flights.fk_plane_id = pl.plane_ID;\n";
+        String getCountRowsQuery = "SELECT COUNT(*) FROM flights";
         ResultSet resultSet = null;
         String[][] res = null;
-        ArrayList<String[]> resArrayList = new ArrayList<>();
 
         try {
             statement = conn.createStatement();
-            resultSet = statement.executeQuery(query);
-
+            resultSet = statement.executeQuery(getCountRowsQuery);
+            resultSet.next();
+            int numberOfRows = resultSet.getInt(1);
+            resultSet = statement.executeQuery(getAllFlightQuery);
             int numberOfColumns = resultSet.getMetaData().getColumnCount();
-
-            while (resultSet.next()) {
-                String[] tmp = new String[numberOfColumns];
-
-                for (int j = 0; j < numberOfColumns; j++) {
-                    tmp[j] = resultSet.getString(j + 1);
-                }
-
-                resArrayList.add(tmp);
-            }
-
-            int numberOfRows = resArrayList.size();
-
             res = new String[numberOfRows][numberOfColumns];
-            for(int i = 0; i < numberOfRows; i++) {
-                res[i] = resArrayList.get(i);
+            for (int i = 0; i < numberOfRows; i++){
+                resultSet.next();
+                for (int j = 0; j < numberOfColumns; j++) {
+                    res[i][j] = resultSet.getString(j + 1);
+                }
             }
-
 
         } catch (Exception e) {
             System.out.println(e.getMessage());

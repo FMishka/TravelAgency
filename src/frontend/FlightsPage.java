@@ -52,6 +52,7 @@ public class FlightsPage {
 //        table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 //        table.getColumnModel().getColumn(0).setPreferredWidth(100);
 //        table.getColumnModel().getColumn(1).setPreferredWidth(150);
+        table.setRowHeight(25);
 
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment( SwingConstants.CENTER );
@@ -67,6 +68,7 @@ public class FlightsPage {
         header.setForeground(new Color(0, 0, 0));
         header.setFont(new Font("Droid Sans", Font.BOLD, 16));
         header.setReorderingAllowed(false);
+        header.setResizingAllowed(false);
         header.setPreferredSize(new Dimension(scrollPane.getWidth(), 50));
     }
 

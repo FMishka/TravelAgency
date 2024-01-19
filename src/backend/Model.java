@@ -12,6 +12,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class Model {
     private static DbFunctions db;
@@ -146,6 +147,35 @@ public class Model {
     }
 
     public void addFlight(String flightName, LocalDateTime departureTime, LocalDateTime arrivalTime, int departureCountryId, int arrivalCountryId, int planeId, int price) {
-
+        DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+        Statement statement;
+        try {
+            String addFlightQuery = String.format("INSERT INTO flights (flightname,departuredate,arrivaldate,departurecountry_id, arrivalcountry_id, price, fk_plane_id) " +
+                    "VALUES ('%s', '%s', '%s', %d, %d, %d, %d);", flightName, departureTime.format(format), arrivalTime.format(format), departureCountryId, arrivalCountryId, planeId, price);
+            statement = conn.createStatement();
+            statement.executeUpdate(addFlightQuery);
+        } catch (Exception e){
+            System.out.println(e);
+        }
+    }
+    public void deleteFlight(Connection conn, int flight_id){
+        Statement statement;
+        try{
+            String deleteFlightQuery = String.format("DELETE FROM `flights` WHERE `flight_id` = %d LIMIT 1;", flight_id);
+            statement=conn.createStatement();
+            statement.executeUpdate(deleteFlightQuery);
+        }catch (Exception e){
+            System.out.println(e);
+        }
+    }
+    public void editFlight(Connection conn, int flightID, String flightName, LocalDateTime departureTime, LocalDateTime arrivalTime, int departureCountryId, int arrivalCountryId, int planeId, int price) {
+        Statement statement;
+        try {
+            String editFlightQuery = String.format("UPDATE 'flights' SET 'flightname' = '%s', 'departuredate' = '%s', 'arrivaldate' = '%s',' 'departurecountry_id' = %d, 'arrivalcountry_id' = %d, 'price' = %d, 'fk_plane_id' = %d WHERE 'flight_id' = %d", flightName, departureTime, arrivalTime, departureCountryId, arrivalCountryId, price, planeId, flightID);
+            statement = conn.createStatement();
+            statement.executeUpdate(editFlightQuery);
+        } catch (Exception e) {
+            System.out.println(e);
+        }
     }
 }

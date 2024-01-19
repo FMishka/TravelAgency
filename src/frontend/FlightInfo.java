@@ -16,6 +16,10 @@ public class FlightInfo {
     private JTextField plane;
     private JPanel mainPanel;
     private JButton edit;
+    private JPanel bottomPanel;
+    private JButton delete;
+    private JPanel topPanel;
+    private JButton buy;
 
     private String[] data;
 
@@ -30,6 +34,8 @@ public class FlightInfo {
         arrCountry.setText(data[5]);
         price.setText(data[6]);
         plane.setText(data[7]);
+
+        //edit.setVisible(false);
     }
 
     public JPanel getContent() {

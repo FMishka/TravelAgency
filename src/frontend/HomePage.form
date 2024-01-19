@@ -22,7 +22,7 @@
           <focusable value="false"/>
           <font name="Droid Sans" size="16" style="1"/>
           <foreground color="-16777216"/>
-          <icon value="frontend/logout.png"/>
+          <icon value="frontend/icons/logout.png"/>
           <inheritsPopupMenu value="false"/>
           <text value="logout"/>
         </properties>

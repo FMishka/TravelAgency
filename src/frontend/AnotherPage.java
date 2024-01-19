@@ -27,7 +27,7 @@ public class AnotherPage {
         flightsButton.addActionListener(Controller.navigateFlights());
 
         try {
-            img = new ImageIcon(Objects.requireNonNull(getClass().getResource("planeIcon.png")));
+            img = new ImageIcon(Objects.requireNonNull(getClass().getResource("icons/planeIcon.png")));
             label.setIcon(img);
         } catch (Exception e) {
             e.printStackTrace();

@@ -34,7 +34,7 @@ public abstract class View {
     }
 
     public static void goToFlightsPage() {
-        setSize(800, 600);
+        setSize(1000, 800);
         mainFrame.setContentPane(flightsPage.getContent());
         mainFrame.revalidate();
     }
@@ -61,7 +61,7 @@ public abstract class View {
         mainFrame.setVisible(true);
         mainFrame.setResizable(false);
 
-        mainFrame.setIconImage(new ImageIcon(Objects.requireNonNull(View.class.getResource("planeIcon.png"))).getImage());
+        mainFrame.setIconImage(new ImageIcon(Objects.requireNonNull(View.class.getResource("icons/planeIcon.png"))).getImage());
         setSize(400, 350);
 
         mainFrame.setTitle("Travel Agency");

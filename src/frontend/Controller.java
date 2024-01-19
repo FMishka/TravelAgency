@@ -3,6 +3,7 @@ package frontend;
 import backend.Model;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.*;
 
 import static javax.swing.JOptionPane.showMessageDialog;
@@ -78,6 +79,49 @@ public abstract class Controller {
             @Override
             public void actionPerformed(ActionEvent e) {
                 View.goToAuthForm();
+            }
+        };
+    }
+
+
+    public static MouseAdapter tableMouseClick(JTable table) {
+        return new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent event) {
+                Point point = event.getPoint();
+                int row = table.rowAtPoint(point);
+
+                if (event.getClickCount() == 2 && table.getSelectedRow() != -1) {
+                    System.out.println(table.getModel().getValueAt(row, 1).toString());
+
+                    String[] data = new String[table.getModel().getColumnCount()];
+                    for(int i = 0; i < table.getModel().getColumnCount(); i++) {
+                        data[i] = table.getModel().getValueAt(row, i).toString();
+                    }
+
+                    View.goToFlightInfo(data);
+                }
+
+                System.out.println(row);
+            }
+        };
+    }
+
+    public static ActionListener backButton() {
+        return new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                View.goToFlightsPage();
+            }
+        };
+    }
+
+    public static MouseAdapter backMouseButton() {
+        return new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                if(e.getButton() == 4)
+                    View.goToFlightsPage();
             }
         };
     }

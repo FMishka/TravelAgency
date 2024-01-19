@@ -4,7 +4,10 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.sql.Connection;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.Locale;
 
 public class Main {
     public static void main(String[] args){
@@ -22,7 +25,6 @@ public class Main {
 //        db.initDB(conn);
 
         Model.initConnection();
-
         Model model = new Model();
 
     }

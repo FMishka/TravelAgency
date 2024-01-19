@@ -19,6 +19,7 @@ public class Model {
     private static DbFunctions db;
     private static Connection conn;
     private static int userId = -1;
+    public static boolean isAdmin = false;
 
     public static void initConnection(){
         String password = "";
@@ -42,7 +43,7 @@ public class Model {
         Statement statement;
         String user = String.format("SELECT * FROM users WHERE login = '%s' AND userpassword = '%s'", login, password);
         String admin = String.format("SELECT isAdmin FROM users WHERE login = '%s' AND userpassword = '%s'", login, password);
-        boolean isAdmin = false;
+        isAdmin = false;
         boolean isAuthCorrect = false;
         try{
             ResultSet resultSet;
@@ -210,7 +211,7 @@ public class Model {
         }
         return false;
     }
-    public static boolean orderingTicket(int flyightId, int userId, int seatRow, int seatColumn, boolean isPayed, String passengerFirstName, String passengerSecondName, Date passengerBirthDate, char passengerSex){
+    public static boolean orderingTicket(int flyightId, int userId, int seatRow, int seatColumn, boolean isPayed, String passengerFirstName, String passengerSecondName, LocalDateTime passengerBirthDate, char passengerSex){
         String[] valuesTickets = new String[]{
                 Integer.toString(flyightId),
                 Integer.toString(userId),
@@ -219,7 +220,7 @@ public class Model {
                 Boolean.toString(isPayed),
                 "'" + passengerFirstName + "'",
                 "'" + passengerSecondName + "'",
-                "'" + passengerBirthDate.getDate() + "-" + (passengerBirthDate.getMonth() + 1) + "-" + (passengerBirthDate.getYear() + 1900) + "'",
+                "'" + passengerBirthDate.getDayOfMonth() + "-" + passengerBirthDate.getMonthValue() + "-" + passengerBirthDate.getYear() + "'",
                 "'" + passengerSex + "'"
         };
         Statement statement;
@@ -238,7 +239,6 @@ public class Model {
 
     }
 
-    //Тут лютый говнокод
     public static String[][] getAllFlights() {
         Statement statement;
         String getAllFlightQuery = "SELECT flights.flight_id, flights.flightname, flights.departuredate, flights.arrivaldate, c1.countryname, c2.countryname, flights.price, pl.planeModel\n" +
@@ -268,7 +268,7 @@ public class Model {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-
         return res;
     }
+
 }

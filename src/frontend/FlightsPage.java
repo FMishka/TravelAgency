@@ -3,12 +3,8 @@ package frontend;
 import backend.Model;
 
 import javax.swing.*;
-import javax.swing.table.AbstractTableModel;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.TableModel;
+import javax.swing.table.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 public class FlightsPage {
     private JPanel content;
@@ -17,11 +13,13 @@ public class FlightsPage {
     private JButton homePageButton;
     private JButton anotherPageButton;
     private JButton flightsButton;
+    private JScrollPane scrollPane;
+    private JTextField здесьМожноДаблкликомНаTextField;
 
     public static void setTableRenderer(JTable table, DefaultTableCellRenderer renderer)
     {
         TableModel tableModel = table.getModel();
-        for (int columnIndex = 0; columnIndex < tableModel.getColumnCount(); columnIndex++) {
+        for (int columnIndex = 0; columnIndex < table.getColumnCount(); columnIndex++) {
             table.getColumnModel().getColumn(columnIndex).setCellRenderer(renderer);
         }
     }
@@ -30,37 +28,46 @@ public class FlightsPage {
         homePageButton.addActionListener(Controller.navigateHome());
         anotherPageButton.addActionListener(Controller.navigateAnother());
         flightsButton.addActionListener(Controller.navigateFlights());
-
-        // table = new JTable(Model.getAllFlights(),
-        // new String[]{"flight_ID", "flightname", "departureDate", "arrivalDate", "departureCountry_ID", "arrivalCountry_ID", "price", "fk_plane_ID"});
+        table.addMouseListener(Controller.tableMouseClick(table));
 
         String[][] rowData = Model.getAllFlights();
-        String[] columnNames = new String[]{"flight_ID", "flightname", "departureDate", "arrivalDate", "departureCountry_ID", "arrivalCountry_ID", "price", "fk_plane_ID"};
+        String[] columnNames = new String[]{"flight_ID", "flightname", "departureDate", "arrivalDate", "departureCountry", "arrivalCountry", "price", "fk_plane_ID"};
         table.setModel(new AbstractTableModel() {
             public String getColumnName(int column) { return columnNames[column].toString(); }
             public int getRowCount() { return rowData.length; }
             public int getColumnCount() { return columnNames.length; }
             public Object getValueAt(int row, int col) { return rowData[row][col]; }
-            public boolean isCellEditable(int row, int column) { return true; }
+            public boolean isCellEditable(int row, int column) { return false; }
             public void setValueAt(String value, int row, int col) {
                 rowData[row][col] = value;
                 fireTableCellUpdated(row, col);
             }
         });
 
+        TableColumnModel tcm = table.getColumnModel();
+        tcm.removeColumn(tcm.getColumn(7));
+        tcm.removeColumn(tcm.getColumn(6));
+        tcm.removeColumn(tcm.getColumn(0));
+        table.moveColumn(2, 3);
+//        table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+//        table.getColumnModel().getColumn(0).setPreferredWidth(100);
+//        table.getColumnModel().getColumn(1).setPreferredWidth(150);
+
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
         centerRenderer.setHorizontalAlignment( SwingConstants.CENTER );
         setTableRenderer(table, centerRenderer);
 
-        table.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent event) {
-                Point point = event.getPoint();
-                int row = table.rowAtPoint(point);
+        scrollPane.setBorder(BorderFactory.createEmptyBorder());
+        scrollPane.setBackground(new Color(36, 36, 36));
+        scrollPane.getViewport().setBackground(new Color(133, 220, 189));
 
-                System.out.println(row);
-            }
-        });
+
+        JTableHeader header = table.getTableHeader();
+        header.setBackground(new Color(65, 179, 163));
+        header.setForeground(new Color(0, 0, 0));
+        header.setFont(new Font("Droid Sans", Font.BOLD, 16));
+        header.setReorderingAllowed(false);
+        header.setPreferredSize(new Dimension(scrollPane.getWidth(), 50));
     }
 
     public JPanel getContent() {

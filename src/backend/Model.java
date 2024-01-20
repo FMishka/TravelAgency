@@ -1,8 +1,8 @@
 package backend;
-import frontend.*;
+
+import frontend.View;
 
 import javax.crypto.Cipher;
-import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import javax.xml.bind.DatatypeConverter;
 import java.nio.charset.StandardCharsets;
@@ -11,6 +11,9 @@ import java.nio.file.Paths;
 import java.sql.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -21,6 +24,7 @@ public class Model {
     private static DbFunctions db;
     private static Connection conn;
     private static int userId = -1;
+    public static boolean isAdmin = false;
 
     public static void initConnection(){
         String password = "";
@@ -44,11 +48,11 @@ public class Model {
         Statement statement;
         String user = String.format("SELECT * FROM users WHERE login = '%s' AND userpassword = '%s'", login, password);
         String admin = String.format("SELECT isAdmin FROM users WHERE login = '%s' AND userpassword = '%s'", login, password);
-        boolean isAdmin = false;
+        isAdmin = false;
         boolean isAuthCorrect = false;
         try{
             ResultSet resultSet;
-            statement = conn  .createStatement();
+            statement = conn.createStatement();
             resultSet = statement.executeQuery(user);
             if (resultSet.next()){
                 isAuthCorrect = true;
@@ -212,7 +216,7 @@ public class Model {
         }
         return false;
     }
-    public static boolean orderingTicket(int flyightId, int userId, int seatRow, int seatColumn, boolean isPayed, String passengerFirstName, String passengerSecondName, Date passengerBirthDate, char passengerSex){
+    public static boolean orderingTicket(int flyightId, int userId, int seatRow, int seatColumn, boolean isPayed, String passengerFirstName, String passengerSecondName, LocalDateTime passengerBirthDate, char passengerSex){
         String[] valuesTickets = new String[]{
                 Integer.toString(flyightId),
                 Integer.toString(userId),
@@ -221,7 +225,7 @@ public class Model {
                 Boolean.toString(isPayed),
                 "'" + passengerFirstName + "'",
                 "'" + passengerSecondName + "'",
-                "'" + passengerBirthDate.getDate() + "-" + (passengerBirthDate.getMonth() + 1) + "-" + (passengerBirthDate.getYear() + 1900) + "'",
+                "'" + passengerBirthDate.getDayOfMonth() + "-" + passengerBirthDate.getMonthValue() + "-" + passengerBirthDate.getYear() + "'",
                 "'" + passengerSex + "'"
         };
         Statement statement;
@@ -236,12 +240,43 @@ public class Model {
         }
         return false;
     }
-    public void addFlight(String flightName, LocalDateTime departureTime, LocalDateTime arrivalTime, int departureCountryId, int arrivalCountryId, int planeId, int price) {
-
-
-
-
-
+    public static void addFlight(String flightName, LocalDateTime departureTime, LocalDateTime arrivalTime, int departureCountryId, int arrivalCountryId, int price, int planeId) {
+        DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        Statement statement;
+        try {
+            String addFlightQuery = String.format("INSERT INTO flights (flightname,departuredate,arrivaldate,departurecountry_id, arrivalcountry_id, price, fk_plane_id) " +
+                    "VALUES ('%s', '%s', '%s', %d, %d, %d, %d);", flightName, departureTime.format(format), arrivalTime.format(format), departureCountryId, arrivalCountryId, price, planeId);
+            statement = conn.createStatement();
+            statement.execute(addFlightQuery);
+        } catch (Exception e){
+            System.out.println(e);
+        }
+    }
+    public static void deleteFlight(int flight_id){
+        Statement statement;
+        try{
+            //String deleteTicketsQuery = String.format("DELETE FROM tickets WHERE fk_flight_id = %d;", flight_id);
+            String deleteTicketsQuery = String.format("DELETE FROM tickets  WHERE fk_flight_id = %d;", flight_id);
+            String deleteFlightQuery = String.format("DELETE FROM flights  WHERE flight_id = %d;", flight_id);
+            statement=conn.createStatement();
+            statement.executeUpdate(deleteTicketsQuery);
+            statement.executeUpdate(deleteFlightQuery);
+            //statement.executeUpdate(deleteTicketsQuery);
+        }catch (Exception e){
+            System.out.println(e);
+        }
+    }
+    public static void editFlight(int flightID, String flightName, LocalDateTime departureTime, LocalDateTime arrivalTime, int departureCountryId, int arrivalCountryId, int planeId, int price) {
+        DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+        Statement statement;
+        try {
+            String editFlightQuery = String.format("UPDATE flights SET flightname = '%s', departuredate = '%s', arrivaldate = '%s', departurecountry_id = %d, arrivalcountry_id = %d, price = %d, fk_plane_id = %d " +
+                    "WHERE flight_id = %d;", flightName, departureTime.format(format), arrivalTime.format(format), departureCountryId, arrivalCountryId, price, planeId, flightID);
+            statement = conn.createStatement();
+            statement.executeUpdate(editFlightQuery);
+        } catch (Exception e) {
+            System.out.println(e);
+        }
     }
     public static  String[][] filterFlights(int minPrice, int maxPrice,
                                             LocalDateTime minDateTime, LocalDateTime maxDateTime,
@@ -333,5 +368,104 @@ public class Model {
         }
 
         return filteredFlights;
+    }
+    public static String[][] getAllFlights() {
+        Statement statement;
+        String getAllFlightQuery = "SELECT flights.flight_id, flights.flightname, flights.departuredate, flights.arrivaldate, c1.countryname, c2.countryname, flights.price, pl.planeModel\n" +
+                "FROM flights\n" +
+                "LEFT JOIN countries c1 ON flights.departurecountry_id = c1.country_ID\n" +
+                "LEFT JOIN countries c2 ON flights.arrivalcountry_id = c2.country_ID\n" +
+                "LEFT JOIN planes pl ON flights.fk_plane_id = pl.plane_ID;\n";
+        String getCountRowsQuery = "SELECT COUNT(*) FROM flights";
+        ResultSet resultSet = null;
+        String[][] res = null;
+
+        try {
+            statement = conn.createStatement();
+            resultSet = statement.executeQuery(getCountRowsQuery);
+            resultSet.next();
+            int numberOfRows = resultSet.getInt(1);
+            resultSet = statement.executeQuery(getAllFlightQuery);
+            int numberOfColumns = resultSet.getMetaData().getColumnCount();
+            res = new String[numberOfRows][numberOfColumns];
+            for (int i = 0; i < numberOfRows; i++){
+                resultSet.next();
+                for (int j = 0; j < numberOfColumns; j++) {
+                    if (j == 2 || j == 3){ // Date without seconds and milliseconds
+                        res[i][j] = String.format(resultSet.getString(j + 1).substring(0, 16));
+
+                    }
+                    else{
+                        res[i][j] = String.format(resultSet.getString(j + 1));
+                    }
+                }
+            }
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return res;
+    }
+
+    //Умоляю сделайте эти методы
+
+    public static String[] getAllCountries() {
+        Statement statement;
+        String getCountRowsQuery = "SELECT COUNT(*) FROM countries";
+        String query = "SELECT * FROM countries";
+
+        String[] res = null;
+        ResultSet resultSet = null;
+
+        try {
+            statement = conn.createStatement();
+            resultSet = statement.executeQuery(getCountRowsQuery);
+            resultSet.next();
+            int numberOfRows = resultSet.getInt(1);
+
+            resultSet = statement.executeQuery(query);
+            res = new String[numberOfRows];
+
+            for (int i = 0; i < numberOfRows; i++) {
+                resultSet.next();
+
+                res[i] = resultSet.getString(2);
+            }
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
+        return res;
+    }
+
+    public static String[] getAllPlaneNames() {
+        Statement statement;
+        String getCountRowsQuery = "SELECT COUNT(*) FROM planes";
+        String query = "SELECT * FROM planes";
+
+        String[] res = null;
+        ResultSet resultSet = null;
+
+        try {
+            statement = conn.createStatement();
+            resultSet = statement.executeQuery(getCountRowsQuery);
+            resultSet.next();
+            int numberOfRows = resultSet.getInt(1);
+
+            resultSet = statement.executeQuery(query);
+            res = new String[numberOfRows];
+
+            for (int i = 0; i < numberOfRows; i++) {
+                resultSet.next();
+
+                res[i] = resultSet.getString(2);
+            }
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
+        return res;
     }
 }

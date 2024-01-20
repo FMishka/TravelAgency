@@ -3,6 +3,8 @@ package frontend;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 import static javax.swing.JOptionPane.showMessageDialog;
 
@@ -17,6 +19,8 @@ public class AuthForm {
     }
 
     public AuthForm() {
-        submitButton.addActionListener(Controller.authSubmit(this));
+        submitButton.addActionListener(Controller.authSubmitButton(this));
+        login.addKeyListener(Controller.authSubmitKey(this));
+        password.addKeyListener(Controller.authSubmitKey(this));
     }
 }

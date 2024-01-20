@@ -1,10 +1,7 @@
 package frontend;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
+import java.util.Objects;
 
 public class AnotherPage {
     private View view;
@@ -13,9 +10,10 @@ public class AnotherPage {
     private JTextField thisIsAnothaPageTextField;
     private JButton homePageButton;
     private JButton anotherPageButton;
-    private JPanel navigation;
+    private JButton flightsButton;
 
     private JLabel label;
+    private JPanel navigation;
     private ImageIcon img;
 
 
@@ -26,9 +24,10 @@ public class AnotherPage {
     public AnotherPage() {
         homePageButton.addActionListener(Controller.navigateHome());
         anotherPageButton.addActionListener(Controller.navigateAnother());
+        flightsButton.addActionListener(Controller.navigateFlights());
 
         try {
-            img = new ImageIcon(getClass().getResource("planeIcon.png"));
+            img = new ImageIcon(Objects.requireNonNull(getClass().getResource("icons/cat.gif")));
             label.setIcon(img);
         } catch (Exception e) {
             e.printStackTrace();

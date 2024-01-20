@@ -156,7 +156,7 @@ public abstract class Controller {
                         JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
 
                 if(confirmDialog == JOptionPane.YES_OPTION) {
-                    Model.deleteFlight(flightInfo.curFlightId);
+                    //Model.deleteFlight(flightInfo.curFlightId);
                     View.refreshFlightsPage();
                     View.goToFlightsPage();
                 }

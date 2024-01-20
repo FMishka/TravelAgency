@@ -260,7 +260,13 @@ public class Model {
             for (int i = 0; i < numberOfRows; i++){
                 resultSet.next();
                 for (int j = 0; j < numberOfColumns; j++) {
-                    res[i][j] = resultSet.getString(j + 1);
+                    if (j == 2 || j == 3){ // Date without seconds and milliseconds
+                        res[i][j] = String.format(resultSet.getString(j + 1).substring(0, 16));
+
+                    }
+                    else{
+                        res[i][j] = String.format(resultSet.getString(j + 1));
+                    }
                 }
             }
 
@@ -268,5 +274,13 @@ public class Model {
             System.out.println(e.getMessage());
         }
         return res;
+    }
+
+    //Умоляю сделайте эти методы
+    public static void editFlight(int flightId, String flightName, LocalDateTime departureTime, LocalDateTime arrivalTime, int departureCountryId, int arrivalCountryId, int planeId, int price) {
+
+    }
+    public static void deleteFlight(int flightId) {
+
     }
 }

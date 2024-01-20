@@ -12,8 +12,6 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
 import java.util.Date;
 
 public class Model {
@@ -236,9 +234,6 @@ public class Model {
         }
         return false;
     }
-    public void addFlight(String flightName, LocalDateTime departureTime, LocalDateTime arrivalTime, int departureCountryId, int arrivalCountryId, int planeId, int price) {
-
-    }
 
     public static String[][] getAllFlights() {
         Statement statement;
@@ -278,4 +273,74 @@ public class Model {
         return res;
     }
 
+    //Умоляю сделайте эти методы
+    public void addFlight(String flightName, LocalDateTime departureTime, LocalDateTime arrivalTime, int departureCountryId, int arrivalCountryId, int planeId, int price) {
+
+    }
+    public static void editFlight(int flightId, String flightName, LocalDateTime departureTime, LocalDateTime arrivalTime, int departureCountryId, int arrivalCountryId, int planeId, int price) {
+
+    }
+    public static void deleteFlight(int flightId) {
+
+    }
+
+    public static String[] getAllCountries() {
+        Statement statement;
+        String getCountRowsQuery = "SELECT COUNT(*) FROM countries";
+        String query = "SELECT * FROM countries";
+
+        String[] res = null;
+        ResultSet resultSet = null;
+
+        try {
+            statement = conn.createStatement();
+            resultSet = statement.executeQuery(getCountRowsQuery);
+            resultSet.next();
+            int numberOfRows = resultSet.getInt(1);
+
+            resultSet = statement.executeQuery(query);
+            res = new String[numberOfRows];
+
+            for (int i = 0; i < numberOfRows; i++) {
+                resultSet.next();
+
+                res[i] = resultSet.getString(2);
+            }
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
+        return res;
+    }
+
+    public static String[] getAllPlaneNames() {
+        Statement statement;
+        String getCountRowsQuery = "SELECT COUNT(*) FROM planes";
+        String query = "SELECT * FROM planes";
+
+        String[] res = null;
+        ResultSet resultSet = null;
+
+        try {
+            statement = conn.createStatement();
+            resultSet = statement.executeQuery(getCountRowsQuery);
+            resultSet.next();
+            int numberOfRows = resultSet.getInt(1);
+
+            resultSet = statement.executeQuery(query);
+            res = new String[numberOfRows];
+
+            for (int i = 0; i < numberOfRows; i++) {
+                resultSet.next();
+
+                res[i] = resultSet.getString(2);
+            }
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
+        return res;
+    }
 }

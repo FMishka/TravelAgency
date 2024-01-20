@@ -12,6 +12,7 @@ public abstract class View {
     static final AnotherPage anotherPage = new AnotherPage();
     static final FlightsPage flightsPage = new FlightsPage();
     static final FlightInfo flightInfo = new FlightInfo();
+    static final FlightEdit flightEdit = new FlightEdit();
 
     static final int screenWidth = Toolkit.getDefaultToolkit().getScreenSize().width;
     static final int screenHeight = Toolkit.getDefaultToolkit().getScreenSize().height;
@@ -52,8 +53,21 @@ public abstract class View {
         mainFrame.revalidate();
     }
 
+    public static void goToFlightInfo() {
+        setSize(600, 700);
+        mainFrame.setContentPane(flightInfo.getContent());
+        mainFrame.revalidate();
+    }
+
+    public static void goToFlightEdit(String[] data) {
+        setSize(600, 700);
+        flightEdit.setData(data);
+        mainFrame.setContentPane(flightEdit.getContent());
+        mainFrame.revalidate();
+    }
+
     public static void init() {
-        mainFrame = new JFrame("Page1");
+        mainFrame = new JFrame("Travel Agency");
         //mainFrame.setContentPane(homePage.getContent());
         mainFrame.setContentPane(authForm.getContent());
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -63,7 +77,9 @@ public abstract class View {
 
         mainFrame.setIconImage(new ImageIcon(Objects.requireNonNull(View.class.getResource("icons/planeIcon.png"))).getImage());
         setSize(400, 350);
+    }
 
-        mainFrame.setTitle("Travel Agency");
+    public static void refreshFlightsPage() {
+        flightsPage.refreshTable();
     }
 }

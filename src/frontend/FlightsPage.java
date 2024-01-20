@@ -24,12 +24,7 @@ public class FlightsPage {
         }
     }
 
-    public FlightsPage() {
-        homePageButton.addActionListener(Controller.navigateHome());
-        anotherPageButton.addActionListener(Controller.navigateAnother());
-        flightsButton.addActionListener(Controller.navigateFlights());
-        table.addMouseListener(Controller.tableMouseClick(table));
-
+    public void refreshTable() {
         String[][] rowData = Model.getAllFlights();
         String[] columnNames = new String[]{"flight_ID", "flightname", "departureDate", "arrivalDate", "departureCountry", "arrivalCountry", "price", "fk_plane_ID"};
         table.setModel(new AbstractTableModel() {
@@ -70,6 +65,15 @@ public class FlightsPage {
         header.setReorderingAllowed(false);
         header.setResizingAllowed(false);
         header.setPreferredSize(new Dimension(scrollPane.getWidth(), 50));
+    }
+
+    public FlightsPage() {
+        homePageButton.addActionListener(Controller.navigateHome());
+        anotherPageButton.addActionListener(Controller.navigateAnother());
+        flightsButton.addActionListener(Controller.navigateFlights());
+        table.addMouseListener(Controller.tableMouseClick(table));
+
+        refreshTable();
     }
 
     public JPanel getContent() {

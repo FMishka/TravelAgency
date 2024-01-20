@@ -66,4 +66,8 @@ public abstract class View {
 
         mainFrame.setTitle("Travel Agency");
     }
+
+    public static void refreshFlightsPage() {
+        flightsPage.refreshTable();
+    }
 }

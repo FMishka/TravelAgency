@@ -12,7 +12,6 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Date;
 
 public class Model {
@@ -270,5 +269,4 @@ public class Model {
         }
         return res;
     }
-
 }

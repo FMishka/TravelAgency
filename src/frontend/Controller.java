@@ -16,10 +16,12 @@ public abstract class Controller {
         switch (Model.validateCredentials(authForm.login.getText(), authForm.password.getText())) {
             case USER:
                 showMessageDialog(null, "You have successfully logged in", "", JOptionPane.INFORMATION_MESSAGE);
+                View.flightInfo.updateAdminStatus(false);
                 View.goToHomePage();
                 break;
             case ADMIN:
                 showMessageDialog(null, "You have successfully logged in", "", JOptionPane.INFORMATION_MESSAGE);
+                View.flightInfo.updateAdminStatus(true);
                 View.goToFlightsPage();
                 break;
             default:
@@ -116,12 +118,48 @@ public abstract class Controller {
         };
     }
 
-    public static MouseAdapter backMouseButton() {
+    public static MouseAdapter backMouseButton(FlightInfo flightInfo) {
         return new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-                if(e.getButton() == 4)
+                if(e.getButton() == 4) {
                     View.goToFlightsPage();
+                    flightInfo.editMode(false);
+                }
+            }
+        };
+    }
+
+    public static ActionListener editButton() {
+        return new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            }
+        };
+    }
+
+    public static ActionListener changeEditMode(FlightInfo flightInfo, boolean editMode) {
+        return new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                flightInfo.editMode(editMode);
+            }
+        };
+    }
+
+    public static ActionListener deleteButton(FlightInfo flightInfo) {
+        return new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int confirmDialog = JOptionPane.showConfirmDialog(null, "Delete flight (id=" + flightInfo.curFlightId + ")?", "Are you sure?",
+                        JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+
+                if(confirmDialog == JOptionPane.YES_OPTION) {
+                    Model.deleteFlight(flightInfo.curFlightId);
+                    View.refreshFlightsPage();
+                    View.goToFlightsPage();
+                }
             }
         };
     }

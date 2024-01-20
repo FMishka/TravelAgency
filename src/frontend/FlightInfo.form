@@ -79,7 +79,7 @@
             <properties>
               <background color="-1"/>
               <editable value="false"/>
-              <focusable value="false"/>
+              <focusable value="true"/>
               <font name="Droid Sans" size="26" style="1"/>
               <foreground color="-16777216"/>
               <horizontalAlignment value="2"/>
@@ -175,23 +175,7 @@
             <properties>
               <background color="-1"/>
               <editable value="false"/>
-              <focusable value="false"/>
-              <font name="Droid Sans" size="26" style="1"/>
-              <foreground color="-16777216"/>
-              <horizontalAlignment value="2"/>
-              <text value=""/>
-            </properties>
-          </component>
-          <component id="ae4" class="javax.swing.JTextField" binding="depDate">
-            <constraints>
-              <grid row="2" column="2" row-span="1" col-span="3" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false">
-                <preferred-size width="250" height="42"/>
-              </grid>
-            </constraints>
-            <properties>
-              <background color="-1"/>
-              <editable value="false"/>
-              <focusable value="false"/>
+              <focusable value="true"/>
               <font name="Droid Sans" size="26" style="1"/>
               <foreground color="-16777216"/>
               <horizontalAlignment value="2"/>
@@ -207,7 +191,7 @@
             <properties>
               <background color="-1"/>
               <editable value="false"/>
-              <focusable value="false"/>
+              <focusable value="true"/>
               <font name="Droid Sans" size="26" style="1"/>
               <foreground color="-16777216"/>
               <horizontalAlignment value="2"/>
@@ -223,7 +207,7 @@
             <properties>
               <background color="-1"/>
               <editable value="false"/>
-              <focusable value="false"/>
+              <focusable value="true"/>
               <font name="Droid Sans" size="26" style="1"/>
               <foreground color="-16777216"/>
               <horizontalAlignment value="2"/>
@@ -239,7 +223,7 @@
             <properties>
               <background color="-1"/>
               <editable value="false"/>
-              <focusable value="false"/>
+              <focusable value="true"/>
               <font name="Droid Sans" size="26" style="1"/>
               <foreground color="-16777216"/>
               <horizontalAlignment value="2"/>
@@ -255,7 +239,7 @@
             <properties>
               <background color="-1"/>
               <editable value="false"/>
-              <focusable value="false"/>
+              <focusable value="true"/>
               <font name="Droid Sans" size="26" style="1"/>
               <foreground color="-16777216"/>
               <horizontalAlignment value="2"/>
@@ -271,7 +255,23 @@
             <properties>
               <background color="-1"/>
               <editable value="false"/>
-              <focusable value="false"/>
+              <focusable value="true"/>
+              <font name="Droid Sans" size="26" style="1"/>
+              <foreground color="-16777216"/>
+              <horizontalAlignment value="2"/>
+              <text value=""/>
+            </properties>
+          </component>
+          <component id="4b7aa" class="javax.swing.JTextField" binding="depDate">
+            <constraints>
+              <grid row="2" column="2" row-span="1" col-span="3" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false">
+                <preferred-size width="250" height="42"/>
+              </grid>
+            </constraints>
+            <properties>
+              <background color="-1"/>
+              <editable value="false"/>
+              <focusable value="true"/>
               <font name="Droid Sans" size="26" style="1"/>
               <foreground color="-16777216"/>
               <horizontalAlignment value="2"/>
@@ -280,7 +280,7 @@
           </component>
         </children>
       </grid>
-      <grid id="b5012" binding="bottomPanel" layout-manager="GridLayoutManager" row-count="1" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+      <grid id="b5012" binding="bottomPanel" layout-manager="GridLayoutManager" row-count="1" column-count="4" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
         <margin top="0" left="0" bottom="0" right="0"/>
         <constraints>
           <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="2" fill="1" indent="0" use-parent-layout="false"/>
@@ -309,7 +309,7 @@
           </hspacer>
           <component id="5de17" class="javax.swing.JButton" binding="buy">
             <constraints>
-              <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+              <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
               <focusable value="false"/>
@@ -319,9 +319,21 @@
               <text value="buy"/>
             </properties>
           </component>
+          <component id="71ebf" class="javax.swing.JButton" binding="confirm">
+            <constraints>
+              <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <focusable value="false"/>
+              <font name="Droid Sans" size="16" style="1"/>
+              <foreground color="-16777216"/>
+              <icon value="frontend/icons/confirm.png"/>
+              <text value="confirm edit"/>
+            </properties>
+          </component>
         </children>
       </grid>
-      <grid id="5213d" binding="topPanel" layout-manager="GridLayoutManager" row-count="1" column-count="3" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+      <grid id="5213d" binding="topPanel" layout-manager="GridLayoutManager" row-count="1" column-count="4" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
         <margin top="0" left="0" bottom="0" right="0"/>
         <constraints>
           <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="1" fill="1" indent="0" use-parent-layout="false"/>
@@ -333,7 +345,7 @@
         <children>
           <hspacer id="3084a">
             <constraints>
-              <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+              <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
           </hspacer>
           <component id="947c6" class="javax.swing.JButton" binding="back">
@@ -350,7 +362,7 @@
           </component>
           <component id="5978" class="javax.swing.JButton" binding="delete">
             <constraints>
-              <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+              <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
               <focusable value="false"/>
@@ -358,6 +370,18 @@
               <foreground color="-16777216"/>
               <icon value="frontend/icons/delete.png"/>
               <text value="delete"/>
+            </properties>
+          </component>
+          <component id="9bb3c" class="javax.swing.JButton" binding="cancel">
+            <constraints>
+              <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="9" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <focusable value="false"/>
+              <font name="Droid Sans" size="16" style="1"/>
+              <foreground color="-16777216"/>
+              <icon value="frontend/icons/arrow.png"/>
+              <text value="cancel edit"/>
             </properties>
           </component>
         </children>

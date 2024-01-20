@@ -21,34 +21,60 @@ public class FlightInfo {
     private JPanel topPanel;
     private JButton buy;
 
+    private final JTextField[] fieldsArray;
+
     private String[] data;
-
-    public void setData(String[] data) {
-        this.data = data;
-
-        flightId.setText(data[0]);
-        flightName.setText(data[1]);
-        depDate.setText(data[2]);
-        arrDate.setText(data[3]);
-        depCountry.setText(data[4]);
-        arrCountry.setText(data[5]);
-        price.setText(data[6]);
-        plane.setText(data[7]);
-
-        //edit.setVisible(false);
-    }
+    public int curFlightId;
 
     public JPanel getContent() {
-        //flightname.setText(data[1]);
-
         return content;
     }
 
+    public String[] getData() {
+        return data;
+    }
+
+    public void setData(String[] data) {
+        this.data = data;
+        curFlightId = Integer.parseInt(data[0]);
+
+//        flightId.setText(data[0]);
+//        flightName.setText(data[1]);
+//        depDate.setText(data[2]);
+//        arrDate.setText(data[3]);
+//        depCountry.setText(data[4]);
+//        arrCountry.setText(data[5]);
+//        price.setText(data[6]);
+//        plane.setText(data[7]);
+
+        for(int i = 0; i < fieldsArray.length; i++) {
+            fieldsArray[i].setText(data[i]);
+        }
+    }
+
+
     public FlightInfo() {
+        fieldsArray = new JTextField[]{flightId, flightName, depDate, arrDate, depCountry, arrCountry, price, plane};
+
         data = new String[8];
-        back.addActionListener(Controller.backButton());
+        back.addActionListener(Controller.navigateFlights());
         mainPanel.addMouseListener(Controller.backMouseButton());
+        topPanel.addMouseListener(Controller.backMouseButton());
+        bottomPanel.addMouseListener(Controller.backMouseButton());
+        content.addMouseListener(Controller.backMouseButton());
         for(Component component : mainPanel.getComponents())
             component.addMouseListener(Controller.backMouseButton());
+        for(Component component : bottomPanel.getComponents())
+            component.addMouseListener(Controller.backMouseButton());
+        for(Component component : topPanel.getComponents())
+            component.addMouseListener(Controller.backMouseButton());
+
+        edit.addActionListener(Controller.editButton(this));
+        delete.addActionListener(Controller.deleteButton(this));
+    }
+
+    public void updateAdminStatus(boolean isAdmin) {
+        delete.setVisible(isAdmin);
+        edit.setVisible(isAdmin);
     }
 }

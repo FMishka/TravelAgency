@@ -16,10 +16,12 @@ public abstract class Controller {
         switch (Model.validateCredentials(authForm.login.getText(), authForm.password.getText())) {
             case USER:
                 showMessageDialog(null, "You have successfully logged in", "", JOptionPane.INFORMATION_MESSAGE);
+                View.flightInfo.updateAdminStatus(false);
                 View.goToHomePage();
                 break;
             case ADMIN:
                 showMessageDialog(null, "You have successfully logged in", "", JOptionPane.INFORMATION_MESSAGE);
+                View.flightInfo.updateAdminStatus(true);
                 View.goToFlightsPage();
                 break;
             default:
@@ -74,6 +76,15 @@ public abstract class Controller {
         };
     }
 
+    public static ActionListener navigateFlightInfo() {
+        return new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                View.goToFlightInfo();
+            }
+        };
+    }
+
     public static ActionListener logout() {
         return new ActionListener() {
             @Override
@@ -101,8 +112,6 @@ public abstract class Controller {
 
                     View.goToFlightInfo(data);
                 }
-
-                System.out.println(row);
             }
         };
     }
@@ -120,8 +129,34 @@ public abstract class Controller {
         return new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
-                if(e.getButton() == 4)
+                if(e.getButton() == 4) {
                     View.goToFlightsPage();
+                }
+            }
+        };
+    }
+
+    public static ActionListener editButton(FlightInfo flightInfo) {
+        return new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                View.goToFlightEdit(flightInfo.getData());
+            }
+        };
+    }
+
+    public static ActionListener deleteButton(FlightInfo flightInfo) {
+        return new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int confirmDialog = JOptionPane.showConfirmDialog(null, "Delete flight (id=" + flightInfo.curFlightId + ")?", "Are you sure?",
+                        JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+
+                if(confirmDialog == JOptionPane.YES_OPTION) {
+                    Model.deleteFlight(flightInfo.curFlightId);
+                    View.refreshFlightsPage();
+                    View.goToFlightsPage();
+                }
             }
         };
     }

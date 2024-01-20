@@ -31,9 +31,9 @@ public class Main {
         LocalDateTime b = LocalDateTime.now();
         Model.initConnection();
         //Model.addFlight("hui", a, b, 6, 7, 12, 1);
-        Model.editFlight(1, "hui", a ,b , 6, 7, 1, 12);
+        //Model.editFlight(1, "hui", a ,b , 6, 7, 1, 12);
         //Model.deleteFlight(1);
-        //Model model = new Model();
+        Model model = new Model();
         //Model.addFlight("hui", a, b, 6, 7, 12, 1);
 
 

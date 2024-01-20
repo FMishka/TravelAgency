@@ -297,7 +297,13 @@ public class Model {
             for (int i = 0; i < numberOfRows; i++){
                 resultSet.next();
                 for (int j = 0; j < numberOfColumns; j++) {
-                    res[i][j] = resultSet.getString(j + 1);
+                    if (j == 2 || j == 3){ // Date without seconds and milliseconds
+                        res[i][j] = String.format(resultSet.getString(j + 1).substring(0, 16));
+
+                    }
+                    else{
+                        res[i][j] = String.format(resultSet.getString(j + 1));
+                    }
                 }
             }
 
@@ -307,4 +313,65 @@ public class Model {
         return res;
     }
 
+    //Умоляю сделайте эти методы
+
+    public static String[] getAllCountries() {
+        Statement statement;
+        String getCountRowsQuery = "SELECT COUNT(*) FROM countries";
+        String query = "SELECT * FROM countries";
+
+        String[] res = null;
+        ResultSet resultSet = null;
+
+        try {
+            statement = conn.createStatement();
+            resultSet = statement.executeQuery(getCountRowsQuery);
+            resultSet.next();
+            int numberOfRows = resultSet.getInt(1);
+
+            resultSet = statement.executeQuery(query);
+            res = new String[numberOfRows];
+
+            for (int i = 0; i < numberOfRows; i++) {
+                resultSet.next();
+
+                res[i] = resultSet.getString(2);
+            }
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
+        return res;
+    }
+
+    public static String[] getAllPlaneNames() {
+        Statement statement;
+        String getCountRowsQuery = "SELECT COUNT(*) FROM planes";
+        String query = "SELECT * FROM planes";
+
+        String[] res = null;
+        ResultSet resultSet = null;
+
+        try {
+            statement = conn.createStatement();
+            resultSet = statement.executeQuery(getCountRowsQuery);
+            resultSet.next();
+            int numberOfRows = resultSet.getInt(1);
+
+            resultSet = statement.executeQuery(query);
+            res = new String[numberOfRows];
+
+            for (int i = 0; i < numberOfRows; i++) {
+                resultSet.next();
+
+                res[i] = resultSet.getString(2);
+            }
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
+        return res;
+    }
 }

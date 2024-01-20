@@ -25,7 +25,6 @@ public class FlightsPage {
     }
 
     public void refreshTable() {
-        System.out.println("refresh");
         String[][] rowData = Model.getAllFlights();
         String[] columnNames = new String[]{"flight_ID", "flightname", "departureDate", "arrivalDate", "departureCountry", "arrivalCountry", "price", "fk_plane_ID"};
         table.setModel(new AbstractTableModel() {

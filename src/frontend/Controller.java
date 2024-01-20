@@ -76,6 +76,15 @@ public abstract class Controller {
         };
     }
 
+    public static ActionListener navigateFlightInfo() {
+        return new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                View.goToFlightInfo();
+            }
+        };
+    }
+
     public static ActionListener logout() {
         return new ActionListener() {
             @Override
@@ -103,8 +112,6 @@ public abstract class Controller {
 
                     View.goToFlightInfo(data);
                 }
-
-                System.out.println(row);
             }
         };
     }
@@ -118,32 +125,22 @@ public abstract class Controller {
         };
     }
 
-    public static MouseAdapter backMouseButton(FlightInfo flightInfo) {
+    public static MouseAdapter backMouseButton() {
         return new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent e) {
                 if(e.getButton() == 4) {
                     View.goToFlightsPage();
-                    flightInfo.editMode(false);
                 }
             }
         };
     }
 
-    public static ActionListener editButton() {
+    public static ActionListener editButton(FlightInfo flightInfo) {
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
-            }
-        };
-    }
-
-    public static ActionListener changeEditMode(FlightInfo flightInfo, boolean editMode) {
-        return new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                flightInfo.editMode(editMode);
+                View.goToFlightEdit(flightInfo.getData());
             }
         };
     }
@@ -156,7 +153,7 @@ public abstract class Controller {
                         JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
 
                 if(confirmDialog == JOptionPane.YES_OPTION) {
-                    //Model.deleteFlight(flightInfo.curFlightId);
+                    Model.deleteFlight(flightInfo.curFlightId);
                     View.refreshFlightsPage();
                     View.goToFlightsPage();
                 }

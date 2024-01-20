@@ -12,6 +12,8 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class Model {
@@ -234,6 +236,44 @@ public class Model {
         }
         return false;
     }
+    public static void addFlight(String flightName, LocalDateTime departureTime, LocalDateTime arrivalTime, int departureCountryId, int arrivalCountryId, int price, int planeId) {
+        DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        Statement statement;
+        try {
+            String addFlightQuery = String.format("INSERT INTO flights (flightname,departuredate,arrivaldate,departurecountry_id, arrivalcountry_id, price, fk_plane_id) " +
+                    "VALUES ('%s', '%s', '%s', %d, %d, %d, %d);", flightName, departureTime.format(format), arrivalTime.format(format), departureCountryId, arrivalCountryId, price, planeId);
+            statement = conn.createStatement();
+            statement.execute(addFlightQuery);
+        } catch (Exception e){
+            System.out.println(e);
+        }
+    }
+    public static void deleteFlight(int flight_id){
+        Statement statement;
+        try{
+            //String deleteTicketsQuery = String.format("DELETE FROM tickets WHERE fk_flight_id = %d;", flight_id);
+            String deleteTicketsQuery = String.format("DELETE FROM tickets  WHERE fk_flight_id = %d;", flight_id);
+            String deleteFlightQuery = String.format("DELETE FROM flights  WHERE flight_id = %d;", flight_id);
+            statement=conn.createStatement();
+            statement.executeUpdate(deleteTicketsQuery);
+            statement.executeUpdate(deleteFlightQuery);
+            //statement.executeUpdate(deleteTicketsQuery);
+        }catch (Exception e){
+            System.out.println(e);
+        }
+    }
+    public static void editFlight(int flightID, String flightName, LocalDateTime departureTime, LocalDateTime arrivalTime, int departureCountryId, int arrivalCountryId, int planeId, int price) {
+        DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+        Statement statement;
+        try {
+            String editFlightQuery = String.format("UPDATE flights SET flightname = '%s', departuredate = '%s', arrivaldate = '%s', departurecountry_id = %d, arrivalcountry_id = %d, price = %d, fk_plane_id = %d " +
+                    "WHERE flight_id = %d;", flightName, departureTime.format(format), arrivalTime.format(format), departureCountryId, arrivalCountryId, price, planeId, flightID);
+            statement = conn.createStatement();
+            statement.executeUpdate(editFlightQuery);
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
 
     public static String[][] getAllFlights() {
         Statement statement;
@@ -274,15 +314,6 @@ public class Model {
     }
 
     //Умоляю сделайте эти методы
-    public void addFlight(String flightName, LocalDateTime departureTime, LocalDateTime arrivalTime, int departureCountryId, int arrivalCountryId, int planeId, int price) {
-
-    }
-    public static void editFlight(int flightId, String flightName, LocalDateTime departureTime, LocalDateTime arrivalTime, int departureCountryId, int arrivalCountryId, int planeId, int price) {
-
-    }
-    public static void deleteFlight(int flightId) {
-
-    }
 
     public static String[] getAllCountries() {
         Statement statement;

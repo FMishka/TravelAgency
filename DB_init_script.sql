@@ -94,7 +94,8 @@ CREATE TABLE IF NOT EXISTS tickets
     passengerSecondName varchar not NULL,
     passengerBirthDate date not NULL,
     passengerSex varchar not NULL,
-    PRIMARY KEY (fk_flight_ID, fk_user_ID)
+    PRIMARY KEY (fk_flight_ID, fk_user_ID),
+    CONSTRAINT ticketToFlight FOREIGN KEY (fk_flight_ID)  REFERENCES flights (flight_ID) ON DELETE CASCADE
     );
 INSERT INTO tickets VALUES (1,  2, 10, 1, TRUE, 'Shimon', 'Roitman', '11-01-2002', 'M');
 INSERT INTO tickets VALUES (2,  2, 8, 2, TRUE, 'Shimon', 'Roitman', '11-01-2002', 'M');

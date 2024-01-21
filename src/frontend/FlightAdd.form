@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="frontend.FlightAdd">
+  <grid id="27dc6" binding="content" layout-manager="GridLayoutManager" row-count="3" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+    <margin top="0" left="0" bottom="0" right="0"/>
+    <constraints>
+      <xy x="20" y="20" width="652" height="566"/>
+    </constraints>
+    <properties>
+      <background color="-8004419"/>
+    </properties>
+    <border type="none"/>
+    <children>
+      <grid id="c8a32" binding="mainPanel" layout-manager="GridLayoutManager" row-count="8" column-count="8" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+        <margin top="0" left="0" bottom="0" right="0"/>
+        <constraints>
+          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false">
+            <preferred-size width="514" height="491"/>
+          </grid>
+        </constraints>
+        <properties>
+          <background color="-8004419"/>
+        </properties>
+        <border type="none"/>
+        <children>
+          <component id="dfa8d" class="javax.swing.JTextField" default-binding="true">
+            <constraints>
+              <grid row="2" column="1" row-span="1" col-span="3" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false">
+                <preferred-size width="250" height="42"/>
+              </grid>
+            </constraints>
+            <properties>
+              <background color="-12471389"/>
+              <editable value="false"/>
+              <focusable value="false"/>
+              <font name="Droid Sans" size="26" style="1"/>
+              <foreground color="-16777216"/>
+              <horizontalAlignment value="4"/>
+              <text value="Departure date:"/>
+            </properties>
+          </component>
+          <component id="c1594" class="javax.swing.JTextField" default-binding="true">
+            <constraints>
+              <grid row="3" column="1" row-span="1" col-span="3" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false">
+                <preferred-size width="250" height="42"/>
+              </grid>
+            </constraints>
+            <properties>
+              <background color="-12471389"/>
+              <editable value="false"/>
+              <focusable value="false"/>
+              <font name="Droid Sans" size="26" style="1"/>
+              <foreground color="-16777216"/>
+              <horizontalAlignment value="4"/>
+              <text value="Departure country:"/>
+            </properties>
+          </component>
+          <component id="69d4f" class="javax.swing.JTextField" default-binding="true">
+            <constraints>
+              <grid row="4" column="1" row-span="1" col-span="3" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false">
+                <preferred-size width="250" height="42"/>
+              </grid>
+            </constraints>
+            <properties>
+              <background color="-12471389"/>
+              <editable value="false"/>
+              <focusable value="false"/>
+              <font name="Droid Sans" size="26" style="1"/>
+              <foreground color="-16777216"/>
+              <horizontalAlignment value="4"/>
+              <text value="Arrival date:"/>
+            </properties>
+          </component>
+          <component id="16573" class="javax.swing.JTextField" default-binding="true">
+            <constraints>
+              <grid row="5" column="1" row-span="1" col-span="3" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false">
+                <preferred-size width="250" height="42"/>
+              </grid>
+            </constraints>
+            <properties>
+              <background color="-12471389"/>
+              <editable value="false"/>
+              <focusable value="false"/>
+              <font name="Droid Sans" size="26" style="1"/>
+              <foreground color="-16777216"/>
+              <horizontalAlignment value="4"/>
+              <text value="Arrival country:"/>
+            </properties>
+          </component>
+          <component id="7a073" class="javax.swing.JTextField" default-binding="true">
+            <constraints>
+              <grid row="6" column="1" row-span="1" col-span="3" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false">
+                <preferred-size width="250" height="42"/>
+              </grid>
+            </constraints>
+            <properties>
+              <background color="-12471389"/>
+              <editable value="false"/>
+              <focusable value="false"/>
+              <font name="Droid Sans" size="26" style="1"/>
+              <foreground color="-16777216"/>
+              <horizontalAlignment value="4"/>
+              <text value="Price:"/>
+            </properties>
+          </component>
+          <component id="d60b9" class="javax.swing.JTextField" default-binding="true">
+            <constraints>
+              <grid row="7" column="1" row-span="1" col-span="3" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false">
+                <preferred-size width="250" height="42"/>
+              </grid>
+            </constraints>
+            <properties>
+              <background color="-12471389"/>
+              <editable value="false"/>
+              <focusable value="false"/>
+              <font name="Droid Sans" size="26" style="1"/>
+              <foreground color="-16777216"/>
+              <horizontalAlignment value="4"/>
+              <text value="Plane:"/>
+            </properties>
+          </component>
+          <component id="b5b4" class="javax.swing.JTextField" binding="flightName">
+            <constraints>
+              <grid row="0" column="4" row-span="2" col-span="3" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false">
+                <preferred-size width="250" height="42"/>
+              </grid>
+            </constraints>
+            <properties>
+              <background color="-1"/>
+              <editable value="true"/>
+              <focusable value="true"/>
+              <font name="Droid Sans" size="26" style="1"/>
+              <foreground color="-16777216"/>
+              <horizontalAlignment value="2"/>
+              <text value=""/>
+            </properties>
+          </component>
+          <component id="d1df4" class="javax.swing.JTextField" binding="arrDate">
+            <constraints>
+              <grid row="4" column="4" row-span="1" col-span="3" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false">
+                <preferred-size width="250" height="42"/>
+              </grid>
+            </constraints>
+            <properties>
+              <background color="-1"/>
+              <editable value="true"/>
+              <focusable value="true"/>
+              <font name="Droid Sans" size="26" style="1"/>
+              <foreground color="-16777216"/>
+              <horizontalAlignment value="2"/>
+              <text value=""/>
+            </properties>
+          </component>
+          <component id="ee0ee" class="javax.swing.JTextField" binding="price">
+            <constraints>
+              <grid row="6" column="4" row-span="1" col-span="3" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false">
+                <preferred-size width="250" height="42"/>
+              </grid>
+            </constraints>
+            <properties>
+              <background color="-1"/>
+              <editable value="true"/>
+              <focusable value="true"/>
+              <font name="Droid Sans" size="26" style="1"/>
+              <foreground color="-16777216"/>
+              <horizontalAlignment value="2"/>
+              <text value=""/>
+            </properties>
+          </component>
+          <component id="764e3" class="javax.swing.JTextField" binding="depDate">
+            <constraints>
+              <grid row="2" column="4" row-span="1" col-span="3" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false">
+                <preferred-size width="250" height="42"/>
+              </grid>
+            </constraints>
+            <properties>
+              <background color="-1"/>
+              <editable value="true"/>
+              <focusable value="true"/>
+              <font name="Droid Sans" size="26" style="1"/>
+              <foreground color="-16777216"/>
+              <horizontalAlignment value="2"/>
+              <text value=""/>
+            </properties>
+          </component>
+          <component id="ea919" class="javax.swing.JComboBox" binding="arrCountry">
+            <constraints>
+              <grid row="5" column="4" row-span="1" col-span="3" vsize-policy="0" hsize-policy="2" anchor="8" fill="0" indent="0" use-parent-layout="false">
+                <preferred-size width="250" height="42"/>
+              </grid>
+            </constraints>
+            <properties>
+              <font name="Droid Sans" size="26" style="1"/>
+              <foreground color="-16777216"/>
+            </properties>
+          </component>
+          <component id="e573a" class="javax.swing.JComboBox" binding="depCountry">
+            <constraints>
+              <grid row="3" column="4" row-span="1" col-span="3" vsize-policy="0" hsize-policy="2" anchor="8" fill="0" indent="0" use-parent-layout="false">
+                <preferred-size width="250" height="42"/>
+              </grid>
+            </constraints>
+            <properties>
+              <font name="Droid Sans" size="26" style="1"/>
+              <foreground color="-16777216"/>
+            </properties>
+          </component>
+          <component id="99972" class="javax.swing.JTextField" default-binding="true">
+            <constraints>
+              <grid row="0" column="1" row-span="2" col-span="3" vsize-policy="0" hsize-policy="0" anchor="4" fill="0" indent="0" use-parent-layout="false">
+                <preferred-size width="250" height="42"/>
+              </grid>
+            </constraints>
+            <properties>
+              <background color="-12471389"/>
+              <editable value="false"/>
+              <focusable value="false"/>
+              <font name="Droid Sans" size="26" style="1"/>
+              <foreground color="-16777216"/>
+              <horizontalAlignment value="4"/>
+              <text value="Flight name:"/>
+            </properties>
+          </component>
+          <hspacer id="45d82">
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+            </constraints>
+          </hspacer>
+          <hspacer id="1063d">
+            <constraints>
+              <grid row="0" column="7" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+            </constraints>
+          </hspacer>
+          <component id="b1149" class="javax.swing.JComboBox" binding="plane">
+            <constraints>
+              <grid row="7" column="4" row-span="1" col-span="3" vsize-policy="0" hsize-policy="2" anchor="8" fill="0" indent="0" use-parent-layout="false">
+                <preferred-size width="250" height="42"/>
+              </grid>
+            </constraints>
+            <properties>
+              <font name="Droid Sans" size="26" style="1"/>
+              <foreground color="-16777216"/>
+            </properties>
+          </component>
+        </children>
+      </grid>
+      <grid id="dec0a" binding="topPanel" layout-manager="GridLayoutManager" row-count="1" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+        <margin top="0" left="0" bottom="0" right="0"/>
+        <constraints>
+          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="1" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <background color="-8004419"/>
+        </properties>
+        <border type="none"/>
+        <children>
+          <hspacer id="437ef">
+            <constraints>
+              <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+            </constraints>
+          </hspacer>
+          <component id="925a4" class="javax.swing.JButton" binding="back">
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="9" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <focusable value="false"/>
+              <font name="Droid Sans" size="16" style="1"/>
+              <foreground color="-16777216"/>
+              <icon value="frontend/icons/arrow.png"/>
+              <text value="back"/>
+            </properties>
+          </component>
+        </children>
+      </grid>
+      <grid id="3b08c" binding="bottomPanel" layout-manager="GridLayoutManager" row-count="1" column-count="2" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+        <margin top="0" left="0" bottom="0" right="0"/>
+        <constraints>
+          <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="2" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <background color="-8004419"/>
+        </properties>
+        <border type="none"/>
+        <children>
+          <hspacer id="f1f2e">
+            <constraints>
+              <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+            </constraints>
+          </hspacer>
+          <component id="a763c" class="javax.swing.JButton" binding="confirm">
+            <constraints>
+              <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <focusable value="false"/>
+              <font name="Droid Sans" size="16" style="1"/>
+              <foreground color="-16777216"/>
+              <icon value="frontend/icons/confirm.png"/>
+              <text value="add flight"/>
+            </properties>
+          </component>
+        </children>
+      </grid>
+    </children>
+  </grid>
+</form>

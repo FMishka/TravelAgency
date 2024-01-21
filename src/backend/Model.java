@@ -153,7 +153,7 @@ public class Model {
         try{
             flightQuery = String.format("SELECT flights.flight_ID, flights.fk_plane_ID, planes.rowsNumber, planes.columnsNumber FROM flights LEFT JOIN planes\n" +
                     "ON flights.fk_plane_id = plane_ID WHERE flights.flight_ID = %s", flightId);
-            statement = conn.createStatement();;
+            statement = conn.createStatement();
             ResultSet resultSet = statement.executeQuery(flightQuery);
             resultSet.next();
             allFlightSeats = new int[resultSet.getInt("rowsnumber")][resultSet.getInt("columnsnumber")];
@@ -297,11 +297,11 @@ public class Model {
         String[][] filteredFlights = null;
 
         try {
-            // Начинаем с базового запроса
-            StringBuilder filterQuery = new StringBuilder("SELECT flight_ID, flightname, departureDate,  arrivalDate, dep_country.countryName, arr_country.countryName, price, fk_plane_ID FROM flights " +
+
+            StringBuilder filterQuery = new StringBuilder("SELECT flight_ID, flightname, departureDate,  arrivalDate, dep_country.countryName, arr_country.countryName, price, plane.planemodel FROM flights " +
                     "JOIN countries AS dep_country ON flights.departureCountry_ID = dep_country.country_ID " +
                     "JOIN countries AS arr_country ON flights.arrivalCountry_ID = arr_country.country_ID " +
-                    "JOIN planes ON flights.fk_plane_ID = planes.plane_ID " +
+                    "JOIN planes AS plane ON flights.fk_plane_ID = plane.plane_id "+
                     "WHERE 1=1");
 
             List<Object> parameters = new ArrayList<>();
@@ -380,7 +380,115 @@ public class Model {
 
         return filteredFlights;
     }
+    public static String[][] sortFlightsBy(String sortBy) {
+        List<String[]> resultsList = new ArrayList<>();
 
+        try {
+            String query = "";
+
+            switch (sortBy) {
+                case "priceUP":
+                    query = "SELECT flight_ID, flightname, departureDate,  arrivalDate, dep_country.countryName, arr_country.countryName, price, plane.planemodel FROM flights " +
+                            "JOIN countries AS dep_country ON flights.departureCountry_ID = dep_country.country_ID " +
+                            "JOIN countries AS arr_country ON flights.arrivalCountry_ID = arr_country.country_ID " +
+                            "JOIN planes AS plane ON flights.fk_plane_ID = plane.plane_id "+
+                            "ORDER BY price DESC";
+                    break;
+                case "priceDOWN":
+                    query = "SELECT flight_ID, flightname, departureDate,  arrivalDate, dep_country.countryName, arr_country.countryName, price, plane.planemodel FROM flights " +
+                            "JOIN countries AS dep_country ON flights.departureCountry_ID = dep_country.country_ID " +
+                            "JOIN countries AS arr_country ON flights.arrivalCountry_ID = arr_country.country_ID " +
+                            "JOIN planes AS plane ON flights.fk_plane_ID = plane.plane_id " +
+                            "ORDER BY price";
+                    break;
+                case "countriesDepartureUp":
+                    query = "SELECT flight_ID, flightname, departureDate,  arrivalDate, dep_country.countryName, arr_country.countryName, price, plane.planemodel FROM flights " +
+                            "JOIN countries AS dep_country ON flights.departureCountry_ID = dep_country.country_ID " +
+                            "JOIN countries AS arr_country ON flights.arrivalCountry_ID = arr_country.country_ID " +
+                            "JOIN planes AS plane ON flights.fk_plane_ID = plane.plane_id " +
+                            "ORDER BY dep_country.countryName ASC";
+                    break;
+                case "countriesDepartureDown":
+                    query = "SELECT flight_ID, flightname, departureDate,  arrivalDate, dep_country.countryName, arr_country.countryName, price, plane.planemodel FROM flights " +
+                            "JOIN countries AS dep_country ON flights.departureCountry_ID = dep_country.country_ID " +
+                            "JOIN countries AS arr_country ON flights.arrivalCountry_ID = arr_country.country_ID " +
+                            "JOIN planes AS plane ON flights.fk_plane_ID = plane.plane_id " +
+                            "ORDER BY dep_country.countryName DESC";
+                    break;
+                case "countriesArrivalUp":
+                    query =  "SELECT flight_ID, flightname, departureDate,  arrivalDate, dep_country.countryName, arr_country.countryName, price, plane.planemodel FROM flights " +
+                            "JOIN countries AS dep_country ON flights.departureCountry_ID = dep_country.country_ID " +
+                            "JOIN countries AS arr_country ON flights.arrivalCountry_ID = arr_country.country_ID " +
+                            "JOIN planes AS plane ON flights.fk_plane_ID = plane.plane_id " +
+                            "ORDER BY arr_country.countryName ASC";
+                    break;
+                case "countriesArrivalDown":
+                    query =  "SELECT flight_ID, flightname, departureDate,  arrivalDate, dep_country.countryName, arr_country.countryName, price, plane.planemodel FROM flights " +
+                            "JOIN countries AS dep_country ON flights.departureCountry_ID = dep_country.country_ID " +
+                            "JOIN countries AS arr_country ON flights.arrivalCountry_ID = arr_country.country_ID " +
+                            "JOIN planes AS plane ON flights.fk_plane_ID = plane.plane_id " +
+                            "ORDER BY arr_country.countryName DESC ";
+                    break;
+                case "ticketsUp":
+                    query = "SELECT flight_ID, flightname, departureDate,  arrivalDate, dep_country.countryName, arr_country.countryName, price, plane.planemodel, COUNT(tick.fk_flight_ID ) as ticketsSold FROM flights " +
+                            "JOIN countries AS dep_country ON flights.departureCountry_ID = dep_country.country_ID " +
+                            "JOIN countries AS arr_country ON flights.arrivalCountry_ID = arr_country.country_ID " +
+                            "LEFT JOIN tickets AS tick ON flights.flight_ID = tick.fk_flight_ID "    +
+                            "JOIN planes AS plane ON flights.fk_plane_ID = plane.plane_id "+
+                            "GROUP BY flights.flight_ID, dep_country.countryname, arr_country.country_ID, plane.planemodel ORDER BY ticketsSold DESC";
+                    break;
+                case "ticketsDown":
+                    query = "SELECT flight_ID, flightname, departureDate,  arrivalDate, dep_country.countryName, arr_country.countryName, price, plane.planemodel, COUNT(tick.fk_flight_ID ) as ticketsSold FROM flights " +
+                            "JOIN countries AS dep_country ON flights.departureCountry_ID = dep_country.country_ID " +
+                            "JOIN countries AS arr_country ON flights.arrivalCountry_ID = arr_country.country_ID " +
+                            "LEFT JOIN tickets AS tick ON flights.flight_ID = tick.fk_flight_ID " +
+                            "JOIN planes AS plane ON flights.fk_plane_ID = plane.plane_id "+
+                            "GROUP BY flights.flight_ID, dep_country.countryname, arr_country.country_ID, plane.planemodel ORDER BY ticketsSold ASC";
+                    break;
+                default:
+                    System.out.println("Invalid sorting option.");
+                    return new String[0][0];
+            }
+
+            try (PreparedStatement statement = conn.prepareStatement(query);
+                 ResultSet resultSet = statement.executeQuery()) {
+
+                while (resultSet.next()) {
+                    // Создание строки для каждой записи в результате запроса
+                    String[] row = new String[resultSet.getMetaData().getColumnCount()];
+                    for (int i = 1; i <= resultSet.getMetaData().getColumnCount(); i++) {
+                        row[i - 1] = resultSet.getString(i);
+                    }
+                    resultsList.add(row);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        // Преобразование списка в двумерный массив
+        return resultsList.toArray(new String[0][0]);
+    }
+    public static void printSortedFlights(String sortBy) {
+        String[][] sortedFlights = sortFlightsBy(sortBy);
+
+        if (sortedFlights.length == 0) {
+            System.out.println("No data to display.");
+            return;
+        }
+        for (int i = 1; i <= sortedFlights[0].length; i++) {
+            System.out.print(sortedFlights[0][i - 1] + "\t\t");
+        }
+        System.out.println();
+
+        // Вывод данных
+        for (int i = 1; i < sortedFlights.length; i++) {
+            for (int j = 1; j <= sortedFlights[i].length; j++) {
+                System.out.print(sortedFlights[i][j - 1] + "\t\t");
+            }
+            System.out.println();
+        }
+    }
     public static String[][] getAllFlights() {
         Statement statement;
         String getAllFlightQuery = "SELECT flights.flight_id, flights.flightname, flights.departuredate, flights.arrivaldate, c1.countryname, c2.countryname, flights.price, pl.planeModel\n" +

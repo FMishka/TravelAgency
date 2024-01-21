@@ -24,6 +24,7 @@ public class Main {
         Model.initConnection();
 
         Model model = new Model();
+        Model.printSortedFlights("ticketsDown");
 
 
 

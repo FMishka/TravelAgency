@@ -119,4 +119,3 @@ CREATE TABLE IF NOT EXISTS paymentData
     PRIMARY KEY (fk_user_ID, cardNumber)
     );
 INSERT INTO  paymentData VALUES (2, '4580010554876947', '02/27', 'Andrey_Savvteev', '123');
-

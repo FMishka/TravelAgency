@@ -69,11 +69,11 @@ public class FlightInfo {
         for(Component component : topPanel.getComponents())
             component.addMouseListener(Controller.backMouseButton());
 
-        edit.addActionListener(Controller.editButton(this));
+        edit.addActionListener(Controller.navigateFlightEdit(this));
         delete.addActionListener(Controller.deleteButton(this));
     }
 
-    public void updateAdminStatus(boolean isAdmin) {
+    public void setAdminStatus(boolean isAdmin) {
         delete.setVisible(isAdmin);
         edit.setVisible(isAdmin);
     }

@@ -13,13 +13,18 @@ public abstract class View {
     static final FlightsPage flightsPage = new FlightsPage();
     static final FlightInfo flightInfo = new FlightInfo();
     static final FlightEdit flightEdit = new FlightEdit();
+    static final FlightAdd flightAdd = new FlightAdd();
 
     static final int screenWidth = Toolkit.getDefaultToolkit().getScreenSize().width;
     static final int screenHeight = Toolkit.getDefaultToolkit().getScreenSize().height;
-
     public static void setSize(int width, int height) {
         mainFrame.setSize(width, height);
         mainFrame.setLocation((screenWidth - width) / 2, (screenHeight - height) / 2);
+    }
+
+    public static void setAdminStatus(boolean isAdmin) {
+        flightInfo.setAdminStatus(isAdmin);
+        flightsPage.setAdminStatus(isAdmin);
     }
 
     public static void goToHomePage() {
@@ -63,6 +68,12 @@ public abstract class View {
         setSize(600, 700);
         flightEdit.setData(data);
         mainFrame.setContentPane(flightEdit.getContent());
+        mainFrame.revalidate();
+    }
+
+    public static void goToFlightAdd() {
+        setSize(600, 700);
+        mainFrame.setContentPane(flightAdd.getContent());
         mainFrame.revalidate();
     }
 

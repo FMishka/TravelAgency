@@ -68,16 +68,16 @@
           </component>
         </children>
       </scrollpane>
-      <component id="7906f" class="javax.swing.JTextField" binding="здесьМожноДаблкликомНаTextField" default-binding="true">
+      <component id="b37a0" class="javax.swing.JButton" binding="addFlightButton" default-binding="true">
         <constraints>
-          <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
-            <preferred-size width="150" height="-1"/>
-          </grid>
+          <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="4" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
-          <editable value="false"/>
           <focusable value="false"/>
-          <text value="Здесь можно даблкликом на страницу рейса перейти"/>
+          <font name="Droid Sans" size="16" style="1"/>
+          <foreground color="-16777216"/>
+          <icon value="frontend/icons/add.png"/>
+          <text value="add flight"/>
         </properties>
       </component>
     </children>

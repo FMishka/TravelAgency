@@ -12,16 +12,20 @@ public abstract class Controller {
     public static final int ADMIN = 1;
     public static final int USER = 0;
 
+    public static final String[] countries = Model.getAllCountries();
+    public static final String[] planes = Model.getAllPlaneNames();
+
+
     public static void authSubmit(AuthForm authForm) {
         switch (Model.validateCredentials(authForm.login.getText(), authForm.password.getText())) {
             case USER:
                 showMessageDialog(null, "You have successfully logged in", "", JOptionPane.INFORMATION_MESSAGE);
-                View.flightInfo.updateAdminStatus(false);
+                View.setAdminStatus(false);
                 View.goToHomePage();
                 break;
             case ADMIN:
                 showMessageDialog(null, "You have successfully logged in", "", JOptionPane.INFORMATION_MESSAGE);
-                View.flightInfo.updateAdminStatus(true);
+                View.setAdminStatus(true);
                 View.goToFlightsPage();
                 break;
             default:
@@ -85,6 +89,24 @@ public abstract class Controller {
         };
     }
 
+    public static ActionListener navigateFlightAdd() {
+        return new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                View.goToFlightAdd();
+            }
+        };
+    }
+
+    public static ActionListener navigateFlightEdit(FlightInfo flightInfo) {
+        return new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                View.goToFlightEdit(flightInfo.getData());
+            }
+        };
+    }
+
     public static ActionListener logout() {
         return new ActionListener() {
             @Override
@@ -132,15 +154,6 @@ public abstract class Controller {
                 if(e.getButton() == 4) {
                     View.goToFlightsPage();
                 }
-            }
-        };
-    }
-
-    public static ActionListener editButton(FlightInfo flightInfo) {
-        return new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                View.goToFlightEdit(flightInfo.getData());
             }
         };
     }

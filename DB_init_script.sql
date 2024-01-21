@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS planes
 INSERT INTO planes(planeModel, rowsNumber, columnsNumber, layoutType) VALUES ('A-320',30, 6, 0);
 INSERT INTO planes(planeModel, rowsNumber, columnsNumber, layoutType) VALUES ('A-321',30, 6, 0);
 INSERT INTO planes(planeModel, rowsNumber, columnsNumber, layoutType) VALUES ('Boeing737-800',30, 6, 0);
-INSERT INTO planes(planeModel, rowsNumber, columnsNumber, layoutType) VALUES ('A-321',30, 6, 0);
+INSERT INTO planes(planeModel, rowsNumber, columnsNumber, layoutType) VALUES ('A-322',30, 6, 0);
 INSERT INTO planes(planeModel, rowsNumber, columnsNumber, layoutType) VALUES ('Boeing777-200',44, 8, 0);
 
 CREATE TABLE IF NOT EXISTS users

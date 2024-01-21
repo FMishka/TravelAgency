@@ -41,13 +41,14 @@ public class Main {
         LocalDateTime x = LocalDateTime.of(2025,11,10,13,00);
 
 
-String [] [] c = Model.filterFlights(0, 0, z, x , null, null);
-for (int i = 0; i < c.length; i++ ) {
-    for (int j = 0; j < c[0].length; j++){
-        System.out.print(c[i] [j] + " ");
-    }
-    System.out.println();
-}
+//String [] [] c = Model.filterFlights(0, 0, z, x , null, null);
+//for (int i = 0; i < c.length; i++ ) {
+//    for (int j = 0; j < c[0].length; j++){
+//        System.out.print(c[i] [j] + " ");
+//    }
+//    System.out.println();
+//}
+     Model.printSortedFlights("ticketsUp" );
         //Date date = new Date();
 
         //System.out.println(Model.orderingTicket(2, 1, 1,1,true,"Shimon", "Roytman", date, 'M'));
@@ -55,7 +56,7 @@ for (int i = 0; i < c.length; i++ ) {
         //Model.addFlight("hui", a, b, 6, 7, 12, 1);
         //Model.editFlight(1, "hui", a ,b , 6, 7, 1, 12);
         //Model.deleteFlight(1);
-        Model model = new Model();
+        //Model model = new Model();
         //Model.addFlight("hui", a, b, 6, 7, 12, 1);
 
 

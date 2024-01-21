@@ -13,6 +13,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -240,41 +241,51 @@ public class Model {
         }
         return false;
     }
-    public static void addFlight(String flightName, LocalDateTime departureTime, LocalDateTime arrivalTime, int departureCountryId, int arrivalCountryId, int price, int planeId) {
+
+    public static int searchingCountryId(String countryName) throws SQLException {
+        Statement statement;
+        statement = conn.createStatement();
+        String searchingCountryId = String.format("SELECT country_id FROM countries WHERE countryname = '%s';", countryName);
+        ResultSet set = statement.executeQuery(searchingCountryId);
+        set.next();
+        return set.getInt("country_id");
+    }
+
+    public static int searchingPlaneId(String planeName) throws SQLException {
+        Statement statement;
+        statement = conn.createStatement();
+        String searchingPlaneId = String.format("SELECT plane_id FROM planes WHERE planemodel = '%s';", planeName);
+        ResultSet set = statement.executeQuery(searchingPlaneId);
+        set.next();
+        return set.getInt("plane_id");
+    }
+
+    public static void addFlight(String flightName, LocalDateTime departureTime, LocalDateTime arrivalTime, String departureCountryName, String arrivalCountryName, String planeModel, int price) throws SQLException {
         DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         Statement statement;
-        try {
-            String addFlightQuery = String.format("INSERT INTO flights (flightname,departuredate,arrivaldate,departurecountry_id, arrivalcountry_id, price, fk_plane_id) " +
-                    "VALUES ('%s', '%s', '%s', %d, %d, %d, %d);", flightName, departureTime.format(format), arrivalTime.format(format), departureCountryId, arrivalCountryId, price, planeId);
-            statement = conn.createStatement();
-            statement.execute(addFlightQuery);
-        } catch (Exception e){
-            System.out.println(e);
-        }
+        statement = conn.createStatement();
+        String addFlightQuery = String.format("INSERT INTO flights (flightname,departuredate,arrivaldate,departurecountry_id, arrivalcountry_id, price, fk_plane_id) " +
+                    "VALUES ('%s', '%s', '%s', %d, %d, %d, %d);", flightName, departureTime.format(format), arrivalTime.format(format), searchingCountryId(departureCountryName), searchingCountryId(arrivalCountryName), price, searchingPlaneId(planeModel));
+        statement.execute(addFlightQuery);
+    }
+
+    public static void editFlight(int flightID, String flightName, LocalDateTime departureTime, LocalDateTime arrivalTime, String departureCountryName, String arrivalCountryName, String planeModel, int price) throws SQLException {
+        DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+        Statement statement;
+        String editFlightQuery = String.format("UPDATE flights SET flightname = '%s', departuredate = '%s', arrivaldate = '%s', departurecountry_id = %d, arrivalcountry_id = %d, price = %d, fk_plane_id = %d " +
+                    "WHERE flight_id = %d;", flightName, departureTime.format(format), arrivalTime.format(format), searchingCountryId(departureCountryName), searchingCountryId(arrivalCountryName), price, searchingPlaneId(planeModel), flightID);
+        statement = conn.createStatement();
+        statement.executeUpdate(editFlightQuery);
     }
     public static void deleteFlight(int flight_id){
         Statement statement;
         try{
-            //String deleteTicketsQuery = String.format("DELETE FROM tickets WHERE fk_flight_id = %d;", flight_id);
             String deleteTicketsQuery = String.format("DELETE FROM tickets  WHERE fk_flight_id = %d;", flight_id);
             String deleteFlightQuery = String.format("DELETE FROM flights  WHERE flight_id = %d;", flight_id);
             statement=conn.createStatement();
             statement.executeUpdate(deleteTicketsQuery);
             statement.executeUpdate(deleteFlightQuery);
-            //statement.executeUpdate(deleteTicketsQuery);
         }catch (Exception e){
-            System.out.println(e);
-        }
-    }
-    public static void editFlight(int flightID, String flightName, LocalDateTime departureTime, LocalDateTime arrivalTime, int departureCountryId, int arrivalCountryId, int planeId, int price) {
-        DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
-        Statement statement;
-        try {
-            String editFlightQuery = String.format("UPDATE flights SET flightname = '%s', departuredate = '%s', arrivaldate = '%s', departurecountry_id = %d, arrivalcountry_id = %d, price = %d, fk_plane_id = %d " +
-                    "WHERE flight_id = %d;", flightName, departureTime.format(format), arrivalTime.format(format), departureCountryId, arrivalCountryId, price, planeId, flightID);
-            statement = conn.createStatement();
-            statement.executeUpdate(editFlightQuery);
-        } catch (Exception e) {
             System.out.println(e);
         }
     }
@@ -369,6 +380,7 @@ public class Model {
 
         return filteredFlights;
     }
+
     public static String[][] getAllFlights() {
         Statement statement;
         String getAllFlightQuery = "SELECT flights.flight_id, flights.flightname, flights.departuredate, flights.arrivaldate, c1.countryname, c2.countryname, flights.price, pl.planeModel\n" +

@@ -14,7 +14,7 @@ public class FlightsPage {
     private JButton anotherPageButton;
     private JButton flightsButton;
     private JScrollPane scrollPane;
-    private JTextField здесьМожноДаблкликомНаTextField;
+    private JButton addFlightButton;
 
     public static void setTableRenderer(JTable table, DefaultTableCellRenderer renderer)
     {
@@ -71,6 +71,8 @@ public class FlightsPage {
         homePageButton.addActionListener(Controller.navigateHome());
         anotherPageButton.addActionListener(Controller.navigateAnother());
         flightsButton.addActionListener(Controller.navigateFlights());
+        addFlightButton.addActionListener(Controller.navigateFlightAdd());
+
         table.addMouseListener(Controller.tableMouseClick(table));
 
         refreshTable();
@@ -78,5 +80,9 @@ public class FlightsPage {
 
     public JPanel getContent() {
         return content;
+    }
+
+    public void setAdminStatus(boolean isAdmin) {
+        addFlightButton.setVisible(isAdmin);
     }
 }

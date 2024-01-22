@@ -26,38 +26,29 @@ public class FlightEdit {
     private JComboBox<String> arrCountry;
     private JComboBox<String> plane;
 
-    private String[] data;
-    private String[] countries;
-    private String[] planes;
-
     public JPanel getContent() {
         return content;
     }
 
     public void setData(String[] data) {
-        this.data = data;
-
         flightId.setText(data[0]);
         flightName.setText(data[1]);
         depDate.setText(data[2]);
         arrDate.setText(data[3]);
-        depCountry.setModel(new DefaultComboBoxModel<String>(countries));
+        depCountry.setModel(new DefaultComboBoxModel<String>(Controller.countries));
         depCountry.setSelectedItem(data[4]);
-        arrCountry.setModel(new DefaultComboBoxModel<String>(countries));
+        arrCountry.setModel(new DefaultComboBoxModel<String>(Controller.countries));
         arrCountry.setSelectedItem(data[5]);
 
         price.setText(data[6]);
 
-        plane.setModel(new DefaultComboBoxModel<String>(planes));
+        plane.setModel(new DefaultComboBoxModel<String>(Controller.planes));
         plane.setSelectedItem(data[7]);
 
         //System.out.println(Arrays.toString(data));
     }
 
     public FlightEdit() {
-        countries = Model.getAllCountries();
-        planes = Model.getAllPlaneNames();
-
         mainPanel.addMouseListener(Controller.backMouseButton());
         topPanel.addMouseListener(Controller.backMouseButton());
         bottomPanel.addMouseListener(Controller.backMouseButton());
@@ -80,12 +71,12 @@ public class FlightEdit {
                     String name = flightName.getText();
                     LocalDateTime departureTime = LocalDateTime.parse(depDate.getText().replace(' ', 'T'));
                     LocalDateTime arrivalTime = LocalDateTime.parse(arrDate.getText().replace(' ', 'T'));
-                    int departureCountryId = depCountry.getSelectedIndex();
-                    int arrivalCountryId = arrCountry.getSelectedIndex();
-                    int planeId = plane.getSelectedIndex();
+                    String departureCountry = depCountry.getSelectedItem().toString();
+                    String arrivalCountry = arrCountry.getSelectedItem().toString();
+                    String planeName = plane.getSelectedItem().toString();
                     int flightPrice = Integer.parseInt(price.getText());
 
-                    Model.editFlight(id, name, departureTime, arrivalTime, departureCountryId, arrivalCountryId, planeId, flightPrice);
+                    Model.editFlight(id, name, departureTime, arrivalTime, departureCountry, arrivalCountry, planeName, flightPrice);
                     showMessageDialog(null, "Flight edited", "Success", JOptionPane.INFORMATION_MESSAGE);
                     View.refreshFlightsPage();
                     View.goToFlightInfo(new String[]{flightId.getText(), flightName.getText(), depDate.getText(), arrDate.getText(),

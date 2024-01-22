@@ -27,13 +27,11 @@ CREATE TABLE IF NOT EXISTS planes
     planeModel varchar not NULL,
     rowsNumber integer not NULL,
     columnsNumber integer not NULL,
-    layoutType varchar not NULL
+
 );
-INSERT INTO planes(planeModel, rowsNumber, columnsNumber, layoutType) VALUES ('A-320',30, 6, 0);
-INSERT INTO planes(planeModel, rowsNumber, columnsNumber, layoutType) VALUES ('A-321',30, 6, 0);
-INSERT INTO planes(planeModel, rowsNumber, columnsNumber, layoutType) VALUES ('Boeing737-800',30, 6, 0);
-INSERT INTO planes(planeModel, rowsNumber, columnsNumber, layoutType) VALUES ('A-322',30, 6, 0);
-INSERT INTO planes(planeModel, rowsNumber, columnsNumber, layoutType) VALUES ('Boeing777-200',44, 8, 0);
+INSERT INTO planes(planeModel, rowsNumber, columnsNumber) VALUES ('A-320',30, 6);
+INSERT INTO planes(planeModel, rowsNumber, columnsNumber) VALUES ('Boeing777-200',44, 8);
+
 
 CREATE TABLE IF NOT EXISTS users
 (
@@ -65,22 +63,22 @@ CREATE TABLE IF NOT EXISTS flights
     );
 INSERT INTO flights(flightname, departureDate, arrivalDate, departureCountry_ID, arrivalCountry_ID, price, fk_plane_ID) VALUES ('AZ-428','10-02-2024 09:30:00', '10-02-2024 11:45:00', 4, 1, 800, 1);
 INSERT INTO flights(flightname, departureDate, arrivalDate, departureCountry_ID, arrivalCountry_ID, price, fk_plane_ID) VALUES ('AZ-429','11-02-2023 13:30:00', '11-02-2024 18:00:00', 1, 4, 900, 1);
-INSERT INTO flights(flightname, departureDate, arrivalDate, departureCountry_ID, arrivalCountry_ID, price, fk_plane_ID) VALUES ('AZ-433','15-02-2024 06:00:00', '15-02-2024 17:00:00', 4, 2, 3000, 5);
-INSERT INTO flights(flightname, departureDate, arrivalDate, departureCountry_ID, arrivalCountry_ID, price, fk_plane_ID) VALUES ('AZ-434','15-02-2024 20:00:00', '16-02-2024 07:00:00', 2, 4, 2999, 5);
-INSERT INTO flights(flightname, departureDate, arrivalDate, departureCountry_ID, arrivalCountry_ID, price, fk_plane_ID) VALUES ('AZ-467','17-02-2024 12:45:00', '17-02-2024 18:00:00', 4, 3, 600, 2);
-INSERT INTO flights(flightname, departureDate, arrivalDate, departureCountry_ID, arrivalCountry_ID, price, fk_plane_ID) VALUES ('AZ-468','17-02-2024 21:50:00', '18-02-2024 02:30:00', 3, 4, 600, 2);
-INSERT INTO flights(flightname, departureDate, arrivalDate, departureCountry_ID, arrivalCountry_ID, price, fk_plane_ID) VALUES ('AZ-473','20-02-2024 11:00:00', '20-02-2024 14:35:00' , 4, 5, 700, 3);
-INSERT INTO flights(flightname, departureDate, arrivalDate, departureCountry_ID, arrivalCountry_ID, price, fk_plane_ID) VALUES ('AZ-474','21-02-2024 17:20:00', '21-02-2024 21:00:00', 5, 4, 699, 3);
-INSERT INTO flights(flightname, departureDate, arrivalDate, departureCountry_ID, arrivalCountry_ID, price, fk_plane_ID) VALUES ('AZ-481','22-02-2024 10:40:00', '22-02-2024 15:00:00', 4, 6, 700, 3);
-INSERT INTO flights(flightname, departureDate, arrivalDate, departureCountry_ID, arrivalCountry_ID, price, fk_plane_ID) VALUES ('AZ-482','23-02-2024 17:35:00', '23-02-2024 22:15:00', 6, 4, 700, 3);
+INSERT INTO flights(flightname, departureDate, arrivalDate, departureCountry_ID, arrivalCountry_ID, price, fk_plane_ID) VALUES ('AZ-433','15-02-2024 06:00:00', '15-02-2024 17:00:00', 4, 2, 3000, 2);
+INSERT INTO flights(flightname, departureDate, arrivalDate, departureCountry_ID, arrivalCountry_ID, price, fk_plane_ID) VALUES ('AZ-434','15-02-2024 20:00:00', '16-02-2024 07:00:00', 2, 4, 2999, 2);
+INSERT INTO flights(flightname, departureDate, arrivalDate, departureCountry_ID, arrivalCountry_ID, price, fk_plane_ID) VALUES ('AZ-467','17-02-2024 12:45:00', '17-02-2024 18:00:00', 4, 3, 600, 1);
+INSERT INTO flights(flightname, departureDate, arrivalDate, departureCountry_ID, arrivalCountry_ID, price, fk_plane_ID) VALUES ('AZ-468','17-02-2024 21:50:00', '18-02-2024 02:30:00', 3, 4, 600, 1);
+INSERT INTO flights(flightname, departureDate, arrivalDate, departureCountry_ID, arrivalCountry_ID, price, fk_plane_ID) VALUES ('AZ-473','20-02-2024 11:00:00', '20-02-2024 14:35:00' , 4, 5, 700, 1);
+INSERT INTO flights(flightname, departureDate, arrivalDate, departureCountry_ID, arrivalCountry_ID, price, fk_plane_ID) VALUES ('AZ-474','21-02-2024 17:20:00', '21-02-2024 21:00:00', 5, 4, 699, 1);
+INSERT INTO flights(flightname, departureDate, arrivalDate, departureCountry_ID, arrivalCountry_ID, price, fk_plane_ID) VALUES ('AZ-481','22-02-2024 10:40:00', '22-02-2024 15:00:00', 4, 6, 700, 1);
+INSERT INTO flights(flightname, departureDate, arrivalDate, departureCountry_ID, arrivalCountry_ID, price, fk_plane_ID) VALUES ('AZ-482','23-02-2024 17:35:00', '23-02-2024 22:15:00', 6, 4, 700, 1);
 INSERT INTO flights(flightname, departureDate, arrivalDate, departureCountry_ID, arrivalCountry_ID, price, fk_plane_ID) VALUES ('AZ-491','27-02-2024 05:45:00', '27-02-2024 11:20:00', 4, 7, 600, 1);
 INSERT INTO flights(flightname, departureDate, arrivalDate, departureCountry_ID, arrivalCountry_ID, price, fk_plane_ID) VALUES ('AZ-492','28-02-2024 13:15:00', '28-02-2024 19:00:00', 7, 4, 600, 1);
-INSERT INTO flights(flightname, departureDate, arrivalDate, departureCountry_ID, arrivalCountry_ID, price, fk_plane_ID) VALUES ('AZ-401','01-03-2024 21:45:00', '02-03-2024 01:20:00', 4, 8, 650, 4);
-INSERT INTO flights(flightname, departureDate, arrivalDate, departureCountry_ID, arrivalCountry_ID, price, fk_plane_ID) VALUES ('AZ-402','02-03-2024 04:30:00', '02-03-2024 08:45:00', 8, 4, 650, 4);
-INSERT INTO flights(flightname, departureDate, arrivalDate, departureCountry_ID, arrivalCountry_ID, price, fk_plane_ID) VALUES ('AZ-407','05-03-2024 01:00:00', '05-03-2024 06:30:00', 4, 9, 830, 2);
-INSERT INTO flights(flightname, departureDate, arrivalDate, departureCountry_ID, arrivalCountry_ID, price, fk_plane_ID) VALUES ('AZ-408','06-03-2024 17:35:00', '06-03-2024 21:50:00', 9, 4, 830, 2);
-INSERT INTO flights(flightname, departureDate, arrivalDate, departureCountry_ID, arrivalCountry_ID, price, fk_plane_ID) VALUES ('AZ-411','09-03-2024 14:25:00', '09-03-2024 17:05:00', 4, 10, 1200, 2);
-INSERT INTO flights(flightname, departureDate, arrivalDate, departureCountry_ID, arrivalCountry_ID, price, fk_plane_ID) VALUES ('AZ-412','10-03-2024 19:10:00', '10-03-2024 22:00:00',10, 4, 999, 2);
+INSERT INTO flights(flightname, departureDate, arrivalDate, departureCountry_ID, arrivalCountry_ID, price, fk_plane_ID) VALUES ('AZ-401','01-03-2024 21:45:00', '02-03-2024 01:20:00', 4, 8, 650, 1);
+INSERT INTO flights(flightname, departureDate, arrivalDate, departureCountry_ID, arrivalCountry_ID, price, fk_plane_ID) VALUES ('AZ-402','02-03-2024 04:30:00', '02-03-2024 08:45:00', 8, 4, 650, 1);
+INSERT INTO flights(flightname, departureDate, arrivalDate, departureCountry_ID, arrivalCountry_ID, price, fk_plane_ID) VALUES ('AZ-407','05-03-2024 01:00:00', '05-03-2024 06:30:00', 4, 9, 830, 1);
+INSERT INTO flights(flightname, departureDate, arrivalDate, departureCountry_ID, arrivalCountry_ID, price, fk_plane_ID) VALUES ('AZ-408','06-03-2024 17:35:00', '06-03-2024 21:50:00', 9, 4, 830, 1);
+INSERT INTO flights(flightname, departureDate, arrivalDate, departureCountry_ID, arrivalCountry_ID, price, fk_plane_ID) VALUES ('AZ-411','09-03-2024 14:25:00', '09-03-2024 17:05:00', 4, 10, 1200, 1);
+INSERT INTO flights(flightname, departureDate, arrivalDate, departureCountry_ID, arrivalCountry_ID, price, fk_plane_ID) VALUES ('AZ-412','10-03-2024 19:10:00', '10-03-2024 22:00:00',10, 4, 999, 1);
 
 
 CREATE TABLE IF NOT EXISTS tickets

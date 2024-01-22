@@ -260,7 +260,11 @@ public class Model {
         return set.getInt("plane_id");
     }
 
-    public static void addFlight(String flightName, LocalDateTime departureTime, LocalDateTime arrivalTime, String departureCountryName, String arrivalCountryName, String planeModel, int price) throws SQLException {
+    public static void addFlight(String flightName, LocalDateTime departureTime, LocalDateTime arrivalTime, String departureCountryName, String arrivalCountryName, String planeModel, int price) throws Exception {
+        LocalDateTime check = LocalDateTime.now();
+        if (departureTime.isBefore(check) || arrivalTime.isBefore(check)) {
+            throw new Exception("Date is not valid!");
+        }
         DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         Statement statement;
         statement = conn.createStatement();

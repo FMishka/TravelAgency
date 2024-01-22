@@ -20,6 +20,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 public class Model {
     private static DbFunctions db;
@@ -260,11 +261,19 @@ public class Model {
         return set.getInt("plane_id");
     }
 
+    public static boolean checkingFlightNameDuplicates(String flightName) throws SQLException {
+        Statement statement;
+        statement = conn.createStatement();
+        String checkingDuplicates = String.format("SELECT COUNT(*) FROM flights WHERE flightname = '%s';", flightName);
+        ResultSet set = statement.executeQuery(checkingDuplicates);
+        set.next();
+        return set.getInt("count") > 0;
+    }
+
     public static void addFlight(String flightName, LocalDateTime departureTime, LocalDateTime arrivalTime, String departureCountryName, String arrivalCountryName, String planeModel, int price) throws Exception {
         LocalDateTime check = LocalDateTime.now();
-        if (departureTime.isBefore(check) || arrivalTime.isBefore(check)) {
-            throw new Exception("Date is not valid!");
-        }
+        if (departureTime.isBefore(check) || arrivalTime.isBefore(check)) throw new Exception("Date is not valid!");
+        if (checkingFlightNameDuplicates(flightName)) throw new Exception("Flight name is duplicated!");
         DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         Statement statement;
         statement = conn.createStatement();

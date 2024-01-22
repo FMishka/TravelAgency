@@ -19,12 +19,15 @@ import static backend.Model.deleteFlight;
 import static backend.Model.editFlight;
 
 public class Main {
-    public static void main(String[] args) throws SQLException {
+    public static void main(String[] args) throws Exception {
 
         Model.initConnection();
-
+        LocalDateTime l = LocalDateTime.now();
+        LocalDateTime a = l.plusDays(4);
         Model model = new Model();
-        Model.printSortedFlights("ticketsDown");
+        System.out.println(Model.checkingFlightNameDuplicates("AZ-428"));
+        //Model.addFlight("A312", a, a, "Russia", "Israel", "A-320", 123);
+        //Model.printSortedFlights("ticketsDown");
 
     }
 }

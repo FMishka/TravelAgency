@@ -107,6 +107,15 @@ public abstract class Controller {
         };
     }
 
+    public static ActionListener navigatePlaneLayout(FlightInfo flightInfo) {
+        return new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                View.goToPlaneLayout(flightInfo.curFlightId);
+            }
+        };
+    }
+
     public static ActionListener logout() {
         return new ActionListener() {
             @Override
@@ -169,6 +178,23 @@ public abstract class Controller {
                     Model.deleteFlight(flightInfo.curFlightId);
                     View.refreshFlightsPage();
                     View.goToFlightsPage();
+                }
+            }
+        };
+    }
+
+    public static ActionListener selectSeats(PlaneLayout planeLayout) {
+        return new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                for(Component component : planeLayout.buttonPanel.getComponents()) {
+                    Button button = null;
+                    if(component instanceof Button) {
+                        button = (Button) component;
+
+                        if (button.getBackground() == Color.green)
+                            System.out.println(button.getLabel());
+                    }
                 }
             }
         };

@@ -14,6 +14,7 @@ public abstract class View {
     static final FlightInfo flightInfo = new FlightInfo();
     static final FlightEdit flightEdit = new FlightEdit();
     static final FlightAdd flightAdd = new FlightAdd();
+    static final PlaneLayout planeLayout = new PlaneLayout();
 
     static final int screenWidth = Toolkit.getDefaultToolkit().getScreenSize().width;
     static final int screenHeight = Toolkit.getDefaultToolkit().getScreenSize().height;
@@ -77,9 +78,15 @@ public abstract class View {
         mainFrame.revalidate();
     }
 
+    public static void goToPlaneLayout(int flightId) {
+        setSize(600, 700);
+        planeLayout.refresh(flightId);
+        mainFrame.setContentPane(planeLayout.getContent());
+        mainFrame.revalidate();
+    }
+
     public static void init() {
         mainFrame = new JFrame("Travel Agency");
-        //mainFrame.setContentPane(homePage.getContent());
         mainFrame.setContentPane(authForm.getContent());
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainFrame.pack();

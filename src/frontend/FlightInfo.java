@@ -71,6 +71,7 @@ public class FlightInfo {
 
         edit.addActionListener(Controller.navigateFlightEdit(this));
         delete.addActionListener(Controller.deleteButton(this));
+        buy.addActionListener(Controller.navigatePlaneLayout(this));
     }
 
     public void setAdminStatus(boolean isAdmin) {

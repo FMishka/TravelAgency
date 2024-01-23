@@ -234,11 +234,17 @@ public class Model {
     public static boolean isBirthdayCorrect(LocalDateTime passengerBirthDate) throws Exception {
         LocalDateTime now = LocalDateTime.now();
         if (passengerBirthDate.isAfter(now)){
-            throw new Exception("Birthday is not correct!");
+            throw new Exception("Birthday entered incorrectly!");
         }
         return true;
     }
-    public static boolean orderingTicket(int flyightId, int userId, int seatRow, int seatColumn, boolean isPayed, String passengerFirstName, String passengerSecondName, LocalDateTime passengerBirthDate, char passengerSex) throws Exception {
+    public static boolean isPassportCorrect(int passengerPassport) throws Exception {
+        if (Integer.toString(passengerPassport).length() == 8){
+            return true;
+        }
+        throw new Exception("Passport entered incorrectly!");
+    }
+    public static boolean orderingTicket(int flyightId, int userId, int seatRow, int seatColumn, boolean isPayed, String passengerFirstName, String passengerSecondName, LocalDateTime passengerBirthDate, char passengerSex, int passengerPassport) throws Exception {
         String[] valuesTickets = new String[]{
                 Integer.toString(flyightId),
                 Integer.toString(userId),
@@ -248,15 +254,21 @@ public class Model {
                 "'" + passengerFirstName + "'",
                 "'" + passengerSecondName + "'",
                 "'" + passengerBirthDate.getDayOfMonth() + "-" + passengerBirthDate.getMonthValue() + "-" + passengerBirthDate.getYear() + "'",
-                "'" + passengerSex + "'"
+                "'" + passengerSex + "'",
+                Integer.toString(passengerPassport)
         };
         Statement statement;
 
-        if (isSeatFree(flyightId, seatRow, seatColumn) && isFlightNotGone(flyightId) && isNameCorrect(passengerFirstName) && isNameCorrect(passengerSecondName) && isBirthdayCorrect(passengerBirthDate)) {
+        if (isSeatFree(flyightId, seatRow, seatColumn) && isFlightNotGone(flyightId) && isNameCorrect(passengerFirstName) && isNameCorrect(passengerSecondName) && isBirthdayCorrect(passengerBirthDate) && isPassportCorrect(passengerPassport)) {
             db.insertRow(conn, "tickets", valuesTickets);
             return true;
         }
         return false;
+    }
+
+    public static int priceCalculation(int ammount, int price) {
+        if (isAdmin) price = (int)(price * 0.8);
+        return ammount * price;
     }
 
     public static int searchingCountryId(String countryName) throws SQLException {

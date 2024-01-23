@@ -15,8 +15,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.Locale;
 
-import static backend.Model.deleteFlight;
-import static backend.Model.editFlight;
+import static backend.Model.*;
 
 public class Main {
     public static void main(String[] args) throws Exception {
@@ -25,8 +24,10 @@ public class Main {
         LocalDateTime l = LocalDateTime.now();
         LocalDateTime a = l.plusDays(4);
         Model model = new Model();
-        System.out.println(Model.checkingFlightNameDuplicates("AZ-428"));
-        //Model.addFlight("A312", a, a, "Russia", "Israel", "A-320", 123);
+        //System.out.println(Model.checkingFlightNameDuplicates("AZ-428"));
+        //System.out.println(searchingFlightName(1));
+        //Model.addFlight("AZ-438", a, a, "Moscow (SVO)", "Tel Aviv (TLV)", "A-320", 123);
+        Model.editFlight(1, "AZ-445", a, a, "Moscow (SVO)", "Tel Aviv (TLV)", "A-320", 123);
         //Model.printSortedFlights("ticketsDown");
 
     }

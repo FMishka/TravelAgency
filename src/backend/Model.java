@@ -261,19 +261,27 @@ public class Model {
         return set.getInt("plane_id");
     }
 
-    public static boolean checkingFlightNameDuplicates(String flightName) throws SQLException {
+    public static int checkingFlightNameDuplicates(String flightName) throws SQLException {
         Statement statement;
         statement = conn.createStatement();
         String checkingDuplicates = String.format("SELECT COUNT(*) FROM flights WHERE flightname = '%s';", flightName);
         ResultSet set = statement.executeQuery(checkingDuplicates);
         set.next();
-        return set.getInt("count") > 0;
+        return set.getInt("count");
     }
 
+    public static String searchingFlightName (int flightID) throws SQLException {
+        Statement statement;
+        statement = conn.createStatement();
+        String searchingPlaneId = String.format("SELECT flightname FROM flights WHERE flight_id = %d;", flightID);
+        ResultSet set = statement.executeQuery(searchingPlaneId);
+        set.next();
+        return set.getString("flightname");
+    }
     public static void addFlight(String flightName, LocalDateTime departureTime, LocalDateTime arrivalTime, String departureCountryName, String arrivalCountryName, String planeModel, int price) throws Exception {
         LocalDateTime check = LocalDateTime.now();
+        if (checkingFlightNameDuplicates(flightName) > 0) throw new Exception("Flight name is duplicated!");
         if (departureTime.isBefore(check) || arrivalTime.isBefore(check)) throw new Exception("Date is not valid!");
-        if (checkingFlightNameDuplicates(flightName)) throw new Exception("Flight name is duplicated!");
         DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         Statement statement;
         statement = conn.createStatement();
@@ -282,7 +290,10 @@ public class Model {
         statement.execute(addFlightQuery);
     }
 
-    public static void editFlight(int flightID, String flightName, LocalDateTime departureTime, LocalDateTime arrivalTime, String departureCountryName, String arrivalCountryName, String planeModel, int price) throws SQLException {
+    public static void editFlight(int flightID, String flightName, LocalDateTime departureTime, LocalDateTime arrivalTime, String departureCountryName, String arrivalCountryName, String planeModel, int price) throws Exception {
+        LocalDateTime check = LocalDateTime.now();
+        if (!flightName.equals(searchingFlightName(flightID)) && checkingFlightNameDuplicates(flightName) > 0) throw new Exception("Flight name is duplicated!");
+        if (departureTime.isBefore(check) || arrivalTime.isBefore(check)) throw new Exception("Date is not valid!");
         DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
         Statement statement;
         String editFlightQuery = String.format("UPDATE flights SET flightname = '%s', departuredate = '%s', arrivaldate = '%s', departurecountry_id = %d, arrivalcountry_id = %d, price = %d, fk_plane_id = %d " +

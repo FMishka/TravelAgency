@@ -10,16 +10,16 @@ CREATE TABLE IF NOT EXISTS countries
     country_ID serial PRIMARY KEY,
     countryName varchar not NULL
 );
-INSERT INTO countries(countryname) VALUES ('Russia');
-INSERT INTO countries(countryname) VALUES ('USA');
-INSERT INTO countries(countryname) VALUES ('France');
-INSERT INTO countries(countryname) VALUES ('Israel');
-INSERT INTO countries(countryname) VALUES ('Italy');
-INSERT INTO countries(countryname) VALUES ('Germany');
-INSERT INTO countries(countryname) VALUES ('Great Britain');
-INSERT INTO countries(countryname) VALUES ('Switzerland');
-INSERT INTO countries(countryname) VALUES ('Spain');
-INSERT INTO countries(countryname) VALUES ('Hungary');
+INSERT INTO countries(countryname) VALUES ('Moscow (SVO)');
+INSERT INTO countries(countryname) VALUES ('New York (JFK)');
+INSERT INTO countries(countryname) VALUES ('Paris (CDG)');
+INSERT INTO countries(countryname) VALUES ('Tel Aviv (TLV)');
+INSERT INTO countries(countryname) VALUES ('Milan (MXP)');
+INSERT INTO countries(countryname) VALUES ('Berlin (BER)');
+INSERT INTO countries(countryname) VALUES ('London (LHR)');
+INSERT INTO countries(countryname) VALUES ('Zurich (ZRH)');
+INSERT INTO countries(countryname) VALUES ('Madrid (MAD)');
+INSERT INTO countries(countryname) VALUES ('Budapest (BUD)');
 
 CREATE TABLE IF NOT EXISTS planes
 (
@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS planes
 );
 
 INSERT INTO planes(planeModel, rowsNumber, columnsNumber) VALUES ('A-320',30, 6);
-INSERT INTO planes(planeModel, rowsNumber, columnsNumber) VALUES ('Boeing777-200',44, 8);
+INSERT INTO planes(planeModel, rowsNumber, columnsNumber) VALUES ('Sukhoi Superjet 100',20, 5);
 
 
 CREATE TABLE IF NOT EXISTS users
@@ -61,10 +61,10 @@ CREATE TABLE IF NOT EXISTS flights
     price integer not NULL,
     fk_plane_ID integer REFERENCES planes (plane_ID) not NULL
     );
-INSERT INTO flights(flightname, departureDate, arrivalDate, departureCountry_ID, arrivalCountry_ID, price, fk_plane_ID) VALUES ('AZ-428','10-02-2024 09:30:00', '10-02-2024 11:45:00', 4, 1, 800, 1);
-INSERT INTO flights(flightname, departureDate, arrivalDate, departureCountry_ID, arrivalCountry_ID, price, fk_plane_ID) VALUES ('AZ-429','11-02-2023 13:30:00', '11-02-2024 18:00:00', 1, 4, 900, 1);
-INSERT INTO flights(flightname, departureDate, arrivalDate, departureCountry_ID, arrivalCountry_ID, price, fk_plane_ID) VALUES ('AZ-433','15-02-2024 06:00:00', '15-02-2024 17:00:00', 4, 2, 3000, 2);
-INSERT INTO flights(flightname, departureDate, arrivalDate, departureCountry_ID, arrivalCountry_ID, price, fk_plane_ID) VALUES ('AZ-434','15-02-2024 20:00:00', '16-02-2024 07:00:00', 2, 4, 2999, 2);
+INSERT INTO flights(flightname, departureDate, arrivalDate, departureCountry_ID, arrivalCountry_ID, price, fk_plane_ID) VALUES ('AZ-428','10-02-2024 09:30:00', '10-02-2024 11:45:00', 4, 1, 800, 2);
+INSERT INTO flights(flightname, departureDate, arrivalDate, departureCountry_ID, arrivalCountry_ID, price, fk_plane_ID) VALUES ('AZ-429','11-02-2023 13:30:00', '11-02-2024 18:00:00', 1, 4, 900, 2);
+INSERT INTO flights(flightname, departureDate, arrivalDate, departureCountry_ID, arrivalCountry_ID, price, fk_plane_ID) VALUES ('AZ-433','15-02-2024 06:00:00', '15-02-2024 17:00:00', 4, 2, 3000, 1);
+INSERT INTO flights(flightname, departureDate, arrivalDate, departureCountry_ID, arrivalCountry_ID, price, fk_plane_ID) VALUES ('AZ-434','15-02-2024 20:00:00', '16-02-2024 07:00:00', 2, 4, 2999, 1);
 INSERT INTO flights(flightname, departureDate, arrivalDate, departureCountry_ID, arrivalCountry_ID, price, fk_plane_ID) VALUES ('AZ-467','17-02-2024 12:45:00', '17-02-2024 18:00:00', 4, 3, 600, 1);
 INSERT INTO flights(flightname, departureDate, arrivalDate, departureCountry_ID, arrivalCountry_ID, price, fk_plane_ID) VALUES ('AZ-468','17-02-2024 21:50:00', '18-02-2024 02:30:00', 3, 4, 600, 1);
 INSERT INTO flights(flightname, departureDate, arrivalDate, departureCountry_ID, arrivalCountry_ID, price, fk_plane_ID) VALUES ('AZ-473','20-02-2024 11:00:00', '20-02-2024 14:35:00' , 4, 5, 700, 1);

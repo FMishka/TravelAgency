@@ -243,6 +243,11 @@ public class Model {
         return false;
     }
 
+    public static int priceCalculation(int ammount, int price) {
+        if (isAdmin) price = (int)(price * 0.8);
+        return ammount * price;
+    }
+
     public static int searchingCountryId(String countryName) throws SQLException {
         Statement statement;
         statement = conn.createStatement();

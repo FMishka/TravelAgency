@@ -6,6 +6,7 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import static frontend.Utility.setPlaceholder;
 import static javax.swing.JOptionPane.showMessageDialog;
@@ -44,6 +45,9 @@ public class FlightAdd {
         arrCountry.setModel(new DefaultComboBoxModel<String>(Controller.countries));
         plane.setModel(new DefaultComboBoxModel<String>(Controller.planes));
 
+        depDate.setInputVerifier(new DateTimeInputVerifier());
+        arrDate.setInputVerifier(new DateTimeInputVerifier());
+
         reset();
 
         confirm.addActionListener(new ActionListener() {
@@ -51,8 +55,8 @@ public class FlightAdd {
             public void actionPerformed(ActionEvent e) {
                 try {
                     String name = flightName.getText();
-                    LocalDateTime departureTime = LocalDateTime.parse(depDate.getText().replace(' ', 'T'));
-                    LocalDateTime arrivalTime = LocalDateTime.parse(arrDate.getText().replace(' ', 'T'));
+                    LocalDateTime departureTime = LocalDateTime.parse(depDate.getText(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+                    LocalDateTime arrivalTime = LocalDateTime.parse(arrDate.getText(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
                     String departureCountry = depCountry.getSelectedItem().toString();
                     String arrivalCountry = arrCountry.getSelectedItem().toString();
                     String planeName = plane.getSelectedItem().toString();

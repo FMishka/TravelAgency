@@ -27,7 +27,7 @@ public class PlaneLayout {
 
         for(int i = 0; i < data.length; i++) {
             for(int j = 0; j < data[0].length; j++) {
-                Button button = new Button(i + " " + (char)('A' + j));
+                Button button = new Button((i + 1) + " " + (char)('A' + j));
                 button.setPreferredSize(new Dimension(20, 10));
                 button.setFocusable(false);
 

@@ -38,17 +38,16 @@ CREATE TABLE IF NOT EXISTS users
     user_ID serial PRIMARY KEY,
     login varchar not NULL,
     userpassword varchar not NULL,
-    isAdmin boolean not NULL,
-    passport integer not NULL
+    isAdmin boolean not NULL
 );
 
-INSERT INTO users(login, userpassword, isAdmin, passport) VALUES ('admin','', TRUE, 0);
-INSERT INTO users(login, userpassword, isAdmin, passport) VALUES ('Eduard',12345, TRUE, 0000000);
-INSERT INTO users(login, userpassword, isAdmin, passport) VALUES ('Shimon','j1krd7', FALSE, 74596770);
-INSERT INTO users(login, userpassword, isAdmin, passport) VALUES ('Andrey','9ztnga', FALSE, 28091427);
-INSERT INTO users(login, userpassword, isAdmin, passport) VALUES ('Bicalel','bao5lx', FALSE, 38822156);
-INSERT INTO users(login, userpassword, isAdmin, passport) VALUES ('Avigail','vp9m0i', FALSE, 9473938);
-INSERT INTO users(login, userpassword, isAdmin, passport) VALUES ('David','9g3ai0', FALSE, 16864321);
+INSERT INTO users(login, userpassword, isAdmin) VALUES ('admin','', TRUE);
+INSERT INTO users(login, userpassword, isAdmin) VALUES ('Eduard',12345, TRUE);
+INSERT INTO users(login, userpassword, isAdmin) VALUES ('Shimon','j1krd7', FALSE);
+INSERT INTO users(login, userpassword, isAdmin) VALUES ('Andrey','9ztnga', FALSE);
+INSERT INTO users(login, userpassword, isAdmin) VALUES ('Bicalel','bao5lx', FALSE);
+INSERT INTO users(login, userpassword, isAdmin) VALUES ('Avigail','vp9m0i', FALSE);
+INSERT INTO users(login, userpassword, isAdmin) VALUES ('David','9g3ai0', FALSE);
 
 CREATE TABLE IF NOT EXISTS flights
 (
@@ -92,20 +91,21 @@ CREATE TABLE IF NOT EXISTS tickets
     passengerSecondName varchar not NULL,
     passengerBirthDate date not NULL,
     passengerSex varchar not NULL,
+    passengerPassport integer not NULL,
     PRIMARY KEY (fk_flight_ID, fk_user_ID),
     CONSTRAINT ticketToFlight FOREIGN KEY (fk_flight_ID)  REFERENCES flights (flight_ID) ON DELETE CASCADE
     );
-INSERT INTO tickets VALUES (1,  2, 10, 1, TRUE, 'Shimon', 'Roitman', '11-01-2002', 'M');
-INSERT INTO tickets VALUES (2,  2, 8, 2, TRUE, 'Shimon', 'Roitman', '11-01-2002', 'M');
-INSERT INTO tickets VALUES (1,  3, 7, 6, TRUE, 'Andrey', 'Savvteev', '06-09-2000', 'M');
-INSERT INTO tickets VALUES (4,  3, 15, 4, TRUE, 'Andrey', 'Savvteev', '06-09-2000', 'M');
-INSERT INTO tickets VALUES (5,  3, 20, 2, TRUE, 'Andrey', 'Savvteev', '06-09-2000', 'M');
-INSERT INTO tickets VALUES (6,  3, 20, 2, TRUE, 'Andrey', 'Savvteev', '06-09-2000', 'M');
-INSERT INTO tickets VALUES (1,  4, 9, 5, TRUE, 'Bizalel', 'Basin', '08-03-2001', 'M');
-INSERT INTO tickets VALUES (8,  4, 6, 1, TRUE, 'Bizalel', 'Basin', '08-03-2001', 'M');
-INSERT INTO tickets VALUES (1,  5, 5, 3, TRUE, 'Avigail', 'Jacobson', '08-07-1999', 'F');
-INSERT INTO tickets VALUES (10, 5, 6, 6, TRUE, 'Avigail', 'Jacobson', '08-07-1999', 'F');
-INSERT INTO tickets VALUES (1,  6, 6, 6, FALSE, 'David', 'Mikhelson', '11-09-1990', 'M');
+INSERT INTO tickets VALUES (1,  2, 10, 1, TRUE, 'Shimon', 'Roitman', '11-01-2002', 'M', 34678912);
+INSERT INTO tickets VALUES (2,  2, 8, 2, TRUE, 'Shimon', 'Roitman', '11-01-2002', 'M', 34678912);
+INSERT INTO tickets VALUES (1,  3, 7, 6, TRUE, 'Andrey', 'Savvteev', '06-09-2000', 'M', 34666999);
+INSERT INTO tickets VALUES (4,  3, 15, 4, TRUE, 'Andrey', 'Savvteev', '06-09-2000', 'M', 34666999);
+INSERT INTO tickets VALUES (5,  3, 20, 2, TRUE, 'Andrey', 'Savvteev', '06-09-2000', 'M', 34666999);
+INSERT INTO tickets VALUES (6,  3, 20, 2, TRUE, 'Andrey', 'Savvteev', '06-09-2000', 'M', 34666999);
+INSERT INTO tickets VALUES (1,  4, 9, 5, TRUE, 'Bizalel', 'Basin', '08-03-2001', 'M', 34777777);
+INSERT INTO tickets VALUES (8,  4, 6, 1, TRUE, 'Bizalel', 'Basin', '08-03-2001', 'M', 34777777);
+INSERT INTO tickets VALUES (1,  5, 5, 3, TRUE, 'Avigail', 'Jacobson', '08-07-1999', 'F', 34234567);
+INSERT INTO tickets VALUES (10, 5, 6, 6, TRUE, 'Avigail', 'Jacobson', '08-07-1999', 'F', 34234567);
+INSERT INTO tickets VALUES (1,  6, 6, 6, FALSE, 'David', 'Mikhelson', '11-09-1990', 'M', 34456789);
 
 CREATE TABLE IF NOT EXISTS paymentData
 (

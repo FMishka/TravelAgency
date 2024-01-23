@@ -5,6 +5,8 @@ import backend.Model;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 import static javax.swing.JOptionPane.showMessageDialog;
@@ -15,6 +17,8 @@ public abstract class Controller {
 
     public static final String[] countries = Model.getAllCountries();
     public static final String[] planes = Model.getAllPlaneNames();
+
+    static int curFlightId;
 
 
     public static void authSubmit(AuthForm authForm) {
@@ -142,6 +146,7 @@ public abstract class Controller {
                         data[i] = table.getModel().getValueAt(row, i).toString();
                     }
 
+                    curFlightId = Integer.parseInt(data[0]);
                     View.goToFlightInfo(data);
                 }
             }
@@ -206,11 +211,26 @@ public abstract class Controller {
         };
     }
 
-    public static ActionListener nextTicket() {
+    public static ActionListener nextTicket(OrderTicket orderTicket) {
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                View.goToNextTicket();
+                try {
+                    Model.isFlightNotGone(curFlightId);
+                    Model.isNameCorrect(orderTicket.firstName.getText());
+                    Model.isNameCorrect(orderTicket.secondName.getText());
+                    Model.isBirthdayCorrect(LocalDate.parse(orderTicket.birthDate.getText(), DateTimeFormatter.ofPattern("yyyy-MM-dd")).atStartOfDay());
+
+                    try {
+                        Model.isPassportCorrect(Integer.parseInt(orderTicket.passport.getText()));
+                    } catch (Exception ex) {
+                        throw new Exception("Passport entered incorrectly!");
+                    }
+
+                    View.goToNextTicket();
+                } catch (Exception ex) {
+                    showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                }
             }
         };
     }

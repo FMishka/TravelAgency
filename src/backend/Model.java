@@ -197,7 +197,7 @@ public class Model {
         }
         throw new Exception("Seat is not free!");
     }
-    private static boolean isFlightNotGone(int flyightId) throws Exception {
+    public static boolean isFlightNotGone(int flyightId) throws Exception {
         String getDate = String.format("SELECT departureDate, flight_ID FROM flights WHERE flight_ID = %s", flyightId);
         Statement statement;
 
@@ -212,6 +212,8 @@ public class Model {
         throw new Exception("Flight is gone!");
     }
     public static boolean isNameCorrect(String name) throws Exception {
+        if(name.isEmpty()) throw new Exception("Name entered incorrectly!");
+
         char[] arraySymbols = name.toCharArray();
         boolean isNameCorrect = true;
         if (Character.isUpperCase(arraySymbols[0])){

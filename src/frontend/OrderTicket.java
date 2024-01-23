@@ -5,17 +5,17 @@ import javax.swing.*;
 public class OrderTicket {
     private JPanel mainPanel;
     private JTextField flightName;
-    private JTextField firstName;
-    private JTextField secondName;
-    private JTextField birthDate;
-    private JTextField passport;
+    JTextField firstName;
+    JTextField secondName;
+    JTextField birthDate;
+    JTextField passport;
     private JTextField seatName;
     private JPanel bottomPanel;
     private JPanel topPanel;
     private JButton back;
     private JPanel content;
-    private JRadioButton femaleRadioButton;
     private JRadioButton maleRadioButton;
+    private JRadioButton femaleRadioButton;
     private JButton forward;
     private JTextField ticketNumber;
 
@@ -28,7 +28,9 @@ public class OrderTicket {
         birthDate.setInputVerifier(new DateInputVerifier());
         birthDate.setText("2000-01-01");
 
-        forward.addActionListener(Controller.nextTicket());
+        maleRadioButton.setSelected(true);
+
+        forward.addActionListener(Controller.nextTicket(this));
         back.addActionListener(Controller.previousTicket());
     }
 

@@ -2,6 +2,7 @@ package frontend;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.Objects;
 
 public abstract class View {
@@ -15,6 +16,9 @@ public abstract class View {
     static final FlightEdit flightEdit = new FlightEdit();
     static final FlightAdd flightAdd = new FlightAdd();
     static final PlaneLayout planeLayout = new PlaneLayout();
+//    static final OrderTicket orderTicket = new OrderTicket();
+    static OrderTicket[] ticketsList;
+    static int curTicketIndex = 0;
 
     static final int screenWidth = Toolkit.getDefaultToolkit().getScreenSize().width;
     static final int screenHeight = Toolkit.getDefaultToolkit().getScreenSize().height;
@@ -82,6 +86,47 @@ public abstract class View {
         setSize(600, 700);
         planeLayout.refresh(flightId);
         mainFrame.setContentPane(planeLayout.getContent());
+        mainFrame.revalidate();
+    }
+
+    public static void goToOrderTicket(ArrayList<String> selectedSeats) {
+        curTicketIndex = 0;
+
+        setSize(600, 700);
+
+        String flightName = flightInfo.getFlightName();
+        int ticketsNum = selectedSeats.size();
+
+        ticketsList = new OrderTicket[ticketsNum];
+
+        for(int i = 0; i < ticketsNum; i++) {
+            ticketsList[i] = new OrderTicket(flightName, selectedSeats.get(i), i, ticketsNum);
+        }
+
+
+        mainFrame.setContentPane(ticketsList[0].getContent());
+        mainFrame.revalidate();
+    }
+
+    public static void goToNextTicket() {
+        curTicketIndex++;
+
+        setSize(600, 700);
+        mainFrame.setContentPane(ticketsList[curTicketIndex].getContent());
+        mainFrame.revalidate();
+    }
+
+    public static void goToPreviousTicket() {
+        if(curTicketIndex == 0) {
+            setSize(600, 700);
+            mainFrame.setContentPane(planeLayout.getContent());
+            mainFrame.revalidate();
+            return;
+        }
+
+        curTicketIndex--;
+        setSize(600, 700);
+        mainFrame.setContentPane(ticketsList[curTicketIndex].getContent());
         mainFrame.revalidate();
     }
 

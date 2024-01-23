@@ -5,6 +5,7 @@ import backend.Model;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
 
 import static javax.swing.JOptionPane.showMessageDialog;
 
@@ -187,15 +188,38 @@ public abstract class Controller {
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                for(Component component : planeLayout.buttonPanel.getComponents()) {
+                ArrayList<String> selectedSeats = new ArrayList<String>();
+                for (Component component : planeLayout.buttonPanel.getComponents()) {
                     Button button = null;
-                    if(component instanceof Button) {
+                    if (component instanceof Button) {
                         button = (Button) component;
 
-                        if (button.getBackground() == Color.green)
+                        if (button.getBackground() == Color.green) {
                             System.out.println(button.getLabel());
+                            selectedSeats.add(button.getLabel());
+                        }
                     }
                 }
+
+                View.goToOrderTicket(selectedSeats);
+            }
+        };
+    }
+
+    public static ActionListener nextTicket() {
+        return new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                View.goToNextTicket();
+            }
+        };
+    }
+
+    public static ActionListener previousTicket() {
+        return new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                View.goToPreviousTicket();
             }
         };
     }

@@ -18,8 +18,8 @@
           <focusable value="false"/>
           <font name="Droid Sans" size="16" style="1"/>
           <foreground color="-16777216"/>
-          <icon value="frontend/icons/arrow.png"/>
-          <text value="back"/>
+          <icon value="frontend/icons/back.png"/>
+          <text value="cancel"/>
         </properties>
       </component>
       <component id="9789b" class="javax.swing.JButton" binding="buy">

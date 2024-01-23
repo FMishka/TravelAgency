@@ -30,6 +30,10 @@ public class FlightInfo {
         return content;
     }
 
+    public String getFlightName() {
+        return flightName.getText();
+    }
+
     public String[] getData() {
         return data;
     }

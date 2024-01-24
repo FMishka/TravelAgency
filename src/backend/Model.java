@@ -277,7 +277,19 @@ public class Model {
         Statement statement;
 
         if (isSeatFree(flyightId, seatRow, seatColumn) && isFlightNotGone(flyightId) && isNameCorrect(passengerFirstName) && isNameCorrect(passengerSecondName) && isBirthdayCorrect(passengerBirthDate) && isPassportCorrect(passengerPassport)) {
-            db.insertRow(conn, "tickets", valuesTickets);
+            String[] rowsTikets = new String[]{
+                    "fk_flight_ID",
+                    "fk_user_ID",
+                    "seatRow",
+                    "seatColumn",
+                    "isPayed",
+                    "passengerFirstName",
+                    "passengerSecondName",
+                    "passengerBirthDate",
+                    "passengerSex",
+                    "passengerPassport"
+            };
+            db.insertRow(conn, "tickets", rowsTikets, valuesTickets);
             return true;
         }
         return false;

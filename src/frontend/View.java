@@ -16,7 +16,7 @@ public abstract class View {
     static final FlightEdit flightEdit = new FlightEdit();
     static final FlightAdd flightAdd = new FlightAdd();
     static final PlaneLayout planeLayout = new PlaneLayout();
-//    static final OrderTicket orderTicket = new OrderTicket();
+    static final PaymentForm paymentForm = new PaymentForm();
     static OrderTicket[] ticketsList;
     static int curTicketIndex = 0;
 
@@ -110,6 +110,12 @@ public abstract class View {
 
     public static void goToNextTicket() {
         curTicketIndex++;
+        if(curTicketIndex == ticketsList.length) {
+            setSize(600, 700);
+            mainFrame.setContentPane(paymentForm.getContent());
+            mainFrame.revalidate();
+            return;
+        }
 
         setSize(600, 700);
         mainFrame.setContentPane(ticketsList[curTicketIndex].getContent());
@@ -127,6 +133,12 @@ public abstract class View {
         curTicketIndex--;
         setSize(600, 700);
         mainFrame.setContentPane(ticketsList[curTicketIndex].getContent());
+        mainFrame.revalidate();
+    }
+
+    public static void goToPaymentForm() {
+        setSize(600, 700);
+        mainFrame.setContentPane(paymentForm.getContent());
         mainFrame.revalidate();
     }
 

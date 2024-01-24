@@ -4,21 +4,20 @@ import javax.swing.*;
 
 public class OrderTicket {
     private JPanel mainPanel;
-    private JTextField flightName;
-    JTextField firstName;
-    JTextField secondName;
-    JTextField birthDate;
-    JTextField passport;
-    private JTextField seatName;
     private JPanel bottomPanel;
     private JPanel topPanel;
     private JButton back;
     private JPanel content;
-    private JRadioButton maleRadioButton;
-    private JRadioButton femaleRadioButton;
     private JButton forward;
-    private JTextField ticketNumber;
-
+    JTextField ticketNumber;
+    JTextField flightName;
+    JTextField firstName;
+    JTextField secondName;
+    JTextField birthDate;
+    JTextField passport;
+    JTextField seatName;
+    JRadioButton maleRadioButton;
+    JRadioButton femaleRadioButton;
     public OrderTicket(String flight, String seat, int curNum, int totalNum) {
         ticketNumber.setText("Ticket " + (curNum + 1) + "/" + totalNum);
 

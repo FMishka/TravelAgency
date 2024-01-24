@@ -139,7 +139,7 @@ public abstract class Controller {
                 int row = table.rowAtPoint(point);
 
                 if (event.getClickCount() == 2 && table.getSelectedRow() != -1) {
-                    System.out.println(table.getModel().getValueAt(row, 1).toString());
+                    //System.out.println(table.getModel().getValueAt(row, 0).toString());
 
                     String[] data = new String[table.getModel().getColumnCount()];
                     for(int i = 0; i < table.getModel().getColumnCount(); i++) {
@@ -149,6 +149,18 @@ public abstract class Controller {
                     curFlightId = Integer.parseInt(data[0]);
                     View.goToFlightInfo(data);
                 }
+            }
+        };
+    }
+
+    public static MouseAdapter tableHeaderMouseClick(JTable table) {
+        return new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent event) {
+                Point point = event.getPoint();
+                int column = table.getTableHeader().columnAtPoint(point);
+
+                System.out.println(column);
             }
         };
     }
@@ -206,6 +218,7 @@ public abstract class Controller {
                     }
                 }
 
+                View.paymentForm.setTotalPrice(selectedSeats.size() * Integer.parseInt(View.flightInfo.getData()[6]));
                 View.goToOrderTicket(selectedSeats);
             }
         };

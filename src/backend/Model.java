@@ -69,9 +69,19 @@ public class Model {
         if(isAuthCorrect) return 0;
         return -1;
     }
-
-    private static boolean isCorrectCreditCardDetails(String cardNumber, String expireDate, int cvv){
-        return cardNumber.length() == 16 && expireDate.matches("\\d{2}/\\d{2}") && cvv > 99 && cvv < 1000;
+    private static boolean isCardNumberCorrect(String number) throws Exception {
+        if (number.length() == 16){
+            char[] numberSymbols = number.toCharArray();
+            for(char oneNumberSymbol: numberSymbols){
+                if (Character.isDigit(oneNumberSymbol) == true){
+                    return true;
+                }
+            }
+        }
+        throw new Exception("Number entered incorrectly");
+    }
+    private static boolean isCorrectCreditCardDetails(String cardNumber, String expireDate, int cvv) throws Exception{
+        return isCardNumberCorrect(cardNumber) && expireDate.matches("\\d{2}/\\d{2}") && cvv > 99 && cvv < 1000;
     }
 
     private static String aesEncrypt(String element){
@@ -102,46 +112,35 @@ public class Model {
         return null;
     }
 
-    public static void addPaymentData(int id, String cardNumber, String expireDate, String cardName, String cvv){
-        try{
-            if(isCorrectCreditCardDetails(cardNumber, expireDate, Integer.parseInt(cvv))){
-                String[] paymentData = new String[] {Integer.toString(id),
-                        "'" + Model.aesEncrypt(cardNumber) + "'",
-                        "'" + Model.aesEncrypt(expireDate) + "'",
-                        "'" + Model.aesEncrypt(cardName) + "'",
-                        "'" + Model.aesEncrypt(cvv) + "'"
-                };
-                db.insertRow(conn, "paymentData", paymentData);
-            }
-            else{
-                System.out.println("Credit card details are not correct!");
-            }
-        }
-        catch (Exception e){
-            System.out.println(e.getMessage());
+    public static void addPaymentData(int id, String cardNumber, String expireDate, String cardName, String cvv) throws Exception {
+        if(isCorrectCreditCardDetails(cardNumber, expireDate, Integer.parseInt(cvv))){
+            String[] paymentData = new String[] {Integer.toString(id),
+                    "'" + Model.aesEncrypt(cardNumber) + "'",
+                    "'" + Model.aesEncrypt(expireDate) + "'",
+                    "'" + Model.aesEncrypt(cardName) + "'",
+                    "'" + Model.aesEncrypt(cvv) + "'"
+            };
+            db.insertRow(conn, "paymentData", paymentData);
         }
     }
 
-    public static String[] getUserPaymentData(int id){
+    public static String[] getUserPaymentData(int id) throws SQLException {
         Statement statement;
         String userPaymentDataQuery = String.format("SELECT * FROM paymentData WHERE fk_user_ID = %s", id);
         String[] userPaymentData = new String[5];
-        try{
-            ResultSet resultSet;
-            statement = conn.createStatement();
-            resultSet = statement.executeQuery(userPaymentDataQuery);
 
-            while(resultSet.next()){
-                userPaymentData[0] = Integer.toString(resultSet.getInt(1));
-                userPaymentData[1] = Model.aesDecrypt(resultSet.getString(2));
-                userPaymentData[2] = Model.aesDecrypt(resultSet.getString(3));
-                userPaymentData[3] = Model.aesDecrypt(resultSet.getString(4));
-                userPaymentData[4] = Model.aesDecrypt(resultSet.getString(5));
-            }
+        ResultSet resultSet;
+        statement = conn.createStatement();
+        resultSet = statement.executeQuery(userPaymentDataQuery);
+
+        while(resultSet.next()){
+            userPaymentData[0] = Integer.toString(resultSet.getInt(1));
+            userPaymentData[1] = Model.aesDecrypt(resultSet.getString(2));
+            userPaymentData[2] = Model.aesDecrypt(resultSet.getString(3));
+            userPaymentData[3] = Model.aesDecrypt(resultSet.getString(4));
+            userPaymentData[4] = Model.aesDecrypt(resultSet.getString(5));
         }
-        catch (Exception e){
-            System.out.println(e.getMessage());
-        }
+
         return userPaymentData;
     }
     public static int[][] getAllFlyghtSeats(int flightId){
@@ -641,5 +640,34 @@ public class Model {
         }
 
         return res;
+    }
+
+    public static String[][] getUsersAllTickets(int userId) throws SQLException {
+        Statement statement;
+        int countRows = 0;
+        int countColumns = 0;
+        String getUserTickets = String.format("SELECT f.flightname, t.passengerfirstname, t.passengersecondname, f.departuredate, f.arrivaldate, c1.countryname, c2.countryname FROM tickets AS t\n" +
+                "JOIN flights AS f ON t.fk_flight_id = f.flight_ID\n" +
+                "JOIN countries AS c1 ON f.departurecountry_id = c1.country_ID\n" +
+                "JOIN countries AS c2 ON f.arrivalcountry_id = c2.country_ID\n" +
+                "WHERE t.fk_user_Id = %d", userId);
+        String getRows = String.format("SELECT COUNT(*) FROM tickets WHERE fk_user_Id = %d", userId);
+        statement = conn.createStatement();
+        ResultSet resultSet = statement.executeQuery(getRows);
+        resultSet.next();
+        countRows = resultSet.getInt(1);
+        resultSet = statement.executeQuery(getUserTickets);
+        countColumns = resultSet.getMetaData().getColumnCount();
+        String[][] userTickets = new String[countRows][countColumns];
+        for (int i = 0; i < countRows; i++){
+            resultSet.next();
+            for (int j = 0; j < countColumns; j++){
+                userTickets[i][j] = resultSet.getString(j + 1);
+            }
+        }
+        return userTickets;
+    }
+    public static String[][] getUsersAllTickets() throws SQLException {
+        return getUsersAllTickets(userId);
     }
 }

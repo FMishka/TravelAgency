@@ -15,6 +15,7 @@ public class FlightsPage {
     private JButton flightsButton;
     private JScrollPane scrollPane;
     private JButton addFlightButton;
+    String tableSortBy;
 
     public static void setTableRenderer(JTable table, DefaultTableCellRenderer renderer)
     {
@@ -74,6 +75,7 @@ public class FlightsPage {
         addFlightButton.addActionListener(Controller.navigateFlightAdd());
 
         table.addMouseListener(Controller.tableMouseClick(table));
+        table.getTableHeader().addMouseListener(Controller.tableHeaderMouseClick(table));
 
         refreshTable();
     }

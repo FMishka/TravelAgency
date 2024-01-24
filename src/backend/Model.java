@@ -22,7 +22,7 @@ import java.util.List;
 public class Model {
     private static DbFunctions db;
     private static Connection conn;
-    private static int userId = -1;
+    public static int userId = -1;
     public static boolean isAdmin = false;
 
     public static void initConnection(){
@@ -80,8 +80,24 @@ public class Model {
         }
         throw new Exception("Number entered incorrectly");
     }
-    private static boolean isCorrectCreditCardDetails(String cardNumber, String expireDate, int cvv) throws Exception{
-        return isCardNumberCorrect(cardNumber) && expireDate.matches("\\d{2}/\\d{2}") && cvv > 99 && cvv < 1000;
+    private static boolean isCardholderCorrect(String str) {
+        boolean onFirstWord = true;
+        boolean onSecondWord = false;
+
+        for(char ch : str.toCharArray()) {
+            if(ch == ' ' && onFirstWord) {
+                onFirstWord = false;
+                continue;
+            }
+
+            if(ch < 'A' || ch > 'Z') return false;
+            else if(!onFirstWord) onSecondWord = true;
+        }
+
+        return !onFirstWord && onSecondWord;
+    }
+    public static boolean isCorrectCreditCardDetails(String cardNumber, String cardholder, String expireDate, int cvv) throws Exception{
+        return isCardNumberCorrect(cardNumber) && isCardholderCorrect(cardholder) && expireDate.matches("\\d{2}/\\d{2}") && cvv > 99 && cvv < 1000;
     }
 
     private static String aesEncrypt(String element){
@@ -113,7 +129,7 @@ public class Model {
     }
 
     public static void addPaymentData(int id, String cardNumber, String expireDate, String cardName, String cvv) throws Exception {
-        if(isCorrectCreditCardDetails(cardNumber, expireDate, Integer.parseInt(cvv))){
+        if(isCorrectCreditCardDetails(cardNumber, cardName, expireDate, Integer.parseInt(cvv))){
             String[] paymentData = new String[] {Integer.toString(id),
                     "'" + Model.aesEncrypt(cardNumber) + "'",
                     "'" + Model.aesEncrypt(expireDate) + "'",

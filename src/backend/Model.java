@@ -129,6 +129,7 @@ public class Model {
     }
 
     public static void addPaymentData(int id, String cardNumber, String expireDate, String cardName, String cvv) throws Exception {
+
         if(isCorrectCreditCardDetails(cardNumber, cardName, expireDate, Integer.parseInt(cvv))){
             String[] paymentData = new String[] {Integer.toString(id),
                     "'" + Model.aesEncrypt(cardNumber) + "'",
@@ -136,7 +137,12 @@ public class Model {
                     "'" + Model.aesEncrypt(cardName) + "'",
                     "'" + Model.aesEncrypt(cvv) + "'"
             };
-            db.insertRow(conn, "paymentData", paymentData);
+            String updateCard = "UPDATE paymentdata SET cardNumber = " + paymentData[1] + ", expireDate = " + paymentData[2] + ", cardName = " + paymentData[3] + ", cvv = " + paymentData[4] + " WHERE fk_user_ID = " + paymentData[0];
+            Statement statement;
+            statement = conn.createStatement();
+            if (statement.executeUpdate(updateCard) == 0){
+                db.insertRow(conn, "paymentData", paymentData);
+            }
         }
     }
 

@@ -39,7 +39,7 @@ public class PaymentForm {
                         for(OrderTicket ticketForm : View.ticketsList) {
                             Model.orderingTicket(View.flightInfo.curFlightId, Model.userId,
                                     Integer.parseInt(ticketForm.seatName.getText().split(" ")[0]),
-                                    ticketForm.seatName.getText().split(" ")[1].charAt(0) - 'A',
+                                    ticketForm.seatName.getText().split(" ")[1].charAt(0) - 'A' + 1,
                                     true, ticketForm.firstName.getText(), ticketForm.secondName.getText(),
                                     LocalDate.parse(ticketForm.birthDate.getText(), DateTimeFormatter.ofPattern("yyyy-MM-dd")).atStartOfDay(),
                                     ticketForm.maleRadioButton.isSelected() ? 'M' : 'F', Integer.parseInt(ticketForm.passport.getText()));

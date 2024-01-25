@@ -143,7 +143,7 @@ public class Model {
     public static String[] getUserPaymentData(int id) throws SQLException {
         Statement statement;
         String userPaymentDataQuery = String.format("SELECT * FROM paymentData WHERE fk_user_ID = %s", id);
-        String[] userPaymentData = new String[5];
+        String[] userPaymentData = new String[]{"", "", "", "", ""};
 
         ResultSet resultSet;
         statement = conn.createStatement();
@@ -160,14 +160,14 @@ public class Model {
         return userPaymentData;
     }
     public static int[][] getAllFlyghtSeats(int flightId){
-        String flightQuery = "";
+        String getSeatsQuery = "";
         Statement statement;
         int[][] allFlightSeats = null;
         try{
-            flightQuery = String.format("SELECT flights.flight_ID, flights.fk_plane_ID, planes.rowsNumber, planes.columnsNumber FROM flights LEFT JOIN planes\n" +
+            getSeatsQuery = String.format("SELECT flights.flight_ID, flights.fk_plane_ID, planes.rowsNumber, planes.columnsNumber FROM flights LEFT JOIN planes\n" +
                     "ON flights.fk_plane_id = plane_ID WHERE flights.flight_ID = %s", flightId);
             statement = conn.createStatement();
-            ResultSet resultSet = statement.executeQuery(flightQuery);
+            ResultSet resultSet = statement.executeQuery(getSeatsQuery);
             resultSet.next();
             allFlightSeats = new int[resultSet.getInt("rowsnumber")][resultSet.getInt("columnsnumber")];
             initAllFlyghtSeats(flightId, allFlightSeats);
@@ -207,7 +207,7 @@ public class Model {
     }
     private static boolean isSeatFree(int flyightId, int seatRow, int seatColumn) throws Exception {
         int[][] allSeats = Model.getAllFlyghtSeats(flyightId);
-        if (allSeats[seatRow][seatColumn] < 0){
+        if (allSeats[seatRow - 1][seatColumn - 1] < 0){
             return true;
         }
         throw new Exception("Seat is not free!");
@@ -674,7 +674,7 @@ public class Model {
         Statement statement;
         int countRows = 0;
         int countColumns = 0;
-        String getUserTickets = String.format("SELECT f.flightname, t.passengerfirstname, t.passengersecondname, f.departuredate, f.arrivaldate, c1.countryname, c2.countryname FROM tickets AS t\n" +
+        String getUserTickets = String.format("SELECT t.id, f.flightname, t.passengerfirstname, t.passengersecondname, f.departuredate, f.arrivaldate, c1.countryname, c2.countryname FROM tickets AS t\n" +
                 "JOIN flights AS f ON t.fk_flight_id = f.flight_ID\n" +
                 "JOIN countries AS c1 ON f.departurecountry_id = c1.country_ID\n" +
                 "JOIN countries AS c2 ON f.arrivalcountry_id = c2.country_ID\n" +

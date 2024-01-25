@@ -26,8 +26,7 @@ CREATE TABLE IF NOT EXISTS planes
     plane_ID serial PRIMARY KEY,
     planeModel varchar not NULL,
     rowsNumber integer not NULL,
-    columnsNumber integer not NULL,
-
+    columnsNumber integer not NULL
 );
 INSERT INTO planes(planeModel, rowsNumber, columnsNumber) VALUES ('A-320',30, 6);
 INSERT INTO planes(planeModel, rowsNumber, columnsNumber) VALUES ('Boeing777-200',44, 8);

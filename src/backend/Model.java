@@ -421,7 +421,7 @@ public class Model {
             for (int i = 0; i < parameters.size(); i++) {
                 preparedStatement.setObject(i + 1, parameters.get(i));
             }
-            Statement statement = conn.createStatement();
+
             resultSet = preparedStatement.executeQuery();
 
 
@@ -550,6 +550,42 @@ public class Model {
         // Преобразование списка в двумерный массив
         return resultsList.toArray(new String[0][0]);
     }
+
+    public static String[][] checkingBackCountries(String departureCountryName, String arrivalCountryName, Date departureDate) {
+        String[][] matchingRows = null;
+
+        try (Statement statement = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+             ResultSet resultSet = statement.executeQuery("SELECT flight_ID, flightname, departureDate,  arrivalDate, dep_country.countryName, arr_country.countryName, price, plane.planemodel FROM flights " +
+                     "JOIN countries AS dep_country ON flights.departureCountry_ID = dep_country.country_ID " +
+                     "JOIN countries AS arr_country ON flights.arrivalCountry_ID = arr_country.country_ID " +
+                     "JOIN planes AS plane ON flights.fk_plane_ID = plane.plane_id "+
+                     "WHERE dep_country.countryName = '" + departureCountryName + "' AND arr_country.countryName = '" + arrivalCountryName + "' AND departureDate > '" + new Timestamp(departureDate.getTime()) + "'")
+             ) {
+
+            resultSet.last();
+            int rowCount = resultSet.getRow();
+            resultSet.beforeFirst();
+
+            ResultSetMetaData metaData = resultSet.getMetaData();
+            int columnCount = metaData.getColumnCount();
+
+            matchingRows = new String[rowCount][columnCount];
+
+            int row = 0;
+            while (resultSet.next()) {
+                for (int col = 1; col <= columnCount; col++) {
+                    matchingRows[row][col - 1] = resultSet.getString(col);
+                }
+                row++;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return matchingRows;
+    }
+
+
     public static void printSortedFlights(String sortBy) {
         String[][] sortedFlights = sortFlightsBy(sortBy);
 

@@ -1,7 +1,5 @@
 package frontend;
 
-import frontend.inputVerifiers.DateInputVerifier;
-
 import javax.swing.*;
 
 public class OrderTicket {
@@ -13,10 +11,10 @@ public class OrderTicket {
     private JButton forward;
     JTextField ticketNumber;
     JTextField flightName;
-    JTextField firstName;
-    JTextField secondName;
-    JTextField birthDate;
-    JTextField passport;
+    JFormattedTextField firstName;
+    JFormattedTextField secondName;
+    JFormattedTextField birthDate;
+    JFormattedTextField passport;
     JTextField seatName;
     JRadioButton maleRadioButton;
     JRadioButton femaleRadioButton;
@@ -26,8 +24,7 @@ public class OrderTicket {
         flightName.setText(flight);
         seatName.setText(seat);
 
-        birthDate.setInputVerifier(new DateInputVerifier());
-        birthDate.setText("2000-01-01");
+        Utility.setDateFormat(birthDate, Utility.DEFAULT_DATETIME);
 
         maleRadioButton.setSelected(true);
 

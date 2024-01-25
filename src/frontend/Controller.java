@@ -67,11 +67,11 @@ public abstract class Controller {
         };
     }
 
-    public static ActionListener navigateAnother() {
+    public static ActionListener navigateMyTickets() {
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                View.goToAnotherPage();
+                View.goToMyTicketsPage();
             }
         };
     }
@@ -211,11 +211,16 @@ public abstract class Controller {
                     if (component instanceof Button) {
                         button = (Button) component;
 
-                        if (button.getBackground() == Color.green) {
+                        if (button.getBackground() == Color.green && button.isEnabled()) {
                             System.out.println(button.getLabel());
                             selectedSeats.add(button.getLabel());
                         }
                     }
+                }
+
+                if(selectedSeats.isEmpty()) {
+                    showMessageDialog(null, "No seats selected", "Select seats", JOptionPane.ERROR_MESSAGE);
+                    return;
                 }
 
                 View.paymentForm.setTotalPrice(selectedSeats.size() * Integer.parseInt(View.flightInfo.getData()[6]));

@@ -1,4 +1,4 @@
-package frontend;
+package frontend.inputVerifiers;
 
 import javax.swing.*;
 import java.time.LocalDate;

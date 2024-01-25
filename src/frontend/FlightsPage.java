@@ -11,7 +11,7 @@ public class FlightsPage {
     private JTable table;
     private JPanel navigation;
     private JButton homePageButton;
-    private JButton anotherPageButton;
+    private JButton myTicketsPageButton;
     private JButton flightsButton;
     private JScrollPane scrollPane;
     private JButton addFlightButton;
@@ -70,7 +70,7 @@ public class FlightsPage {
 
     public FlightsPage() {
         homePageButton.addActionListener(Controller.navigateHome());
-        anotherPageButton.addActionListener(Controller.navigateAnother());
+        myTicketsPageButton.addActionListener(Controller.navigateMyTickets());
         flightsButton.addActionListener(Controller.navigateFlights());
         addFlightButton.addActionListener(Controller.navigateFlightAdd());
 

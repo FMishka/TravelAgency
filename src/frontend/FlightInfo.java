@@ -30,6 +30,10 @@ public class FlightInfo {
         return content;
     }
 
+    public String getFlightName() {
+        return flightName.getText();
+    }
+
     public String[] getData() {
         return data;
     }
@@ -50,6 +54,8 @@ public class FlightInfo {
         for(int i = 0; i < fieldsArray.length; i++) {
             fieldsArray[i].setText(data[i]);
         }
+
+        price.setText(price.getText() + " ₪" );
     }
 
 
@@ -71,6 +77,7 @@ public class FlightInfo {
 
         edit.addActionListener(Controller.navigateFlightEdit(this));
         delete.addActionListener(Controller.deleteButton(this));
+        buy.addActionListener(Controller.navigatePlaneLayout(this));
     }
 
     public void setAdminStatus(boolean isAdmin) {

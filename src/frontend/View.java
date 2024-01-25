@@ -2,6 +2,7 @@ package frontend;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.Objects;
 
 public abstract class View {
@@ -14,6 +15,10 @@ public abstract class View {
     static final FlightInfo flightInfo = new FlightInfo();
     static final FlightEdit flightEdit = new FlightEdit();
     static final FlightAdd flightAdd = new FlightAdd();
+    static final PlaneLayout planeLayout = new PlaneLayout();
+    static final PaymentForm paymentForm = new PaymentForm();
+    static OrderTicket[] ticketsList;
+    static int curTicketIndex = 0;
 
     static final int screenWidth = Toolkit.getDefaultToolkit().getScreenSize().width;
     static final int screenHeight = Toolkit.getDefaultToolkit().getScreenSize().height;
@@ -77,9 +82,68 @@ public abstract class View {
         mainFrame.revalidate();
     }
 
+    public static void goToPlaneLayout(int flightId) {
+        setSize(600, 700);
+        planeLayout.refresh(flightId);
+        mainFrame.setContentPane(planeLayout.getContent());
+        mainFrame.revalidate();
+    }
+
+    public static void goToOrderTicket(ArrayList<String> selectedSeats) {
+        curTicketIndex = 0;
+
+        setSize(600, 700);
+
+        String flightName = flightInfo.getFlightName();
+        int ticketsNum = selectedSeats.size();
+
+        ticketsList = new OrderTicket[ticketsNum];
+
+        for(int i = 0; i < ticketsNum; i++) {
+            ticketsList[i] = new OrderTicket(flightName, selectedSeats.get(i), i, ticketsNum);
+        }
+
+
+        mainFrame.setContentPane(ticketsList[0].getContent());
+        mainFrame.revalidate();
+    }
+
+    public static void goToNextTicket() {
+        curTicketIndex++;
+        if(curTicketIndex == ticketsList.length) {
+            setSize(600, 700);
+            mainFrame.setContentPane(paymentForm.getContent());
+            mainFrame.revalidate();
+            return;
+        }
+
+        setSize(600, 700);
+        mainFrame.setContentPane(ticketsList[curTicketIndex].getContent());
+        mainFrame.revalidate();
+    }
+
+    public static void goToPreviousTicket() {
+        if(curTicketIndex == 0) {
+            setSize(600, 700);
+            mainFrame.setContentPane(planeLayout.getContent());
+            mainFrame.revalidate();
+            return;
+        }
+
+        curTicketIndex--;
+        setSize(600, 700);
+        mainFrame.setContentPane(ticketsList[curTicketIndex].getContent());
+        mainFrame.revalidate();
+    }
+
+    public static void goToPaymentForm() {
+        setSize(600, 700);
+        mainFrame.setContentPane(paymentForm.getContent());
+        mainFrame.revalidate();
+    }
+
     public static void init() {
         mainFrame = new JFrame("Travel Agency");
-        //mainFrame.setContentPane(homePage.getContent());
         mainFrame.setContentPane(authForm.getContent());
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainFrame.pack();

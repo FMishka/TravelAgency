@@ -1,5 +1,6 @@
 package backend;
 
+
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -20,11 +21,9 @@ import java.util.Locale;
 import static backend.Model.*;
 
 public class Main {
-    public static void main(String[] args) throws SQLException {
-
-        Model.initConnection();
-
+    public static void main(String[] args) throws Exception {
         Model model = new Model();
+
         //Model.printSortedFlights("ticketsDown");
         String departureCountryName = "Israel";
         String arrivalCountryName = "Russia";
@@ -39,7 +38,6 @@ public class Main {
             }
             System.out.println();
         }
-
 
     }
 }

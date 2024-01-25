@@ -5,6 +5,9 @@ import backend.Model;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 
 import static javax.swing.JOptionPane.showMessageDialog;
 
@@ -14,6 +17,8 @@ public abstract class Controller {
 
     public static final String[] countries = Model.getAllCountries();
     public static final String[] planes = Model.getAllPlaneNames();
+
+    static int curFlightId;
 
 
     public static void authSubmit(AuthForm authForm) {
@@ -107,6 +112,15 @@ public abstract class Controller {
         };
     }
 
+    public static ActionListener navigatePlaneLayout(FlightInfo flightInfo) {
+        return new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                View.goToPlaneLayout(flightInfo.curFlightId);
+            }
+        };
+    }
+
     public static ActionListener logout() {
         return new ActionListener() {
             @Override
@@ -125,15 +139,28 @@ public abstract class Controller {
                 int row = table.rowAtPoint(point);
 
                 if (event.getClickCount() == 2 && table.getSelectedRow() != -1) {
-                    System.out.println(table.getModel().getValueAt(row, 1).toString());
+                    //System.out.println(table.getModel().getValueAt(row, 0).toString());
 
                     String[] data = new String[table.getModel().getColumnCount()];
                     for(int i = 0; i < table.getModel().getColumnCount(); i++) {
                         data[i] = table.getModel().getValueAt(row, i).toString();
                     }
 
+                    curFlightId = Integer.parseInt(data[0]);
                     View.goToFlightInfo(data);
                 }
+            }
+        };
+    }
+
+    public static MouseAdapter tableHeaderMouseClick(JTable table) {
+        return new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent event) {
+                Point point = event.getPoint();
+                int column = table.getTableHeader().columnAtPoint(point);
+
+                System.out.println(column);
             }
         };
     }
@@ -170,6 +197,62 @@ public abstract class Controller {
                     View.refreshFlightsPage();
                     View.goToFlightsPage();
                 }
+            }
+        };
+    }
+
+    public static ActionListener selectSeats(PlaneLayout planeLayout) {
+        return new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ArrayList<String> selectedSeats = new ArrayList<String>();
+                for (Component component : planeLayout.buttonPanel.getComponents()) {
+                    Button button = null;
+                    if (component instanceof Button) {
+                        button = (Button) component;
+
+                        if (button.getBackground() == Color.green) {
+                            System.out.println(button.getLabel());
+                            selectedSeats.add(button.getLabel());
+                        }
+                    }
+                }
+
+                View.paymentForm.setTotalPrice(selectedSeats.size() * Integer.parseInt(View.flightInfo.getData()[6]));
+                View.goToOrderTicket(selectedSeats);
+            }
+        };
+    }
+
+    public static ActionListener nextTicket(OrderTicket orderTicket) {
+        return new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    Model.isFlightNotGone(curFlightId);
+                    Model.isNameCorrect(orderTicket.firstName.getText());
+                    Model.isNameCorrect(orderTicket.secondName.getText());
+                    Model.isBirthdayCorrect(LocalDate.parse(orderTicket.birthDate.getText(), DateTimeFormatter.ofPattern("yyyy-MM-dd")).atStartOfDay());
+
+                    try {
+                        Model.isPassportCorrect(Integer.parseInt(orderTicket.passport.getText()));
+                    } catch (Exception ex) {
+                        throw new Exception("Passport entered incorrectly!");
+                    }
+
+                    View.goToNextTicket();
+                } catch (Exception ex) {
+                    showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        };
+    }
+
+    public static ActionListener previousTicket() {
+        return new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                View.goToPreviousTicket();
             }
         };
     }

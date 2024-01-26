@@ -2,12 +2,14 @@ package frontend.inputVerifiers;
 
 import javax.swing.*;
 
+import java.util.Arrays;
+
 import static javax.swing.JOptionPane.showMessageDialog;
 
 public class CvvInputVerifier extends InputVerifier {
     @Override
     public boolean verify(JComponent input) {
-        String text = ((JPasswordField) input).getText();
+        String text = Arrays.toString(((JPasswordField) input).getPassword());
 
         try {
             int cvv = Integer.parseInt(text);

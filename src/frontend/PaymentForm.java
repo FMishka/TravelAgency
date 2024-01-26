@@ -1,7 +1,6 @@
 package frontend;
 
 import backend.Model;
-import frontend.inputVerifiers.*;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -16,8 +15,8 @@ import static javax.swing.JOptionPane.showMessageDialog;
 public class PaymentForm {
     private JPanel mainPanel;
     private JTextField price;
-    private JTextField creditCard;
-    private JTextField expireDate;
+    private JFormattedTextField creditCard;
+    private JFormattedTextField expireDate;
     private JPasswordField cvv;
     private JPanel topPanel;
     private JButton back;
@@ -42,10 +41,10 @@ public class PaymentForm {
     }
 
     public PaymentForm() {
-        cvv.setInputVerifier(new CvvInputVerifier());
-        creditCard.setInputVerifier(new CreditCardNumberVerifier());
-        expireDate.setInputVerifier(new ExpireDateInputVerifier());
-        cardHolder.setInputVerifier(new CardholderInputVerifier());
+        Utility.setCreditCardFormat(creditCard);
+        Utility.setCardholderFormat(cardHolder);
+        Utility.setExpireDateFormat(expireDate);
+        Utility.setCvvFormat(cvv);
 
         back.addActionListener(Controller.previousTicket());
         confirmPayment.addActionListener(new ActionListener() {

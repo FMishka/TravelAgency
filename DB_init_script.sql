@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS planes
 );
 
 INSERT INTO planes(planeModel, rowsNumber, columnsNumber) VALUES ('A-320',30, 6);
-INSERT INTO planes(planeModel, rowsNumber, columnsNumber) VALUES ('Sukhoi Superjet 100',20, 5);
+INSERT INTO planes(planeModel, rowsNumber, columnsNumber) VALUES ('Sukhoi Superjet',20, 5);
 
 
 CREATE TABLE IF NOT EXISTS users

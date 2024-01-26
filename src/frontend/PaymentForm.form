@@ -70,7 +70,7 @@
               <text value="CVV:"/>
             </properties>
           </component>
-          <component id="df9cf" class="javax.swing.JTextField" binding="creditCard">
+          <component id="93a1f" class="javax.swing.JFormattedTextField" binding="creditCard">
             <constraints>
               <grid row="1" column="3" row-span="1" col-span="3" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false">
                 <preferred-size width="250" height="42"/>
@@ -86,7 +86,7 @@
               <text value=""/>
             </properties>
           </component>
-          <component id="c3282" class="javax.swing.JTextField" binding="expireDate">
+          <component id="7dbc3" class="javax.swing.JFormattedTextField" binding="expireDate">
             <constraints>
               <grid row="3" column="3" row-span="1" col-span="3" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false">
                 <preferred-size width="250" height="42"/>
@@ -102,7 +102,7 @@
               <text value=""/>
             </properties>
           </component>
-          <component id="c1105" class="javax.swing.JPasswordField" binding="cvv">
+          <component id="42b4c" class="javax.swing.JPasswordField" binding="cvv">
             <constraints>
               <grid row="4" column="3" row-span="1" col-span="3" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false">
                 <preferred-size width="250" height="42"/>

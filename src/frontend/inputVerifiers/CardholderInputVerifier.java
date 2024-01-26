@@ -28,7 +28,7 @@ public class CardholderInputVerifier extends InputVerifier {
         if(validateCardholder(text)) {
             return true;
         } else {
-            showMessageDialog(null, "Wrong cardholder name format\nExample: YOSSI COHEN", "Invalid cardholder name", JOptionPane.ERROR_MESSAGE);
+            showMessageDialog(null, "Correct example: YOSSI COHEN", "Invalid cardholder name format", JOptionPane.ERROR_MESSAGE);
             return false;
         }
     }

@@ -22,11 +22,11 @@ import static backend.Model.*;
 
 public class Main {
     public static void main(String[] args) throws Exception {
-        Model model = new Model();
-
+        //Model model = new Model();
+        Model.initConnection();
         //Model.printSortedFlights("ticketsDown");
-        String departureCountryName = "Israel";
-        String arrivalCountryName = "Russia";
+        String departureCountryName = "Tel Aviv (TLV)";
+        String arrivalCountryName = "Moscow (SVO)";
         Date departureDate = new Date();
 
 

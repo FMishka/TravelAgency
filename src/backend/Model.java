@@ -605,7 +605,7 @@ public class Model {
         return resultsList.toArray(new String[0][0]);
     }
 
-    public static String[][] checkingBackCountries(String departureCountryName, String arrivalCountryName, Date arrivalDate) {
+    public static String[][] checkingBackFlihgts(String departureCountryName, String arrivalCountryName, Date arrivalDate) {
         String[][] matchingRows = null;
 
         try (Statement statement = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);

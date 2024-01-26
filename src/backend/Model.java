@@ -604,7 +604,7 @@ public class Model {
         return resultsList.toArray(new String[0][0]);
     }
 
-    public static String[][] checkingBackFlihgts(String departureCountryName, String arrivalCountryName, Date arrivalDate) {
+    public static String[][] checkingBackFlihgts(String departureCountryName, String arrivalCountryName, LocalDateTime arrivalDate) {
         String[][] matchingRows = null;
 
         try (Statement statement = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
@@ -612,7 +612,7 @@ public class Model {
                      "JOIN countries AS dep_country ON flights.departureCountry_ID = dep_country.country_ID " +
                      "JOIN countries AS arr_country ON flights.arrivalCountry_ID = arr_country.country_ID " +
                      "JOIN planes AS plane ON flights.fk_plane_ID = plane.plane_id "+
-                     "WHERE dep_country.countryName = '" + departureCountryName + "' AND arr_country.countryName = '" + arrivalCountryName + "' AND arrivalDate > '" + new Timestamp(arrivalDate.getTime()) + "'")
+                     "WHERE dep_country.countryName = '" + departureCountryName + "' AND arr_country.countryName = '" + arrivalCountryName + "' AND arrivalDate > '" + Timestamp.valueOf(arrivalDate) + "'")
              ) {
 
             resultSet.last();

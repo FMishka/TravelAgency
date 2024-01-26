@@ -31,14 +31,17 @@ public class Main {
         Date departureDate = new Date();
 
 
+        LocalDateTime arrivalDateTime = LocalDateTime.now();
 
-        Model model = new Model();
-        Model.initConnection();
-        //Model.printSortedFlights("ticketsDown");
-        String[] str = Model.getUserPaymentData(2);
-        for (int i = 0; i < str.length; i++){
-            System.out.print(str[i] + " ");
 
+
+        String[][] matchingRows = Model.checkingBackFlihgts(departureCountryName, arrivalCountryName , arrivalDateTime);
+
+        for (String[] row : matchingRows) {
+            for (String value : row) {
+                System.out.print(value + "\t");
+            }
+            System.out.println();
         }
     }
 }

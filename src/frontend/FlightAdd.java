@@ -8,12 +8,11 @@ import java.awt.event.ActionListener;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-import static frontend.Utility.setPlaceholder;
 import static javax.swing.JOptionPane.showMessageDialog;
 
 public class FlightAdd {
     private JPanel mainPanel;
-    private JTextField flightName;
+    private JFormattedTextField flightName;
     private JFormattedTextField arrDate;
     private JFormattedTextField price;
     private JFormattedTextField depDate;
@@ -27,7 +26,7 @@ public class FlightAdd {
     private JPanel content;
 
     public void reset() {
-        setPlaceholder(flightName, "AZ-000");
+//        setPlaceholder(flightName, "AZ-000");
 //        setPlaceholder(price, "999");
 
         depCountry.setSelectedItem(Controller.countries[0]);
@@ -43,16 +42,9 @@ public class FlightAdd {
         arrCountry.setModel(new DefaultComboBoxModel<String>(Controller.countries));
         plane.setModel(new DefaultComboBoxModel<String>(Controller.planes));
 
-//        NumberFormatter formatter = new NumberFormatter(NumberFormat.getInstance());
-//        formatter.setValueClass(Integer.class);
-//        formatter.setMinimum(0);
-//        formatter.setMaximum(Integer.MAX_VALUE);
-//        formatter.setAllowsInvalid(false);
-//        formatter.setCommitsOnValidEdit(true);
-//        price.setFormatterFactory(new DefaultFormatterFactory(formatter));
-
         Utility.setDateTimeFormat(arrDate, Utility.DEFAULT_DATETIME);
         Utility.setDateTimeFormat(depDate, Utility.DEFAULT_DATETIME);
+        Utility.setFlightNameFormat(flightName);
 
         reset();
 
@@ -66,7 +58,7 @@ public class FlightAdd {
                     String departureCountry = depCountry.getSelectedItem().toString();
                     String arrivalCountry = arrCountry.getSelectedItem().toString();
                     String planeName = plane.getSelectedItem().toString();
-                    int flightPrice = (int) price.getValue();
+                    int flightPrice = Integer.parseInt(price.getText());
 
                     Model.addFlight(name, departureTime, arrivalTime, departureCountry, arrivalCountry, planeName, flightPrice);
                     showMessageDialog(null, "Flight added", "Success", JOptionPane.INFORMATION_MESSAGE);
@@ -76,6 +68,7 @@ public class FlightAdd {
 
                     reset();
                 } catch (Exception ex) {
+                    ex.printStackTrace();
                     showMessageDialog(null, ex.getMessage(), "Invalid data", JOptionPane.ERROR_MESSAGE);
                 }
             }

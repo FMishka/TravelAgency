@@ -11,7 +11,7 @@ public class OrderTicket {
     private JButton forward;
     JTextField ticketNumber;
     JTextField flightName;
-    JFormattedTextField firstName;
+    JTextField firstName;
     JFormattedTextField secondName;
     JFormattedTextField birthDate;
     JFormattedTextField passport;
@@ -25,6 +25,9 @@ public class OrderTicket {
         seatName.setText(seat);
 
         Utility.setDateFormat(birthDate, Utility.DEFAULT_DATETIME);
+        Utility.setPassportFormat(passport);
+        Utility.setNameFormat(firstName);
+        Utility.setNameFormat(secondName);
 
         maleRadioButton.setSelected(true);
 

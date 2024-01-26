@@ -23,6 +23,7 @@ import static backend.Model.*;
 public class Main {
     public static void main(String[] args) throws Exception {
 
+
         //Model model = new Model();
         Model.initConnection();
         //Model.printSortedFlights("ticketsDown");
@@ -42,6 +43,10 @@ public class Main {
                 System.out.print(value + "\t");
             }
             System.out.println();
+
+        //Model model = new Model();
+
+
         }
     }
 }

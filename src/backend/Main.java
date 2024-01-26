@@ -1,11 +1,13 @@
 package backend;
 
+
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 
 import java.time.LocalDate;
@@ -13,13 +15,14 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import static backend.Model.*;
 
 public class Main {
     public static void main(String[] args) throws Exception {
-
+        //Model model = new Model();
         Model.initConnection();
         LocalDateTime l = LocalDateTime.now();
         LocalDateTime a = l.plusDays(4);
@@ -29,6 +32,9 @@ public class Main {
         //Model.addFlight("AZ-438", a, a, "Moscow (SVO)", "Tel Aviv (TLV)", "A-320", 123);
         //Model.editFlight(1, "AZ-445", a, a, "Moscow (SVO)", "Tel Aviv (TLV)", "A-320", 123);
         //Model.printSortedFlights("ticketsDown");
-        System.out.println(priceCalculation(2,233));
+        /*System.out.println(priceCalculation(2,233));
+        String[] str = Model.getMoreInfoAboutTicket(11);
+        for (int i = 0; i < str.length; i++){
+            System.out.print(str[i] + " ");*/
+        }
     }
-}

@@ -9,8 +9,6 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.sql.*;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -20,12 +18,11 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 
 public class Model {
     private static DbFunctions db;
     private static Connection conn;
-    private static int userId = -1;
+    public static int userId = -1;
     public static boolean isAdmin = false;
 
     public static void initConnection(){
@@ -72,9 +69,35 @@ public class Model {
         if(isAuthCorrect) return 0;
         return -1;
     }
+    private static boolean isCardNumberCorrect(String number) throws Exception {
+        if (number.length() == 16){
+            char[] numberSymbols = number.toCharArray();
+            for(char oneNumberSymbol: numberSymbols){
+                if (Character.isDigit(oneNumberSymbol) == true){
+                    return true;
+                }
+            }
+        }
+        throw new Exception("Number entered incorrectly");
+    }
+    private static boolean isCardholderCorrect(String str) {
+        boolean onFirstWord = true;
+        boolean onSecondWord = false;
 
-    private static boolean isCorrectCreditCardDetails(String cardNumber, String expireDate, int cvv){
-        return cardNumber.length() == 16 && expireDate.matches("\\d{2}/\\d{2}") && cvv > 99 && cvv < 1000;
+        for(char ch : str.toCharArray()) {
+            if(ch == ' ' && onFirstWord) {
+                onFirstWord = false;
+                continue;
+            }
+
+            if(ch < 'A' || ch > 'Z') return false;
+            else if(!onFirstWord) onSecondWord = true;
+        }
+
+        return !onFirstWord && onSecondWord;
+    }
+    public static boolean isCorrectCreditCardDetails(String cardNumber, String cardholder, String expireDate, int cvv) throws Exception{
+        return isCardNumberCorrect(cardNumber) && isCardholderCorrect(cardholder) && expireDate.matches("\\d{2}/\\d{2}") && cvv > 99 && cvv < 1000;
     }
 
     private static String aesEncrypt(String element){
@@ -105,57 +128,52 @@ public class Model {
         return null;
     }
 
-    public static void addPaymentData(int id, String cardNumber, String expireDate, String cardName, String cvv){
-        try{
-            if(isCorrectCreditCardDetails(cardNumber, expireDate, Integer.parseInt(cvv))){
-                String[] paymentData = new String[] {Integer.toString(id),
-                        "'" + Model.aesEncrypt(cardNumber) + "'",
-                        "'" + Model.aesEncrypt(expireDate) + "'",
-                        "'" + Model.aesEncrypt(cardName) + "'",
-                        "'" + Model.aesEncrypt(cvv) + "'"
-                };
+    public static void addPaymentData(int id, String cardNumber, String expireDate, String cardName, String cvv) throws Exception {
+
+        if(isCorrectCreditCardDetails(cardNumber, cardName, expireDate, Integer.parseInt(cvv))){
+            String[] paymentData = new String[] {Integer.toString(id),
+                    "'" + Model.aesEncrypt(cardNumber) + "'",
+                    "'" + Model.aesEncrypt(expireDate) + "'",
+                    "'" + Model.aesEncrypt(cardName) + "'",
+                    "'" + Model.aesEncrypt(cvv) + "'"
+            };
+            String updateCard = "UPDATE paymentdata SET cardNumber = " + paymentData[1] + ", expireDate = " + paymentData[2] + ", cardName = " + paymentData[3] + ", cvv = " + paymentData[4] + " WHERE fk_user_ID = " + paymentData[0];
+            Statement statement;
+            statement = conn.createStatement();
+            if (statement.executeUpdate(updateCard) == 0){
                 db.insertRow(conn, "paymentData", paymentData);
             }
-            else{
-                System.out.println("Credit card details are not correct!");
-            }
-        }
-        catch (Exception e){
-            System.out.println(e.getMessage());
         }
     }
 
-    public static String[] getUserPaymentData(int id){
+    public static String[] getUserPaymentData(int id) throws SQLException {
         Statement statement;
         String userPaymentDataQuery = String.format("SELECT * FROM paymentData WHERE fk_user_ID = %s", id);
-        String[] userPaymentData = new String[5];
-        try{
-            ResultSet resultSet;
-            statement = conn.createStatement();
-            resultSet = statement.executeQuery(userPaymentDataQuery);
+        String[] userPaymentData = new String[]{"", "", "", "", ""};
 
-            while(resultSet.next()){
-                userPaymentData[0] = Integer.toString(resultSet.getInt(1));
-                userPaymentData[1] = Model.aesDecrypt(resultSet.getString(2));
-                userPaymentData[2] = Model.aesDecrypt(resultSet.getString(3));
-                userPaymentData[3] = Model.aesDecrypt(resultSet.getString(4));
-                userPaymentData[4] = Model.aesDecrypt(resultSet.getString(5));
-            }
+        ResultSet resultSet;
+        statement = conn.createStatement();
+        resultSet = statement.executeQuery(userPaymentDataQuery);
+
+        while(resultSet.next()){
+            userPaymentData[0] = Integer.toString(resultSet.getInt(1));
+            userPaymentData[1] = Model.aesDecrypt(resultSet.getString(2));
+            userPaymentData[2] = Model.aesDecrypt(resultSet.getString(3));
+            userPaymentData[3] = Model.aesDecrypt(resultSet.getString(4));
+            userPaymentData[4] = Model.aesDecrypt(resultSet.getString(5));
         }
-        catch (Exception e){
-            System.out.println(e.getMessage());
-        }
+
         return userPaymentData;
     }
     public static int[][] getAllFlyghtSeats(int flightId){
-        String flightQuery = "";
+        String getSeatsQuery = "";
         Statement statement;
         int[][] allFlightSeats = null;
         try{
-            flightQuery = String.format("SELECT flights.flight_ID, flights.fk_plane_ID, planes.rowsNumber, planes.columnsNumber FROM flights LEFT JOIN planes\n" +
+            getSeatsQuery = String.format("SELECT flights.flight_ID, flights.fk_plane_ID, planes.rowsNumber, planes.columnsNumber FROM flights LEFT JOIN planes\n" +
                     "ON flights.fk_plane_id = plane_ID WHERE flights.flight_ID = %s", flightId);
             statement = conn.createStatement();
-            ResultSet resultSet = statement.executeQuery(flightQuery);
+            ResultSet resultSet = statement.executeQuery(getSeatsQuery);
             resultSet.next();
             allFlightSeats = new int[resultSet.getInt("rowsnumber")][resultSet.getInt("columnsnumber")];
             initAllFlyghtSeats(flightId, allFlightSeats);
@@ -193,32 +211,63 @@ public class Model {
             System.out.println(e.getMessage());
         }
     }
-    private static boolean isSeatFree(int flyightId, int seatRow, int seatColumn){
+    private static boolean isSeatFree(int flyightId, int seatRow, int seatColumn) throws Exception {
         int[][] allSeats = Model.getAllFlyghtSeats(flyightId);
-        if (allSeats[seatRow][seatColumn] < 0){
+        if (allSeats[seatRow - 1][seatColumn - 1] < 0){
             return true;
         }
-        return false;
+        throw new Exception("Seat is not free!");
     }
-    private static boolean isFlightValid(int flyightId){
+    public static boolean isFlightNotGone(int flyightId) throws Exception {
         String getDate = String.format("SELECT departureDate, flight_ID FROM flights WHERE flight_ID = %s", flyightId);
         Statement statement;
-        try{
-            statement = conn.createStatement();
-            ResultSet resultSet = statement.executeQuery(getDate);
-            resultSet.next();
-            Date date = resultSet.getDate(1);
-            Date today = new Date();
-            if (today.before(date)){
-                return true;
+
+        statement = conn.createStatement();
+        ResultSet resultSet = statement.executeQuery(getDate);
+        resultSet.next();
+        Date date = resultSet.getDate(1);
+        Date today = new Date();
+        if (today.before(date)) {
+            return true;
+        }
+        throw new Exception("Flight is gone!");
+    }
+    public static boolean isNameCorrect(String name) throws Exception {
+        if(name.isEmpty()) throw new Exception("Name entered incorrectly!");
+
+        char[] arraySymbols = name.toCharArray();
+        boolean isNameCorrect = true;
+        if (Character.isUpperCase(arraySymbols[0])){
+            for(char symbol: arraySymbols){
+                if ((symbol >= 'a' && symbol <= 'z') == false && ((symbol >= 'A' && symbol <= 'Z') == false)){
+                    isNameCorrect = false;
+                }
             }
         }
-        catch (Exception e){
-            System.out.println(e.getMessage());
+        else{
+            isNameCorrect = false;
         }
-        return false;
+        if (isNameCorrect){
+            return true;
+        }
+        else{
+            throw new Exception("Name entered incorrectly!");
+        }
     }
-    public static boolean orderingTicket(int flyightId, int userId, int seatRow, int seatColumn, boolean isPayed, String passengerFirstName, String passengerSecondName, LocalDateTime passengerBirthDate, char passengerSex){
+    public static boolean isBirthdayCorrect(LocalDateTime passengerBirthDate) throws Exception {
+        LocalDateTime now = LocalDateTime.now();
+        if (passengerBirthDate.isAfter(now)){
+            throw new Exception("Birthday entered incorrectly!");
+        }
+        return true;
+    }
+    public static boolean isPassportCorrect(int passengerPassport) throws Exception {
+        if (Integer.toString(passengerPassport).length() == 8){
+            return true;
+        }
+        throw new Exception("Passport entered incorrectly!");
+    }
+    public static boolean orderingTicket(int flyightId, int userId, int seatRow, int seatColumn, boolean isPayed, String passengerFirstName, String passengerSecondName, LocalDateTime passengerBirthDate, char passengerSex, int passengerPassport) throws Exception {
         String[] valuesTickets = new String[]{
                 Integer.toString(flyightId),
                 Integer.toString(userId),
@@ -228,17 +277,26 @@ public class Model {
                 "'" + passengerFirstName + "'",
                 "'" + passengerSecondName + "'",
                 "'" + passengerBirthDate.getDayOfMonth() + "-" + passengerBirthDate.getMonthValue() + "-" + passengerBirthDate.getYear() + "'",
-                "'" + passengerSex + "'"
+                "'" + passengerSex + "'",
+                Integer.toString(passengerPassport)
         };
         Statement statement;
-        try{
-            if (isSeatFree(flyightId, seatRow, seatColumn) && isFlightValid(flyightId)){
-                db.insertRow(conn, "tickets", valuesTickets);
-                return true;
-            }
-        }
-        catch (Exception e){
-            System.out.println(e.getMessage());
+
+        if (isSeatFree(flyightId, seatRow, seatColumn) && isFlightNotGone(flyightId) && isNameCorrect(passengerFirstName) && isNameCorrect(passengerSecondName) && isBirthdayCorrect(passengerBirthDate) && isPassportCorrect(passengerPassport)) {
+            String[] rowsTikets = new String[]{
+                    "fk_flight_ID",
+                    "fk_user_ID",
+                    "seatRow",
+                    "seatColumn",
+                    "isPayed",
+                    "passengerFirstName",
+                    "passengerSecondName",
+                    "passengerBirthDate",
+                    "passengerSex",
+                    "passengerPassport"
+            };
+            db.insertRow(conn, "tickets", rowsTikets, valuesTickets);
+            return true;
         }
         return false;
     }
@@ -287,6 +345,7 @@ public class Model {
         LocalDateTime check = LocalDateTime.now();
         if (checkingFlightNameDuplicates(flightName) > 0) throw new Exception("Flight name is duplicated!");
         if (departureTime.isBefore(check) || arrivalTime.isBefore(check)) throw new Exception("Date is not valid!");
+        if (departureTime.isAfter(arrivalTime)) throw new Exception("Date is not valid");
         DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         Statement statement;
         statement = conn.createStatement();
@@ -319,8 +378,8 @@ public class Model {
         }
     }
     public static  String[][] filterFlights(int minPrice, int maxPrice,
-                                            LocalDateTime minDateTime, LocalDateTime maxDateTime,
-                                            String departureCountry, String arrivalCountry) {
+        LocalDateTime minDateTime, LocalDateTime maxDateTime,
+        String departureCountry, String arrivalCountry) {
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
         String[][] filteredFlights = null;
@@ -369,7 +428,7 @@ public class Model {
             for (int i = 0; i < parameters.size(); i++) {
                 preparedStatement.setObject(i + 1, parameters.get(i));
             }
-            Statement statement = conn.createStatement();
+
             resultSet = preparedStatement.executeQuery();
 
 
@@ -498,6 +557,42 @@ public class Model {
         // Преобразование списка в двумерный массив
         return resultsList.toArray(new String[0][0]);
     }
+
+    public static String[][] checkingBackCountries(String departureCountryName, String arrivalCountryName, Date departureDate) {
+        String[][] matchingRows = null;
+
+        try (Statement statement = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+             ResultSet resultSet = statement.executeQuery("SELECT flight_ID, flightname, departureDate,  arrivalDate, dep_country.countryName, arr_country.countryName, price, plane.planemodel FROM flights " +
+                     "JOIN countries AS dep_country ON flights.departureCountry_ID = dep_country.country_ID " +
+                     "JOIN countries AS arr_country ON flights.arrivalCountry_ID = arr_country.country_ID " +
+                     "JOIN planes AS plane ON flights.fk_plane_ID = plane.plane_id "+
+                     "WHERE dep_country.countryName = '" + departureCountryName + "' AND arr_country.countryName = '" + arrivalCountryName + "' AND departureDate > '" + new Timestamp(departureDate.getTime()) + "'")
+             ) {
+
+            resultSet.last();
+            int rowCount = resultSet.getRow();
+            resultSet.beforeFirst();
+
+            ResultSetMetaData metaData = resultSet.getMetaData();
+            int columnCount = metaData.getColumnCount();
+
+            matchingRows = new String[rowCount][columnCount];
+
+            int row = 0;
+            while (resultSet.next()) {
+                for (int col = 1; col <= columnCount; col++) {
+                    matchingRows[row][col - 1] = resultSet.getString(col);
+                }
+                row++;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return matchingRows;
+    }
+
+
     public static void printSortedFlights(String sortBy) {
         String[][] sortedFlights = sortFlightsBy(sortBy);
 
@@ -616,5 +711,51 @@ public class Model {
         }
 
         return res;
+    }
+
+    public static String[][] getUsersAllTickets(int userId) throws SQLException {
+        Statement statement;
+        int countRows = 0;
+        int countColumns = 0;
+        String getUserTickets = String.format("SELECT t.id, f.flightname, t.passengerfirstname, t.passengersecondname, f.departuredate, f.arrivaldate, c1.countryname, c2.countryname FROM tickets AS t\n" +
+                "JOIN flights AS f ON t.fk_flight_id = f.flight_ID\n" +
+                "JOIN countries AS c1 ON f.departurecountry_id = c1.country_ID\n" +
+                "JOIN countries AS c2 ON f.arrivalcountry_id = c2.country_ID\n" +
+                "WHERE t.fk_user_Id = %d", userId);
+        String getRows = String.format("SELECT COUNT(*) FROM tickets WHERE fk_user_Id = %d", userId);
+        statement = conn.createStatement();
+        ResultSet resultSet = statement.executeQuery(getRows);
+        resultSet.next();
+        countRows = resultSet.getInt(1);
+        resultSet = statement.executeQuery(getUserTickets);
+        countColumns = resultSet.getMetaData().getColumnCount();
+        String[][] userTickets = new String[countRows][countColumns];
+        for (int i = 0; i < countRows; i++){
+            resultSet.next();
+            for (int j = 0; j < countColumns; j++){
+                userTickets[i][j] = resultSet.getString(j + 1);
+            }
+        }
+        return userTickets;
+    }
+    public static String[][] getUsersAllTickets() throws SQLException {
+        return getUsersAllTickets(userId);
+    }
+    public static String[] getMoreInfoAboutTicket(int ticketId) throws SQLException {
+        String ticket = String.format("SELECT t.id, f.flightname, t.passengerfirstname, t.passengersecondname, f.departuredate, f.arrivaldate, c1.countryname, c2.countryname, t.seatrow, t.seatcolumn, t.passengerpassport, f.price FROM tickets AS t\n" +
+                "JOIN flights AS f ON t.fk_flight_id = f.flight_ID\n" +
+                "JOIN countries AS c1 ON f.departurecountry_id = c1.country_ID\n" +
+                "JOIN countries AS c2 ON f.arrivalcountry_id = c2.country_ID\n" +
+                "WHERE t.id = %d", ticketId);
+        Statement statement = conn.createStatement();
+        ResultSet resultSet = statement.executeQuery(ticket);
+        int countColumns = resultSet.getMetaData().getColumnCount();
+        String[] infoAboutTicket = new String[countColumns];
+        resultSet = statement.executeQuery(ticket);
+        resultSet.next();
+        for (int i = 0; i < countColumns; i++){
+            infoAboutTicket[i] = resultSet.getString(i + 1);
+        }
+        return infoAboutTicket;
     }
 }

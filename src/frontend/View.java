@@ -2,6 +2,7 @@ package frontend;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.Objects;
 
 public abstract class View {
@@ -9,12 +10,15 @@ public abstract class View {
 
     static final AuthForm authForm = new AuthForm();
     static final HomePage homePage = new HomePage();
-    static final AnotherPage anotherPage = new AnotherPage();
+    static final MyTicketsPage myTicketsPage = new MyTicketsPage();
     static final FlightsPage flightsPage = new FlightsPage();
     static final FlightInfo flightInfo = new FlightInfo();
     static final FlightEdit flightEdit = new FlightEdit();
     static final FlightAdd flightAdd = new FlightAdd();
     static final PlaneLayout planeLayout = new PlaneLayout();
+    static final PaymentForm paymentForm = new PaymentForm();
+    static OrderTicket[] ticketsList;
+    static int curTicketIndex = 0;
 
     static final int screenWidth = Toolkit.getDefaultToolkit().getScreenSize().width;
     static final int screenHeight = Toolkit.getDefaultToolkit().getScreenSize().height;
@@ -29,14 +33,15 @@ public abstract class View {
     }
 
     public static void goToHomePage() {
-        setSize(800, 600);
+        setSize(1000, 800);
         mainFrame.setContentPane(homePage.getContent());
         mainFrame.revalidate();
     }
 
-    public static void goToAnotherPage() {
-        setSize(800, 600);
-        mainFrame.setContentPane(anotherPage.getContent());
+    public static void goToMyTicketsPage() {
+        myTicketsPage.refreshTable();
+        setSize(1000, 800);
+        mainFrame.setContentPane(myTicketsPage.getContent());
         mainFrame.revalidate();
     }
 
@@ -82,6 +87,60 @@ public abstract class View {
         setSize(600, 700);
         planeLayout.refresh(flightId);
         mainFrame.setContentPane(planeLayout.getContent());
+        mainFrame.revalidate();
+    }
+
+    public static void goToOrderTicket(ArrayList<String> selectedSeats) {
+        curTicketIndex = 0;
+
+        setSize(600, 700);
+
+        String flightName = flightInfo.getFlightName();
+        int ticketsNum = selectedSeats.size();
+
+        ticketsList = new OrderTicket[ticketsNum];
+
+        for(int i = 0; i < ticketsNum; i++) {
+            ticketsList[i] = new OrderTicket(flightName, selectedSeats.get(i), i, ticketsNum);
+        }
+
+
+        mainFrame.setContentPane(ticketsList[0].getContent());
+        mainFrame.revalidate();
+    }
+
+    public static void goToNextTicket() {
+        curTicketIndex++;
+        if(curTicketIndex == ticketsList.length) {
+            paymentForm.refresh();
+            setSize(600, 700);
+            mainFrame.setContentPane(paymentForm.getContent());
+            mainFrame.revalidate();
+            return;
+        }
+
+        setSize(600, 700);
+        mainFrame.setContentPane(ticketsList[curTicketIndex].getContent());
+        mainFrame.revalidate();
+    }
+
+    public static void goToPreviousTicket() {
+        if(curTicketIndex == 0) {
+            setSize(600, 700);
+            mainFrame.setContentPane(planeLayout.getContent());
+            mainFrame.revalidate();
+            return;
+        }
+
+        curTicketIndex--;
+        setSize(600, 700);
+        mainFrame.setContentPane(ticketsList[curTicketIndex].getContent());
+        mainFrame.revalidate();
+    }
+
+    public static void goToPaymentForm() {
+        setSize(600, 700);
+        mainFrame.setContentPane(paymentForm.getContent());
         mainFrame.revalidate();
     }
 

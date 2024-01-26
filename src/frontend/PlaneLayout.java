@@ -27,14 +27,14 @@ public class PlaneLayout {
 
         for(int i = 0; i < data.length; i++) {
             for(int j = 0; j < data[0].length; j++) {
-                Button button = new Button(i + " " + (char)('A' + j));
+                Button button = new Button((i + 1) + " " + (char)('A' + j));
                 button.setPreferredSize(new Dimension(20, 10));
                 button.setFocusable(false);
 
-                if(data[i][j] != -1) {
+                if(data[i][j] == 0) {
                     button.setBackground(Color.RED);
                     button.setEnabled(false);
-                } else {
+                } else if(data[i][j] == -1) {
                     button.addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
@@ -43,6 +43,9 @@ public class PlaneLayout {
                             else button.setBackground(Color.white);
                         }
                     });
+                } else if(data[i][j] == 1) {
+                    button.setBackground(Color.GREEN);
+                    button.setEnabled(false);
                 }
 
                 buttonPanel.add(button);

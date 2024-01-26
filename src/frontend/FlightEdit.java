@@ -7,17 +7,19 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
+import static frontend.Utility.setDateTimeFormat;
 import static javax.swing.JOptionPane.showMessageDialog;
 
 public class FlightEdit {
     private JPanel content;
     private JPanel mainPanel;
     private JTextField flightId;
-    private JTextField flightName;
-    private JTextField arrDate;
-    private JTextField price;
-    private JTextField depDate;
+    private JFormattedTextField flightName;
+    private JFormattedTextField arrDate;
+    private JFormattedTextField price;
+    private JFormattedTextField depDate;
     private JPanel bottomPanel;
     private JButton confirm;
     private JPanel topPanel;
@@ -60,6 +62,8 @@ public class FlightEdit {
         for(Component component : topPanel.getComponents())
             component.addMouseListener(Controller.backMouseButton());
 
+        setDateTimeFormat(depDate, null);
+        setDateTimeFormat(arrDate, null);
 
         cancel.addActionListener(Controller.navigateFlightInfo());
 
@@ -69,8 +73,8 @@ public class FlightEdit {
                 try {
                     int id = Integer.parseInt(flightId.getText());
                     String name = flightName.getText();
-                    LocalDateTime departureTime = LocalDateTime.parse(depDate.getText().replace(' ', 'T'));
-                    LocalDateTime arrivalTime = LocalDateTime.parse(arrDate.getText().replace(' ', 'T'));
+                    LocalDateTime departureTime = LocalDateTime.parse(depDate.getText(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+                    LocalDateTime arrivalTime = LocalDateTime.parse(arrDate.getText(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
                     String departureCountry = depCountry.getSelectedItem().toString();
                     String arrivalCountry = arrCountry.getSelectedItem().toString();
                     String planeName = plane.getSelectedItem().toString();

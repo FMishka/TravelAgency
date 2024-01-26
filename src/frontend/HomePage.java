@@ -1,17 +1,19 @@
 package frontend;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.*;
+import java.util.Objects;
 
 public class HomePage {
 
     private JButton homePageButton;
     private JPanel content;
-    private JButton anotherPageButton;
+    private JButton myTicketsPageButton;
     private JButton logout;
     private JPanel navigation;
     private JButton flightsButton;
+    private JPanel cats;
+    private JLabel label;
 
     public JPanel getContent() {
         return content;
@@ -19,8 +21,17 @@ public class HomePage {
 
     public HomePage() {
         homePageButton.addActionListener(Controller.navigateHome());
-        anotherPageButton.addActionListener(Controller.navigateAnother());
+        myTicketsPageButton.addActionListener(Controller.navigateMyTickets());
         flightsButton.addActionListener(Controller.navigateFlights());
         logout.addActionListener(Controller.logout());
+
+        cats.setLayout(new GridLayout(1, 3));
+
+        for(int i = 0; i < 3; i++) {
+            JLabel label = new JLabel(new ImageIcon(Objects.requireNonNull(getClass().getResource("icons/cat.gif"))));
+            cats.add(label);
+        }
+
+
     }
 }

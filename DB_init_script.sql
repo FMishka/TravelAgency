@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS planes
 );
 
 INSERT INTO planes(planeModel, rowsNumber, columnsNumber) VALUES ('A-320',30, 6);
-INSERT INTO planes(planeModel, rowsNumber, columnsNumber) VALUES ('Sukhoi Superjet 100',20, 5);
+INSERT INTO planes(planeModel, rowsNumber, columnsNumber) VALUES ('Sukhoi Superjet',20, 5);
 
 
 CREATE TABLE IF NOT EXISTS users
@@ -82,6 +82,7 @@ INSERT INTO flights(flightname, departureDate, arrivalDate, departureCountry_ID,
 
 CREATE TABLE IF NOT EXISTS tickets
 (
+    id serial PRIMARY KEY,
     fk_flight_ID integer REFERENCES flights (flight_ID)  not NULL,
     fk_user_ID integer REFERENCES users (user_ID) not NULL,
     seatRow integer not NULL,
@@ -92,20 +93,19 @@ CREATE TABLE IF NOT EXISTS tickets
     passengerBirthDate date not NULL,
     passengerSex varchar not NULL,
     passengerPassport integer not NULL,
-    PRIMARY KEY (fk_flight_ID, fk_user_ID),
     CONSTRAINT ticketToFlight FOREIGN KEY (fk_flight_ID)  REFERENCES flights (flight_ID) ON DELETE CASCADE
     );
-INSERT INTO tickets VALUES (1,  2, 10, 1, TRUE, 'Shimon', 'Roitman', '11-01-2002', 'M', 34678912);
-INSERT INTO tickets VALUES (2,  2, 8, 2, TRUE, 'Shimon', 'Roitman', '11-01-2002', 'M', 34678912);
-INSERT INTO tickets VALUES (1,  3, 7, 6, TRUE, 'Andrey', 'Savvteev', '06-09-2000', 'M', 34666999);
-INSERT INTO tickets VALUES (4,  3, 15, 4, TRUE, 'Andrey', 'Savvteev', '06-09-2000', 'M', 34666999);
-INSERT INTO tickets VALUES (5,  3, 20, 2, TRUE, 'Andrey', 'Savvteev', '06-09-2000', 'M', 34666999);
-INSERT INTO tickets VALUES (6,  3, 20, 2, TRUE, 'Andrey', 'Savvteev', '06-09-2000', 'M', 34666999);
-INSERT INTO tickets VALUES (1,  4, 9, 5, TRUE, 'Bizalel', 'Basin', '08-03-2001', 'M', 34777777);
-INSERT INTO tickets VALUES (8,  4, 6, 1, TRUE, 'Bizalel', 'Basin', '08-03-2001', 'M', 34777777);
-INSERT INTO tickets VALUES (1,  5, 5, 3, TRUE, 'Avigail', 'Jacobson', '08-07-1999', 'F', 34234567);
-INSERT INTO tickets VALUES (10, 5, 6, 6, TRUE, 'Avigail', 'Jacobson', '08-07-1999', 'F', 34234567);
-INSERT INTO tickets VALUES (1,  6, 6, 6, FALSE, 'David', 'Mikhelson', '11-09-1990', 'M', 34456789);
+INSERT INTO tickets(fk_flight_ID, fk_user_ID, seatRow, seatColumn, isPayed, passengerFirstName, passengerSecondName, passengerBirthDate, passengerSex, passengerPassport) VALUES (1,  2, 10, 1, TRUE, 'Shimon', 'Roitman', '11-01-2002', 'M', 34678912);
+INSERT INTO tickets(fk_flight_ID, fk_user_ID, seatRow, seatColumn, isPayed, passengerFirstName, passengerSecondName, passengerBirthDate, passengerSex, passengerPassport) VALUES (2,  2, 8, 2, TRUE, 'Shimon', 'Roitman', '11-01-2002', 'M', 34678912);
+INSERT INTO tickets(fk_flight_ID, fk_user_ID, seatRow, seatColumn, isPayed, passengerFirstName, passengerSecondName, passengerBirthDate, passengerSex, passengerPassport) VALUES (1,  3, 7, 5, TRUE, 'Andrey', 'Savvteev', '06-09-2000', 'M', 34666999);
+INSERT INTO tickets(fk_flight_ID, fk_user_ID, seatRow, seatColumn, isPayed, passengerFirstName, passengerSecondName, passengerBirthDate, passengerSex, passengerPassport) VALUES (4,  3, 15, 4, TRUE, 'Andrey', 'Savvteev', '06-09-2000', 'M', 34666999);
+INSERT INTO tickets(fk_flight_ID, fk_user_ID, seatRow, seatColumn, isPayed, passengerFirstName, passengerSecondName, passengerBirthDate, passengerSex, passengerPassport) VALUES (5,  3, 20, 2, TRUE, 'Andrey', 'Savvteev', '06-09-2000', 'M', 34666999);
+INSERT INTO tickets(fk_flight_ID, fk_user_ID, seatRow, seatColumn, isPayed, passengerFirstName, passengerSecondName, passengerBirthDate, passengerSex, passengerPassport) VALUES (6,  3, 20, 2, TRUE, 'Andrey', 'Savvteev', '06-09-2000', 'M', 34666999);
+INSERT INTO tickets(fk_flight_ID, fk_user_ID, seatRow, seatColumn, isPayed, passengerFirstName, passengerSecondName, passengerBirthDate, passengerSex, passengerPassport) VALUES (1,  4, 9, 5, TRUE, 'Bizalel', 'Basin', '08-03-2001', 'M', 34777777);
+INSERT INTO tickets(fk_flight_ID, fk_user_ID, seatRow, seatColumn, isPayed, passengerFirstName, passengerSecondName, passengerBirthDate, passengerSex, passengerPassport) VALUES (8,  4, 6, 1, TRUE, 'Bizalel', 'Basin', '08-03-2001', 'M', 34777777);
+INSERT INTO tickets(fk_flight_ID, fk_user_ID, seatRow, seatColumn, isPayed, passengerFirstName, passengerSecondName, passengerBirthDate, passengerSex, passengerPassport) VALUES (1,  5, 5, 3, TRUE, 'Avigail', 'Jacobson', '08-07-1999', 'F', 34234567);
+INSERT INTO tickets(fk_flight_ID, fk_user_ID, seatRow, seatColumn, isPayed, passengerFirstName, passengerSecondName, passengerBirthDate, passengerSex, passengerPassport) VALUES (10, 5, 6, 6, TRUE, 'Avigail', 'Jacobson', '08-07-1999', 'F', 34234567);
+INSERT INTO tickets(fk_flight_ID, fk_user_ID, seatRow, seatColumn, isPayed, passengerFirstName, passengerSecondName, passengerBirthDate, passengerSex, passengerPassport) VALUES (1,  6, 6, 5, FALSE, 'David', 'Mikhelson', '11-09-1990', 'M', 34456789);
 
 CREATE TABLE IF NOT EXISTS paymentData
 (
@@ -116,4 +116,4 @@ CREATE TABLE IF NOT EXISTS paymentData
     cvv varchar not NULL,
     PRIMARY KEY (fk_user_ID, cardNumber)
     );
-INSERT INTO  paymentData VALUES (2, '4580010554876947', '02/27', 'Andrey_Savvteev', '123');
+INSERT INTO  paymentData VALUES (2, '5AD67598ACA5E92CE69EFAA5AC9C9323E0E30E4C91DA1354A1E813B473365D9F', '8B3B0D0FC5AB63C698700444326F7E76', '217D726A62652CFB29793B5B5F235AEA', '7F75F9089D3C8B7EF4BD98CB8088C920');

@@ -6,16 +6,16 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
-import static frontend.Utility.setPlaceholder;
 import static javax.swing.JOptionPane.showMessageDialog;
 
 public class FlightAdd {
     private JPanel mainPanel;
-    private JTextField flightName;
-    private JTextField arrDate;
-    private JTextField price;
-    private JTextField depDate;
+    private JFormattedTextField flightName;
+    private JFormattedTextField arrDate;
+    private JFormattedTextField price;
+    private JFormattedTextField depDate;
     private JComboBox<String> depCountry;
     private JComboBox<String> arrCountry;
     private JComboBox<String> plane;
@@ -26,15 +26,13 @@ public class FlightAdd {
     private JPanel content;
 
     public void reset() {
-        setPlaceholder(flightName, "AZ-000");
-        setPlaceholder(price, "999");
+//        setPlaceholder(flightName, "AZ-000");
+//        setPlaceholder(price, "999");
 
         depCountry.setSelectedItem(Controller.countries[0]);
         arrCountry.setSelectedItem(Controller.countries[0]);
         plane.setSelectedItem(Controller.planes[0]);
 
-        depDate.setText("2000-01-01 00:00");
-        arrDate.setText("2000-01-01 00:00");
     }
 
     public FlightAdd() {
@@ -44,6 +42,10 @@ public class FlightAdd {
         arrCountry.setModel(new DefaultComboBoxModel<String>(Controller.countries));
         plane.setModel(new DefaultComboBoxModel<String>(Controller.planes));
 
+        Utility.setDateTimeFormat(arrDate, Utility.DEFAULT_DATETIME);
+        Utility.setDateTimeFormat(depDate, Utility.DEFAULT_DATETIME);
+        Utility.setFlightNameFormat(flightName);
+
         reset();
 
         confirm.addActionListener(new ActionListener() {
@@ -51,8 +53,8 @@ public class FlightAdd {
             public void actionPerformed(ActionEvent e) {
                 try {
                     String name = flightName.getText();
-                    LocalDateTime departureTime = LocalDateTime.parse(depDate.getText().replace(' ', 'T'));
-                    LocalDateTime arrivalTime = LocalDateTime.parse(arrDate.getText().replace(' ', 'T'));
+                    LocalDateTime departureTime = LocalDateTime.parse(depDate.getText(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+                    LocalDateTime arrivalTime = LocalDateTime.parse(arrDate.getText(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
                     String departureCountry = depCountry.getSelectedItem().toString();
                     String arrivalCountry = arrCountry.getSelectedItem().toString();
                     String planeName = plane.getSelectedItem().toString();
@@ -66,6 +68,7 @@ public class FlightAdd {
 
                     reset();
                 } catch (Exception ex) {
+                    ex.printStackTrace();
                     showMessageDialog(null, ex.getMessage(), "Invalid data", JOptionPane.ERROR_MESSAGE);
                 }
             }

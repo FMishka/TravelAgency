@@ -134,7 +134,7 @@
               <text value="Plane:"/>
             </properties>
           </component>
-          <component id="f1fa5" class="javax.swing.JTextField" binding="flightName">
+          <component id="4bf5e" class="javax.swing.JFormattedTextField" binding="flightName">
             <constraints>
               <grid row="1" column="4" row-span="1" col-span="3" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false">
                 <preferred-size width="250" height="42"/>
@@ -150,7 +150,7 @@
               <text value=""/>
             </properties>
           </component>
-          <component id="86c4f" class="javax.swing.JTextField" binding="arrDate">
+          <component id="f0693" class="javax.swing.JFormattedTextField" binding="arrDate">
             <constraints>
               <grid row="4" column="4" row-span="1" col-span="3" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false">
                 <preferred-size width="250" height="42"/>
@@ -166,7 +166,7 @@
               <text value=""/>
             </properties>
           </component>
-          <component id="bd036" class="javax.swing.JTextField" binding="price">
+          <component id="4e849" class="javax.swing.JFormattedTextField" binding="price">
             <constraints>
               <grid row="6" column="4" row-span="1" col-span="3" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false">
                 <preferred-size width="250" height="42"/>
@@ -182,7 +182,7 @@
               <text value=""/>
             </properties>
           </component>
-          <component id="b53c4" class="javax.swing.JTextField" binding="depDate">
+          <component id="3ca83" class="javax.swing.JFormattedTextField" binding="depDate">
             <constraints>
               <grid row="2" column="4" row-span="1" col-span="3" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false">
                 <preferred-size width="250" height="42"/>
@@ -327,7 +327,7 @@
               <focusable value="false"/>
               <font name="Droid Sans" size="16" style="1"/>
               <foreground color="-16777216"/>
-              <icon value="frontend/icons/arrow.png"/>
+              <icon value="frontend/icons/back.png"/>
               <text value="cancel edit"/>
             </properties>
           </component>

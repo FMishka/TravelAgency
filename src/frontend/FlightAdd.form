@@ -118,7 +118,7 @@
               <text value="Plane:"/>
             </properties>
           </component>
-          <component id="b5b4" class="javax.swing.JTextField" binding="flightName">
+          <component id="73c4c" class="javax.swing.JFormattedTextField" binding="flightName">
             <constraints>
               <grid row="0" column="4" row-span="2" col-span="3" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false">
                 <preferred-size width="250" height="42"/>
@@ -134,7 +134,7 @@
               <text value=""/>
             </properties>
           </component>
-          <component id="d1df4" class="javax.swing.JTextField" binding="arrDate">
+          <component id="cc3d1" class="javax.swing.JFormattedTextField" binding="arrDate">
             <constraints>
               <grid row="4" column="4" row-span="1" col-span="3" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false">
                 <preferred-size width="250" height="42"/>
@@ -150,7 +150,7 @@
               <text value=""/>
             </properties>
           </component>
-          <component id="ee0ee" class="javax.swing.JTextField" binding="price">
+          <component id="6e0a1" class="javax.swing.JFormattedTextField" binding="price">
             <constraints>
               <grid row="6" column="4" row-span="1" col-span="3" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false">
                 <preferred-size width="250" height="42"/>
@@ -166,7 +166,7 @@
               <text value=""/>
             </properties>
           </component>
-          <component id="764e3" class="javax.swing.JTextField" binding="depDate">
+          <component id="41b25" class="javax.swing.JFormattedTextField" binding="depDate">
             <constraints>
               <grid row="2" column="4" row-span="1" col-span="3" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false">
                 <preferred-size width="250" height="42"/>
@@ -266,7 +266,7 @@
               <focusable value="false"/>
               <font name="Droid Sans" size="16" style="1"/>
               <foreground color="-16777216"/>
-              <icon value="frontend/icons/arrow.png"/>
+              <icon value="frontend/icons/back.png"/>
               <text value="back"/>
             </properties>
           </component>

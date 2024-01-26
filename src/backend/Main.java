@@ -22,10 +22,9 @@ import static backend.Model.*;
 
 public class Main {
     public static void main(String[] args) throws Exception {
-        Model model = new Model();
+        //Model model = new Model();
         Model.initConnection();
-        //Model.printSortedFlights("ticketsDown");
-        String[] str = Model.getUserPaymentData(2);
+        String[] str = Model.getMoreInfoAboutTicket(11);
         for (int i = 0; i < str.length; i++){
             System.out.print(str[i] + " ");
         }

@@ -345,6 +345,7 @@ public class Model {
         LocalDateTime check = LocalDateTime.now();
         if (checkingFlightNameDuplicates(flightName) > 0) throw new Exception("Flight name is duplicated!");
         if (departureTime.isBefore(check) || arrivalTime.isBefore(check)) throw new Exception("Date is not valid!");
+        if (departureTime.isAfter(arrivalTime)) throw new Exception("Date is not valid");
         DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         Statement statement;
         statement = conn.createStatement();
@@ -739,5 +740,22 @@ public class Model {
     }
     public static String[][] getUsersAllTickets() throws SQLException {
         return getUsersAllTickets(userId);
+    }
+    public static String[] getMoreInfoAboutTicket(int ticketId) throws SQLException {
+        String ticket = String.format("SELECT t.id, f.flightname, t.passengerfirstname, t.passengersecondname, f.departuredate, f.arrivaldate, c1.countryname, c2.countryname, t.seatrow, t.seatcolumn, t.passengerpassport, f.price FROM tickets AS t\n" +
+                "JOIN flights AS f ON t.fk_flight_id = f.flight_ID\n" +
+                "JOIN countries AS c1 ON f.departurecountry_id = c1.country_ID\n" +
+                "JOIN countries AS c2 ON f.arrivalcountry_id = c2.country_ID\n" +
+                "WHERE t.id = %d", ticketId);
+        Statement statement = conn.createStatement();
+        ResultSet resultSet = statement.executeQuery(ticket);
+        int countColumns = resultSet.getMetaData().getColumnCount();
+        String[] infoAboutTicket = new String[countColumns];
+        resultSet = statement.executeQuery(ticket);
+        resultSet.next();
+        for (int i = 0; i < countColumns; i++){
+            infoAboutTicket[i] = resultSet.getString(i + 1);
+        }
+        return infoAboutTicket;
     }
 }

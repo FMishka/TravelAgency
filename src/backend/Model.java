@@ -601,7 +601,6 @@ public class Model {
             e.printStackTrace();
         }
 
-        // Преобразование списка в двумерный массив
         return resultsList.toArray(new String[0][0]);
     }
 

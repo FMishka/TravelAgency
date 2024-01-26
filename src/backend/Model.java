@@ -613,7 +613,7 @@ public class Model {
                      "JOIN countries AS dep_country ON flights.departureCountry_ID = dep_country.country_ID " +
                      "JOIN countries AS arr_country ON flights.arrivalCountry_ID = arr_country.country_ID " +
                      "JOIN planes AS plane ON flights.fk_plane_ID = plane.plane_id "+
-                     "WHERE dep_country.countryName = '" + departureCountryName + "' AND arr_country.countryName = '" + arrivalCountryName + "' AND arrivalDate > '" + Timestamp.valueOf(arrivalDate) + "'")
+                     "WHERE dep_country.countryName = '" + arrivalCountryName + "' AND arr_country.countryName = '" + departureCountryName + "' AND arrivalDate > '" + Timestamp.valueOf(arrivalDate) + "'")
              ) {
 
             resultSet.last();

@@ -1,7 +1,6 @@
 package frontend;
 
 import backend.Model;
-import frontend.inputVerifiers.DateTimeInputVerifier;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,16 +9,17 @@ import java.awt.event.ActionListener;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+import static frontend.Utility.setDateTimeFormat;
 import static javax.swing.JOptionPane.showMessageDialog;
 
 public class FlightEdit {
     private JPanel content;
     private JPanel mainPanel;
     private JTextField flightId;
-    private JTextField flightName;
-    private JTextField arrDate;
-    private JTextField price;
-    private JTextField depDate;
+    private JFormattedTextField flightName;
+    private JFormattedTextField arrDate;
+    private JFormattedTextField price;
+    private JFormattedTextField depDate;
     private JPanel bottomPanel;
     private JButton confirm;
     private JPanel topPanel;
@@ -62,8 +62,8 @@ public class FlightEdit {
         for(Component component : topPanel.getComponents())
             component.addMouseListener(Controller.backMouseButton());
 
-        depDate.setInputVerifier(new DateTimeInputVerifier());
-        arrDate.setInputVerifier(new DateTimeInputVerifier());
+        setDateTimeFormat(depDate, null);
+        setDateTimeFormat(arrDate, null);
 
         cancel.addActionListener(Controller.navigateFlightInfo());
 

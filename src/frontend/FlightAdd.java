@@ -14,9 +14,9 @@ import static javax.swing.JOptionPane.showMessageDialog;
 public class FlightAdd {
     private JPanel mainPanel;
     private JTextField flightName;
-    private JTextField arrDate;
-    private JTextField price;
-    private JTextField depDate;
+    private JFormattedTextField arrDate;
+    private JFormattedTextField price;
+    private JFormattedTextField depDate;
     private JComboBox<String> depCountry;
     private JComboBox<String> arrCountry;
     private JComboBox<String> plane;
@@ -28,14 +28,12 @@ public class FlightAdd {
 
     public void reset() {
         setPlaceholder(flightName, "AZ-000");
-        setPlaceholder(price, "999");
+//        setPlaceholder(price, "999");
 
         depCountry.setSelectedItem(Controller.countries[0]);
         arrCountry.setSelectedItem(Controller.countries[0]);
         plane.setSelectedItem(Controller.planes[0]);
 
-        depDate.setText("2000-01-01 00:00");
-        arrDate.setText("2000-01-01 00:00");
     }
 
     public FlightAdd() {
@@ -45,8 +43,16 @@ public class FlightAdd {
         arrCountry.setModel(new DefaultComboBoxModel<String>(Controller.countries));
         plane.setModel(new DefaultComboBoxModel<String>(Controller.planes));
 
-        depDate.setInputVerifier(new DateTimeInputVerifier());
-        arrDate.setInputVerifier(new DateTimeInputVerifier());
+//        NumberFormatter formatter = new NumberFormatter(NumberFormat.getInstance());
+//        formatter.setValueClass(Integer.class);
+//        formatter.setMinimum(0);
+//        formatter.setMaximum(Integer.MAX_VALUE);
+//        formatter.setAllowsInvalid(false);
+//        formatter.setCommitsOnValidEdit(true);
+//        price.setFormatterFactory(new DefaultFormatterFactory(formatter));
+
+        Utility.setDateTimeFormat(arrDate, Utility.DEFAULT_DATETIME);
+        Utility.setDateTimeFormat(depDate, Utility.DEFAULT_DATETIME);
 
         reset();
 
@@ -60,7 +66,7 @@ public class FlightAdd {
                     String departureCountry = depCountry.getSelectedItem().toString();
                     String arrivalCountry = arrCountry.getSelectedItem().toString();
                     String planeName = plane.getSelectedItem().toString();
-                    int flightPrice = Integer.parseInt(price.getText());
+                    int flightPrice = (int) price.getValue();
 
                     Model.addFlight(name, departureTime, arrivalTime, departureCountry, arrivalCountry, planeName, flightPrice);
                     showMessageDialog(null, "Flight added", "Success", JOptionPane.INFORMATION_MESSAGE);

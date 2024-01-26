@@ -22,6 +22,7 @@ import static backend.Model.*;
 
 public class Main {
     public static void main(String[] args) throws Exception {
+
         //Model model = new Model();
         Model.initConnection();
         //Model.printSortedFlights("ticketsDown");
@@ -30,14 +31,14 @@ public class Main {
         Date departureDate = new Date();
 
 
-        String[][] matchingRows = checkingBackCountries(departureCountryName,arrivalCountryName, departureDate);
 
-        for (int i = 0; i < matchingRows.length; i++) {
-            for (int j = 0; j < matchingRows[i].length; j++) {
-                System.out.print(matchingRows[i][j] + "\t" );
-            }
-            System.out.println();
+        Model model = new Model();
+        Model.initConnection();
+        //Model.printSortedFlights("ticketsDown");
+        String[] str = Model.getUserPaymentData(2);
+        for (int i = 0; i < str.length; i++){
+            System.out.print(str[i] + " ");
+
         }
-
     }
 }

@@ -134,7 +134,7 @@
               <text value=""/>
             </properties>
           </component>
-          <component id="d2ca" class="javax.swing.JTextField" binding="firstName">
+          <component id="5b887" class="javax.swing.JFormattedTextField" binding="firstName">
             <constraints>
               <grid row="2" column="3" row-span="1" col-span="3" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false">
                 <preferred-size width="250" height="42"/>
@@ -150,7 +150,7 @@
               <text value=""/>
             </properties>
           </component>
-          <component id="e999b" class="javax.swing.JTextField" binding="secondName">
+          <component id="db235" class="javax.swing.JFormattedTextField" binding="secondName">
             <constraints>
               <grid row="3" column="3" row-span="1" col-span="3" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false">
                 <preferred-size width="250" height="42"/>
@@ -166,7 +166,7 @@
               <text value=""/>
             </properties>
           </component>
-          <component id="41933" class="javax.swing.JTextField" binding="birthDate">
+          <component id="14ff2" class="javax.swing.JFormattedTextField" binding="birthDate">
             <constraints>
               <grid row="4" column="3" row-span="1" col-span="3" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false">
                 <preferred-size width="250" height="42"/>
@@ -182,7 +182,7 @@
               <text value=""/>
             </properties>
           </component>
-          <component id="6e95c" class="javax.swing.JTextField" binding="passport">
+          <component id="47b7f" class="javax.swing.JFormattedTextField" binding="passport">
             <constraints>
               <grid row="5" column="3" row-span="1" col-span="3" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false">
                 <preferred-size width="250" height="42"/>

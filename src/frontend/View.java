@@ -2,8 +2,12 @@ package frontend;
 
 import javax.swing.*;
 import java.awt.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Objects;
+
+import static javax.swing.JOptionPane.showMessageDialog;
 
 public abstract class View {
     static JFrame mainFrame;
@@ -17,6 +21,9 @@ public abstract class View {
     static final FlightAdd flightAdd = new FlightAdd();
     static final PlaneLayout planeLayout = new PlaneLayout();
     static final PaymentForm paymentForm = new PaymentForm();
+    static final ReturnFlights returnFlights = new ReturnFlights();
+    static final ReturnFlightInfo returnFlightInfo = new ReturnFlightInfo();
+    static final ReturnPlaneLayout returnPlaneLayout = new ReturnPlaneLayout();
     static OrderTicket[] ticketsList;
     static int curTicketIndex = 0;
 
@@ -70,6 +77,19 @@ public abstract class View {
         mainFrame.revalidate();
     }
 
+    public static void goToReturnFlightInfo(String[] data) {
+        setSize(600, 700);
+        returnFlightInfo.setData(data);
+        mainFrame.setContentPane(returnFlightInfo.getContent());
+        mainFrame.revalidate();
+    }
+
+    public static void goToReturnFlightInfo() {
+        setSize(600, 700);
+        mainFrame.setContentPane(returnFlightInfo.getContent());
+        mainFrame.revalidate();
+    }
+
     public static void goToFlightEdit(String[] data) {
         setSize(600, 700);
         flightEdit.setData(data);
@@ -87,6 +107,13 @@ public abstract class View {
         setSize(600, 700);
         planeLayout.refresh(flightId);
         mainFrame.setContentPane(planeLayout.getContent());
+        mainFrame.revalidate();
+    }
+
+    public static void goToReturnPlaneLayout(int flightId) {
+        setSize(600, 700);
+        returnPlaneLayout.refresh(flightId);
+        mainFrame.setContentPane(returnPlaneLayout.getContent());
         mainFrame.revalidate();
     }
 
@@ -109,19 +136,42 @@ public abstract class View {
         mainFrame.revalidate();
     }
 
+    public static void goToReturnFlights() {
+        setSize(1000, 800);
+        mainFrame.setContentPane(returnFlights.getContent());
+        mainFrame.revalidate();
+    }
+
     public static void goToNextTicket() {
         curTicketIndex++;
         if(curTicketIndex == ticketsList.length) {
-            paymentForm.refresh();
-            setSize(600, 700);
-            mainFrame.setContentPane(paymentForm.getContent());
-            mainFrame.revalidate();
-            return;
-        }
+            int returnTicketsNumber = 0;
+            for(OrderTicket orderTicket : ticketsList) {
+                if(orderTicket.needReturnTicketCheckBox.isSelected()) returnTicketsNumber++;
+            }
 
-        setSize(600, 700);
-        mainFrame.setContentPane(ticketsList[curTicketIndex].getContent());
-        mainFrame.revalidate();
+            if(returnTicketsNumber > 0) {
+                returnFlights.refreshTable(flightInfo.getData()[4], flightInfo.getData()[5],
+                        LocalDateTime.parse(flightInfo.getData()[3], DateTimeFormatter.ofPattern("uuuu-MM-dd HH:mm")));
+
+                if(returnFlights.tableIsEmpty) {
+                    showMessageDialog(null, "There is no return flight!", "Error", JOptionPane.ERROR_MESSAGE);
+                    curTicketIndex--;
+                } else {
+                    returnPlaneLayout.setAmountToChoose(returnTicketsNumber);
+                    goToReturnFlights();
+                }
+            } else {
+                paymentForm.refresh();
+                setSize(600, 700);
+                mainFrame.setContentPane(paymentForm.getContent());
+                mainFrame.revalidate();
+            }
+        } else {
+            setSize(600, 700);
+            mainFrame.setContentPane(ticketsList[curTicketIndex].getContent());
+            mainFrame.revalidate();
+        }
     }
 
     public static void goToPreviousTicket() {

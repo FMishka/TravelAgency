@@ -85,11 +85,29 @@ public abstract class Controller {
         };
     }
 
+    public static ActionListener navigateReturnFlights() {
+        return new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                View.goToReturnFlights();
+            }
+        };
+    }
+
     public static ActionListener navigateFlightInfo() {
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 View.goToFlightInfo();
+            }
+        };
+    }
+
+    public static ActionListener navigateReturnFlightInfo() {
+        return new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                View.goToReturnFlightInfo();
             }
         };
     }
@@ -117,6 +135,15 @@ public abstract class Controller {
             @Override
             public void actionPerformed(ActionEvent e) {
                 View.goToPlaneLayout(flightInfo.curFlightId);
+            }
+        };
+    }
+
+    public static ActionListener navigateReturnPlaneLayout(ReturnFlightInfo returnFlightInfo) {
+        return new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                View.goToReturnPlaneLayout(returnFlightInfo.curFlightId);
             }
         };
     }
@@ -161,6 +188,27 @@ public abstract class Controller {
                 int column = table.getTableHeader().columnAtPoint(point);
 
                 System.out.println(column);
+            }
+        };
+    }
+
+    public static MouseAdapter returnTableMouseClick(JTable table) {
+        return new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent event) {
+                Point point = event.getPoint();
+                int row = table.rowAtPoint(point);
+
+                if (event.getClickCount() == 2 && table.getSelectedRow() != -1) {
+                    String[] data = new String[table.getModel().getColumnCount()];
+
+                    for(int i = 0; i < table.getModel().getColumnCount(); i++) {
+                        data[i] = table.getModel().getValueAt(row, i).toString();
+                    }
+
+
+                    View.goToReturnFlightInfo(data);
+                }
             }
         };
     }
@@ -225,6 +273,39 @@ public abstract class Controller {
 
                 View.paymentForm.setTotalPrice(selectedSeats.size() * Integer.parseInt(View.flightInfo.getData()[6]));
                 View.goToOrderTicket(selectedSeats);
+            }
+        };
+    }
+
+    public static ActionListener selectReturnSeats(ReturnPlaneLayout returnPlaneLayout) {
+        return new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ArrayList<String> selectedSeats = new ArrayList<String>();
+                for (Component component : returnPlaneLayout.buttonPanel.getComponents()) {
+                    Button button = null;
+                    if (component instanceof Button) {
+                        button = (Button) component;
+
+                        if (button.getBackground() == Color.green && button.isEnabled()) {
+                            selectedSeats.add(button.getLabel());
+                        }
+                    }
+                }
+
+                if(selectedSeats.isEmpty()) {
+                    showMessageDialog(null, "No seats selected", "Select seats", JOptionPane.ERROR_MESSAGE);
+                    return;
+                } else if(selectedSeats.size() != returnPlaneLayout.getAmountToChoose()) {
+                    showMessageDialog(null, "Selected " + selectedSeats.size() + " seats, required " + returnPlaneLayout.getAmountToChoose(),
+                            "Wrong amount of seats selected", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    View.paymentForm.setTotalPrice(View.ticketsList.length * Integer.parseInt(View.flightInfo.getData()[6]) +
+                            selectedSeats.size() * Integer.parseInt(View.returnFlightInfo.getData()[6]));
+
+                    View.paymentForm.setReturnSeats(selectedSeats);
+                    View.goToPaymentForm();////////////////////////////////////////////////////
+                }
             }
         };
     }

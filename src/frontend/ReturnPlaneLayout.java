@@ -7,14 +7,20 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class PlaneLayout {
-    private JTable table;
-    private JButton cancel;
+public class ReturnPlaneLayout {
     private JPanel content;
-    private JButton back;
     private JButton buy;
+    private JButton back;
     public JPanel buttonPanel;
+    private int amountToChoose;
 
+    public void setAmountToChoose(int amountToChoose) {
+        this.amountToChoose = amountToChoose;
+    }
+
+    public int getAmountToChoose() {
+        return amountToChoose;
+    }
 
     public void refresh(int flightId) {
         int[][] data = Model.getAllFlyghtSeats(flightId);
@@ -50,9 +56,9 @@ public class PlaneLayout {
         }
     }
 
-    public PlaneLayout() {
-        back.addActionListener(Controller.navigateFlightInfo());
-        buy.addActionListener(Controller.selectSeats(this));
+    public ReturnPlaneLayout() {
+        back.addActionListener(Controller.navigateReturnFlightInfo());
+        buy.addActionListener(Controller.selectReturnSeats(this));
     }
 
     public JPanel getContent() {

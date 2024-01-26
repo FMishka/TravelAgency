@@ -472,114 +472,55 @@ public class Model {
         List<String[]> resultsList = new ArrayList<>();
 
         try {
-            String query = "";
+            String query = "SELECT flight_ID, flightname, departureDate,  arrivalDate, dep_country.countryName, arr_country.countryName, price, plane.planemodel, COUNT(tick.fk_flight_ID ) as ticketsSold FROM flights " +
+                    "JOIN countries AS dep_country ON flights.departureCountry_ID = dep_country.country_ID " +
+                    "JOIN countries AS arr_country ON flights.arrivalCountry_ID = arr_country.country_ID " +
+                    "LEFT JOIN tickets AS tick ON flights.flight_ID = tick.fk_flight_ID "    +
+                    "JOIN planes AS plane ON flights.fk_plane_ID = plane.plane_id "+
+                    "GROUP BY flights.flight_ID, dep_country.countryname, arr_country.country_ID, plane.planemodel ";
 
             switch (sortBy) {
                 case "priceUP":
-                    query = "SELECT flight_ID, flightname, departureDate,  arrivalDate, dep_country.countryName, arr_country.countryName, price, plane.planemodel FROM flights " +
-                            "JOIN countries AS dep_country ON flights.departureCountry_ID = dep_country.country_ID " +
-                            "JOIN countries AS arr_country ON flights.arrivalCountry_ID = arr_country.country_ID " +
-                            "JOIN planes AS plane ON flights.fk_plane_ID = plane.plane_id "+
-                            "ORDER BY price DESC";
+                    query += "ORDER BY price ASC";
                     break;
                 case "priceDOWN":
-                    query = "SELECT flight_ID, flightname, departureDate,  arrivalDate, dep_country.countryName, arr_country.countryName, price, plane.planemodel FROM flights " +
-                            "JOIN countries AS dep_country ON flights.departureCountry_ID = dep_country.country_ID " +
-                            "JOIN countries AS arr_country ON flights.arrivalCountry_ID = arr_country.country_ID " +
-                            "JOIN planes AS plane ON flights.fk_plane_ID = plane.plane_id " +
-                            "ORDER BY price";
+                    query += "ORDER BY price DESC";
                     break;
                 case "countriesDepartureUp":
-                    query = "SELECT flight_ID, flightname, departureDate,  arrivalDate, dep_country.countryName, arr_country.countryName, price, plane.planemodel FROM flights " +
-                            "JOIN countries AS dep_country ON flights.departureCountry_ID = dep_country.country_ID " +
-                            "JOIN countries AS arr_country ON flights.arrivalCountry_ID = arr_country.country_ID " +
-                            "JOIN planes AS plane ON flights.fk_plane_ID = plane.plane_id " +
-                            "ORDER BY dep_country.countryName ASC";
+                    query += "ORDER BY dep_country.countryName ASC";
                     break;
                 case "countriesDepartureDown":
-                    query = "SELECT flight_ID, flightname, departureDate,  arrivalDate, dep_country.countryName, arr_country.countryName, price, plane.planemodel FROM flights " +
-                            "JOIN countries AS dep_country ON flights.departureCountry_ID = dep_country.country_ID " +
-                            "JOIN countries AS arr_country ON flights.arrivalCountry_ID = arr_country.country_ID " +
-                            "JOIN planes AS plane ON flights.fk_plane_ID = plane.plane_id " +
-                            "ORDER BY dep_country.countryName DESC";
+                    query += "ORDER BY dep_country.countryName DESC";
                     break;
                 case "countriesArrivalUp":
-                    query =  "SELECT flight_ID, flightname, departureDate,  arrivalDate, dep_country.countryName, arr_country.countryName, price, plane.planemodel FROM flights " +
-                            "JOIN countries AS dep_country ON flights.departureCountry_ID = dep_country.country_ID " +
-                            "JOIN countries AS arr_country ON flights.arrivalCountry_ID = arr_country.country_ID " +
-                            "JOIN planes AS plane ON flights.fk_plane_ID = plane.plane_id " +
-                            "ORDER BY arr_country.countryName ASC";
+                    query += "ORDER BY arr_country.countryName ASC";
                     break;
                 case "countriesArrivalDown":
-                    query =  "SELECT flight_ID, flightname, departureDate,  arrivalDate, dep_country.countryName, arr_country.countryName, price, plane.planemodel FROM flights " +
-                            "JOIN countries AS dep_country ON flights.departureCountry_ID = dep_country.country_ID " +
-                            "JOIN countries AS arr_country ON flights.arrivalCountry_ID = arr_country.country_ID " +
-                            "JOIN planes AS plane ON flights.fk_plane_ID = plane.plane_id " +
-                            "ORDER BY arr_country.countryName DESC ";
+                    query += "ORDER BY arr_country.countryName DESC ";
                     break;
                 case "ticketsUp":
-                    query = "SELECT flight_ID, flightname, departureDate,  arrivalDate, dep_country.countryName, arr_country.countryName, price, plane.planemodel, COUNT(tick.fk_flight_ID ) as ticketsSold FROM flights " +
-                            "JOIN countries AS dep_country ON flights.departureCountry_ID = dep_country.country_ID " +
-                            "JOIN countries AS arr_country ON flights.arrivalCountry_ID = arr_country.country_ID " +
-                            "LEFT JOIN tickets AS tick ON flights.flight_ID = tick.fk_flight_ID "    +
-                            "JOIN planes AS plane ON flights.fk_plane_ID = plane.plane_id "+
-                            "GROUP BY flights.flight_ID, dep_country.countryname, arr_country.country_ID, plane.planemodel ORDER BY ticketsSold DESC";
+                    query += "ORDER BY ticketsSold ASC";
                     break;
                 case "ticketsDown":
-                    query = "SELECT flight_ID, flightname, departureDate,  arrivalDate, dep_country.countryName, arr_country.countryName, price, plane.planemodel, COUNT(tick.fk_flight_ID ) as ticketsSold FROM flights " +
-                            "JOIN countries AS dep_country ON flights.departureCountry_ID = dep_country.country_ID " +
-                            "JOIN countries AS arr_country ON flights.arrivalCountry_ID = arr_country.country_ID " +
-                            "LEFT JOIN tickets AS tick ON flights.flight_ID = tick.fk_flight_ID " +
-                            "JOIN planes AS plane ON flights.fk_plane_ID = plane.plane_id "+
-                            "GROUP BY flights.flight_ID, dep_country.countryname, arr_country.country_ID, plane.planemodel ORDER BY ticketsSold ASC";
+                    query += "ORDER BY ticketsSold DESC";
                     break;
                 case "flightnameUP":
-                    query = "SELECT flight_ID, flightname, departureDate,  arrivalDate, dep_country.countryName, arr_country.countryName, price, plane.planemodel, COUNT(tick.fk_flight_ID ) as ticketsSold FROM flights " +
-                            "JOIN countries AS dep_country ON flights.departureCountry_ID = dep_country.country_ID " +
-                            "JOIN countries AS arr_country ON flights.arrivalCountry_ID = arr_country.country_ID " +
-                            "LEFT JOIN tickets AS tick ON flights.flight_ID = tick.fk_flight_ID " +
-                            "JOIN planes AS plane ON flights.fk_plane_ID = plane.plane_id "+
-                            "ORDER BY flightname";
+                    query += "ORDER BY flightname ASC";
                     break;
                 case "flightnameDOWN":
-                    query = "SELECT flight_ID, flightname, departureDate,  arrivalDate, dep_country.countryName, arr_country.countryName, price, plane.planemodel, COUNT(tick.fk_flight_ID ) as ticketsSold FROM flights " +
-                            "JOIN countries AS dep_country ON flights.departureCountry_ID = dep_country.country_ID " +
-                            "JOIN countries AS arr_country ON flights.arrivalCountry_ID = arr_country.country_ID " +
-                            "LEFT JOIN tickets AS tick ON flights.flight_ID = tick.fk_flight_ID " +
-                            "JOIN planes AS plane ON flights.fk_plane_ID = plane.plane_id "+
-                            "ORDER BY flightname DESC";
+                    query += "ORDER BY flightname DESC";
                     break;
                 case "departuredateUP":
-                    query = "SELECT flight_ID, flightname, departureDate,  arrivalDate, dep_country.countryName, arr_country.countryName, price, plane.planemodel, COUNT(tick.fk_flight_ID ) as ticketsSold FROM flights " +
-                            "JOIN countries AS dep_country ON flights.departureCountry_ID = dep_country.country_ID " +
-                            "JOIN countries AS arr_country ON flights.arrivalCountry_ID = arr_country.country_ID " +
-                            "LEFT JOIN tickets AS tick ON flights.flight_ID = tick.fk_flight_ID " +
-                            "JOIN planes AS plane ON flights.fk_plane_ID = plane.plane_id "+
-                            "ORDER BY departuredate";
+                    query += "ORDER BY departuredate ASC";
                     break;
                 case "departuredateDOWN":
-                    query = "SELECT flight_ID, flightname, departureDate,  arrivalDate, dep_country.countryName, arr_country.countryName, price, plane.planemodel, COUNT(tick.fk_flight_ID ) as ticketsSold FROM flights " +
-                            "JOIN countries AS dep_country ON flights.departureCountry_ID = dep_country.country_ID " +
-                            "JOIN countries AS arr_country ON flights.arrivalCountry_ID = arr_country.country_ID " +
-                            "LEFT JOIN tickets AS tick ON flights.flight_ID = tick.fk_flight_ID " +
-                            "JOIN planes AS plane ON flights.fk_plane_ID = plane.plane_id "+
-                            "ORDER BY departuredate DESC";
+                    query += "ORDER BY departuredate DESC";
                     break;
                 case "arrivaldateUP":
-                    query = "SELECT flight_ID, flightname, departureDate,  arrivalDate, dep_country.countryName, arr_country.countryName, price, plane.planemodel, COUNT(tick.fk_flight_ID ) as ticketsSold FROM flights " +
-                            "JOIN countries AS dep_country ON flights.departureCountry_ID = dep_country.country_ID " +
-                            "JOIN countries AS arr_country ON flights.arrivalCountry_ID = arr_country.country_ID " +
-                            "LEFT JOIN tickets AS tick ON flights.flight_ID = tick.fk_flight_ID " +
-                            "JOIN planes AS plane ON flights.fk_plane_ID = plane.plane_id "+
-                            "ORDER BY arrivaldate";
+                    query += "ORDER BY arrivaldate ASC";
                     break;
                 case "arrivaldateDOWN":
-                    query = "SELECT flight_ID, flightname, departureDate,  arrivalDate, dep_country.countryName, arr_country.countryName, price, plane.planemodel, COUNT(tick.fk_flight_ID ) as ticketsSold FROM flights " +
-                            "JOIN countries AS dep_country ON flights.departureCountry_ID = dep_country.country_ID " +
-                            "JOIN countries AS arr_country ON flights.arrivalCountry_ID = arr_country.country_ID " +
-                            "LEFT JOIN tickets AS tick ON flights.flight_ID = tick.fk_flight_ID " +
-                            "JOIN planes AS plane ON flights.fk_plane_ID = plane.plane_id "+
-                            "ORDER BY arrivaldate DESC";
+                    query += "ORDER BY arrivaldate DESC";
                     break;
                 default:
                     System.out.println("Invalid sorting option.");

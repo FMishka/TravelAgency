@@ -26,27 +26,13 @@ public class Main {
 
         //Model model = new Model();
         Model.initConnection();
-        //Model.printSortedFlights("ticketsDown");
-        String departureCountryName = "Tel Aviv (TLV)";
-        String arrivalCountryName = "Moscow (SVO)";
-        Date departureDate = new Date();
 
-
-        LocalDateTime arrivalDateTime = LocalDateTime.now();
-
-
-
-        String[][] matchingRows = Model.checkingBackFlihgts(departureCountryName, arrivalCountryName , arrivalDateTime);
-
-        for (String[] row : matchingRows) {
-            for (String value : row) {
-                System.out.print(value + "\t");
+        String[][] str = Model.sortFlightsBy("arrivaldateDOWN");
+        for(int i = 0; i < str.length; i++){
+            for (int j = 0; j < str[0].length; j++){
+                System.out.print(str[i][j] + " ");
             }
             System.out.println();
-
-        //Model model = new Model();
-
-
         }
     }
 }

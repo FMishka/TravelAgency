@@ -22,11 +22,31 @@ import static backend.Model.*;
 
 public class Main {
     public static void main(String[] args) throws Exception {
+
+
         //Model model = new Model();
         Model.initConnection();
-        String[] str = Model.getMoreInfoAboutTicket(11);
-        for (int i = 0; i < str.length; i++){
-            System.out.print(str[i] + " ");
+        //Model.printSortedFlights("ticketsDown");
+        String departureCountryName = "Tel Aviv (TLV)";
+        String arrivalCountryName = "Moscow (SVO)";
+        Date departureDate = new Date();
+
+
+        LocalDateTime arrivalDateTime = LocalDateTime.now();
+
+
+
+        String[][] matchingRows = Model.checkingBackFlihgts(departureCountryName, arrivalCountryName , arrivalDateTime);
+
+        for (String[] row : matchingRows) {
+            for (String value : row) {
+                System.out.print(value + "\t");
+            }
+            System.out.println();
+
+        //Model model = new Model();
+
+
         }
     }
 }

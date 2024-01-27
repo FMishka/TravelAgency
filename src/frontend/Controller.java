@@ -188,6 +188,40 @@ public abstract class Controller {
                 int column = table.getTableHeader().columnAtPoint(point);
 
                 System.out.println(column);
+                FlightsPage flights = View.flightsPage;
+
+                switch (column) {
+                    case 0:
+                        if(flights.getTableSortBy().equals("flightnameUP")) {
+                            flights.setTableSortBy("flightnameDOWN");
+                        } else flights.setTableSortBy("flightnameUP");
+                        flights.refreshTable();
+                        break;
+                    case 1:
+                        if(flights.getTableSortBy().equals("departuredateUP")) {
+                            flights.setTableSortBy("departuredateDOWN");
+                        } else flights.setTableSortBy("departuredateUP");
+                        flights.refreshTable();
+                        break;
+                    case 2:
+                        if(flights.getTableSortBy().equals("countriesDepartureUp")) {
+                            flights.setTableSortBy("countriesDepartureDown");
+                        } else flights.setTableSortBy("countriesDepartureUp");
+                        flights.refreshTable();
+                        break;
+                    case 3:
+                        if(flights.getTableSortBy().equals("arrivaldateUP")) {
+                            flights.setTableSortBy("arrivaldateDOWN");
+                        } else flights.setTableSortBy("arrivaldateUP");
+                        flights.refreshTable();
+                        break;
+                    case 4:
+                        if(flights.getTableSortBy().equals("countriesArrivalUp")) {
+                            flights.setTableSortBy("countriesArrivalDown");
+                        } else flights.setTableSortBy("countriesArrivalUp");
+                        flights.refreshTable();
+                        break;
+                }
             }
         };
     }
@@ -304,7 +338,7 @@ public abstract class Controller {
                             selectedSeats.size() * Integer.parseInt(View.returnFlightInfo.getData()[6]));
 
                     View.paymentForm.setReturnSeats(selectedSeats);
-                    View.goToPaymentForm();////////////////////////////////////////////////////
+                    View.goToPaymentForm();
                 }
             }
         };

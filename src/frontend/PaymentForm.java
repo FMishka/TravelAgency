@@ -93,7 +93,7 @@ public class PaymentForm {
 
 
                         if(savePaymentData.isSelected())
-                            Model.addPaymentData(Model.userId, creditCard.getText(), expireDate.getText(), cardHolder.getText(), cvv.getText());
+                            Model.addPaymentData(Model.userId, creditCardValue, expireDate.getText(), cardHolder.getText(), cvv.getText());
 
                         View.goToFlightsPage();
                     } else throw new Exception("Invalid credit card details");

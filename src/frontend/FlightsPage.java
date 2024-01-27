@@ -5,6 +5,8 @@ import backend.Model;
 import javax.swing.*;
 import javax.swing.table.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class FlightsPage {
     private JPanel content;
@@ -15,7 +17,16 @@ public class FlightsPage {
     private JButton flightsButton;
     private JScrollPane scrollPane;
     private JButton addFlightButton;
-    String tableSortBy;
+    private JButton refresh;
+    private String tableSortBy = "";
+
+    public void setTableSortBy(String filter) {
+        tableSortBy = filter;
+    }
+
+    public String getTableSortBy() {
+        return tableSortBy;
+    }
 
     public static void setTableRenderer(JTable table, DefaultTableCellRenderer renderer)
     {
@@ -26,7 +37,13 @@ public class FlightsPage {
     }
 
     public void refreshTable() {
-        String[][] rowData = Model.getAllFlights();
+        String[][] rowData;
+        if(tableSortBy.isEmpty()) {
+            rowData = Model.getAllFlights();
+        } else {
+            rowData = Model.sortFlightsBy(tableSortBy);
+        }
+
         String[] columnNames = new String[]{"flight_ID", "flightname", "departureDate", "arrivalDate", "departureCountry", "arrivalCountry", "price", "fk_plane_ID"};
         table.setModel(new AbstractTableModel() {
             public String getColumnName(int column) { return columnNames[column].toString(); }
@@ -76,6 +93,13 @@ public class FlightsPage {
 
         table.addMouseListener(Controller.tableMouseClick(table));
         table.getTableHeader().addMouseListener(Controller.tableHeaderMouseClick(table));
+        refresh.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                tableSortBy = "";
+                refreshTable();
+            }
+        });
 
         refreshTable();
     }

@@ -14,6 +14,12 @@ public class Main {
                 System.out.print(str[i][j] + " ");
             }
             System.out.println();
+
+
+
+            //Model model = new Model();
+
+
         }
     }
 }

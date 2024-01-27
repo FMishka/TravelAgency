@@ -90,15 +90,15 @@ public class MyTicketsPage {
             header.setReorderingAllowed(false);
             header.setResizingAllowed(false);
             header.setPreferredSize(new Dimension(scrollPane.getWidth(), 50));
-        } catch (Exception e) {
-            return;
-        }
+        } catch (Exception ignored) {}
     }
 
     public MyTicketsPage() {
         homePageButton.addActionListener(Controller.navigateHome());
         myTicketsPageButton.addActionListener(Controller.navigateMyTickets());
         flightsButton.addActionListener(Controller.navigateFlights());
+
+        table.addMouseListener(Controller.ticketsTableMouseClick(table));
 
         refreshTable();
     }

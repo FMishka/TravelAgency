@@ -24,6 +24,7 @@ public abstract class View {
     static final ReturnFlights returnFlights = new ReturnFlights();
     static final ReturnFlightInfo returnFlightInfo = new ReturnFlightInfo();
     static final ReturnPlaneLayout returnPlaneLayout = new ReturnPlaneLayout();
+    static final TicketInfo ticketInfo = new TicketInfo();
     static OrderTicket[] ticketsList;
     static int curTicketIndex = 0;
 
@@ -87,6 +88,12 @@ public abstract class View {
     public static void goToReturnFlightInfo() {
         setSize(600, 700);
         mainFrame.setContentPane(returnFlightInfo.getContent());
+        mainFrame.revalidate();
+    }
+
+    public static void goToTicketInfo() {
+        setSize(600, 700);
+        mainFrame.setContentPane(ticketInfo.getContent());
         mainFrame.revalidate();
     }
 

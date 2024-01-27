@@ -247,6 +247,21 @@ public abstract class Controller {
         };
     }
 
+    public static MouseAdapter ticketsTableMouseClick(JTable table) {
+        return new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent event) {
+                Point point = event.getPoint();
+                int row = table.rowAtPoint(point);
+
+                if (event.getClickCount() == 2 && table.getSelectedRow() != -1) {
+                    View.ticketInfo.refresh(Integer.parseInt(table.getModel().getValueAt(row, 0).toString()));
+                    View.goToTicketInfo();
+                }
+            }
+        };
+    }
+
     public static ActionListener backButton() {
         return new ActionListener() {
             @Override

@@ -221,6 +221,18 @@ public abstract class Controller {
                         } else flights.setTableSortBy("countriesArrivalUp");
                         flights.refreshTable();
                         break;
+                    case 5:
+                        if(flights.getTableSortBy().equals("priceUP")) {
+                            flights.setTableSortBy("priceDOWN");
+                        } else flights.setTableSortBy("priceUP");
+                        flights.refreshTable();
+                        break;
+                    case 6:
+                        if(flights.getTableSortBy().equals("ticketsUp")) {
+                            flights.setTableSortBy("ticketsDown");
+                        } else flights.setTableSortBy("ticketsUp");
+                        flights.refreshTable();
+                        break;
                 }
             }
         };

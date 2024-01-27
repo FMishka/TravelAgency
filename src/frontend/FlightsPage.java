@@ -18,7 +18,6 @@ public class FlightsPage {
     private JScrollPane scrollPane;
     private JButton addFlightButton;
     private JButton refresh;
-    private JPanel filterPanel;
     private JButton priceUp;
     private JButton priceDown;
     private JButton popularityUp;
@@ -115,34 +114,6 @@ public class FlightsPage {
             @Override
             public void actionPerformed(ActionEvent e) {
                 tableSortBy = "";
-                refreshTable();
-            }
-        });
-        priceUp.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                tableSortBy = "priceUP";
-                refreshTable();
-            }
-        });
-        priceDown.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                tableSortBy = "priceDOWN";
-                refreshTable();
-            }
-        });
-        popularityUp.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                tableSortBy = "ticketsUp";
-                refreshTable();
-            }
-        });
-        popularityDown.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                tableSortBy = "ticketsDown";
                 refreshTable();
             }
         });

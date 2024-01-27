@@ -474,7 +474,7 @@ public class Model {
         List<String[]> resultsList = new ArrayList<>();
 
         try {
-            String query = "SELECT flight_ID, flightname, departureDate,  arrivalDate, dep_country.countryName, arr_country.countryName, price, plane.planemodel, COUNT(tick.fk_flight_ID ) as ticketsSold FROM flights " +
+            String query = "SELECT flight_ID, flightname, departureDate,  arrivalDate, dep_country.countryName, arr_country.countryName, price, plane.planemodel, COUNT(tick.fk_flight_ID ) as ticketsSold, fk_plane_id FROM flights " +
                     "JOIN countries AS dep_country ON flights.departureCountry_ID = dep_country.country_ID " +
                     "JOIN countries AS arr_country ON flights.arrivalCountry_ID = arr_country.country_ID " +
                     "LEFT JOIN tickets AS tick ON flights.flight_ID = tick.fk_flight_ID "    +
@@ -530,8 +530,7 @@ public class Model {
             }
 
             try (PreparedStatement statement = conn.prepareStatement(query);
-                 ResultSet resultSet = statement.executeQuery()) {
-
+                ResultSet resultSet = statement.executeQuery()) {
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
                 while (resultSet.next()) {
@@ -542,7 +541,17 @@ public class Model {
                             Timestamp timestamp = resultSet.getTimestamp(i);
                             row[i -1 ] =dateFormat.format(timestamp);
                         } else {
-                            row[i - 1] = resultSet.getString(i);
+                            if (resultSet.getMetaData().getColumnName(i).equals("ticketssold")){
+                                String countSeatsQuery = String.format("select rowsnumber * columnsnumber AS countseats from planes\n" +
+                                        "where plane_id = %d", resultSet.getInt("fk_plane_id"));
+                                Statement statement1 = conn.createStatement();
+                                ResultSet resultSet1 = statement1.executeQuery(countSeatsQuery);
+                                resultSet1.next();
+                                row[i - 1] = resultSet.getString(i) + "/" + resultSet1.getString(1);
+                            }
+                            else{
+                                row[i - 1] = resultSet.getString(i);
+                            }
                         }
                     }
                     resultsList.add(row);
@@ -610,44 +619,6 @@ public class Model {
             System.out.println();
         }
     }
-    public static String[][] getAllFlights() {
-        Statement statement;
-        String getAllFlightQuery = "SELECT flights.flight_id, flights.flightname, flights.departuredate, flights.arrivaldate, c1.countryname, c2.countryname, flights.price, pl.planeModel\n" +
-                "FROM flights\n" +
-                "LEFT JOIN countries c1 ON flights.departurecountry_id = c1.country_ID\n" +
-                "LEFT JOIN countries c2 ON flights.arrivalcountry_id = c2.country_ID\n" +
-                "LEFT JOIN planes pl ON flights.fk_plane_id = pl.plane_ID;\n";
-        String getCountRowsQuery = "SELECT COUNT(*) FROM flights";
-        ResultSet resultSet = null;
-        String[][] res = null;
-
-        try {
-            statement = conn.createStatement();
-            resultSet = statement.executeQuery(getCountRowsQuery);
-            resultSet.next();
-            int numberOfRows = resultSet.getInt(1);
-            resultSet = statement.executeQuery(getAllFlightQuery);
-            int numberOfColumns = resultSet.getMetaData().getColumnCount();
-            res = new String[numberOfRows][numberOfColumns];
-            for (int i = 0; i < numberOfRows; i++){
-                resultSet.next();
-                for (int j = 0; j < numberOfColumns; j++) {
-                    if (j == 2 || j == 3){ // Date without seconds and milliseconds
-                        res[i][j] = String.format(resultSet.getString(j + 1).substring(0, 16));
-
-                    }
-                    else{
-                        res[i][j] = String.format(resultSet.getString(j + 1));
-                    }
-                }
-            }
-
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-        return res;
-    }
-
     //Умоляю сделайте эти методы
 
     public static String[] getAllCountries() {
@@ -730,7 +701,7 @@ public class Model {
         for (int i = 0; i < countRows; i++){
             resultSet.next();
             for (int j = 0; j < countColumns; j++){
-                if (j == 4 || j == 5){ // Date without seconds and milliseconds
+                if (resultSet.getMetaData().getColumnName(i + 1).equals("departuredate") || resultSet.getMetaData().getColumnName(i + 1).equals("arrivaldate")){
                     userTickets[i][j] = String.format(resultSet.getString(j + 1).substring(0, 16));
                 }
                 else{
@@ -756,7 +727,7 @@ public class Model {
         resultSet = statement.executeQuery(ticket);
         resultSet.next();
         for (int i = 0; i < countColumns; i++){
-            if (i == 4 || i == 5){ // Date without seconds and milliseconds
+            if (resultSet.getMetaData().getColumnName(i + 1).equals("departuredate") || resultSet.getMetaData().getColumnName(i + 1).equals("arrivaldate")){
                 infoAboutTicket[i] = String.format(resultSet.getString(i + 1).substring(0, 16));
             }
             else{

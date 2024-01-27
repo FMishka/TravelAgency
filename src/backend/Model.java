@@ -1,6 +1,7 @@
 package backend;
 
 import frontend.View;
+import sun.java2d.pipe.SpanShapeRenderer;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
@@ -13,6 +14,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -530,11 +532,18 @@ public class Model {
             try (PreparedStatement statement = conn.prepareStatement(query);
                  ResultSet resultSet = statement.executeQuery()) {
 
+                SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
+
                 while (resultSet.next()) {
-                    // Создание строки для каждой записи в результате запроса
                     String[] row = new String[resultSet.getMetaData().getColumnCount()];
                     for (int i = 1; i <= resultSet.getMetaData().getColumnCount(); i++) {
-                        row[i - 1] = resultSet.getString(i);
+
+                        if(resultSet.getMetaData().getColumnType(i)==Types.TIMESTAMP){
+                            Timestamp timestamp = resultSet.getTimestamp(i);
+                            row[i -1 ] =dateFormat.format(timestamp);
+                        } else {
+                            row[i - 1] = resultSet.getString(i);
+                        }
                     }
                     resultsList.add(row);
                 }
@@ -554,7 +563,7 @@ public class Model {
                      "JOIN countries AS dep_country ON flights.departureCountry_ID = dep_country.country_ID " +
                      "JOIN countries AS arr_country ON flights.arrivalCountry_ID = arr_country.country_ID " +
                      "JOIN planes AS plane ON flights.fk_plane_ID = plane.plane_id "+
-                     "WHERE dep_country.countryName = '" + departureCountryName + "' AND arr_country.countryName = '" + arrivalCountryName + "' AND arrivalDate > '" + Timestamp.valueOf(arrivalDate) + "'")
+                     "WHERE dep_country.countryName = '" + arrivalCountryName + "' AND arr_country.countryName = '" + departureCountryName + "' AND arrivalDate > '" + Timestamp.valueOf(arrivalDate) + "'")
              ) {
 
             resultSet.last();

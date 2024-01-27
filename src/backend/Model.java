@@ -478,7 +478,8 @@ public class Model {
                     "JOIN countries AS dep_country ON flights.departureCountry_ID = dep_country.country_ID " +
                     "JOIN countries AS arr_country ON flights.arrivalCountry_ID = arr_country.country_ID " +
                     "LEFT JOIN tickets AS tick ON flights.flight_ID = tick.fk_flight_ID "    +
-                    "JOIN planes AS plane ON flights.fk_plane_ID = plane.plane_id "+
+                    "JOIN planes AS plane ON flights.fk_plane_ID = plane.plane_id " +
+                    "WHERE departureDate > CURRENT_TIMESTAMP " +
                     "GROUP BY flights.flight_ID, dep_country.countryname, arr_country.country_ID, plane.planemodel ";
 
             switch (sortBy) {
@@ -701,7 +702,7 @@ public class Model {
         for (int i = 0; i < countRows; i++){
             resultSet.next();
             for (int j = 0; j < countColumns; j++){
-                if (resultSet.getMetaData().getColumnName(i + 1).equals("departuredate") || resultSet.getMetaData().getColumnName(i + 1).equals("arrivaldate")){
+                if (resultSet.getMetaData().getColumnName(j + 1).equals("departuredate") || resultSet.getMetaData().getColumnName(j + 1).equals("arrivaldate")){
                     userTickets[i][j] = String.format(resultSet.getString(j + 1).substring(0, 16));
                 }
                 else{

@@ -532,7 +532,7 @@ public class Model {
             try (PreparedStatement statement = conn.prepareStatement(query);
                  ResultSet resultSet = statement.executeQuery()) {
 
-                SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
                 while (resultSet.next()) {
                     String[] row = new String[resultSet.getMetaData().getColumnCount()];

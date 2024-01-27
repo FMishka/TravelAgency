@@ -525,8 +525,8 @@ public class Model {
                     query += "ORDER BY arrivaldate DESC";
                     break;
                 default:
-                    System.out.println("Invalid sorting option.");
-                    return new String[0][0];
+                    query += "ORDER BY flight_ID ASC";
+                    break;
             }
 
             try (PreparedStatement statement = conn.prepareStatement(query);

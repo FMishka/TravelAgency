@@ -55,7 +55,7 @@ public class FlightInfo {
             fieldsArray[i].setText(data[i]);
         }
 
-        price.setText(price.getText() + " ₪" );
+        price.setText(price.getText());
     }
 
 

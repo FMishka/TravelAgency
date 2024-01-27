@@ -332,7 +332,7 @@ public abstract class Controller {
                     return;
                 }
 
-                View.paymentForm.setTotalPrice(selectedSeats.size() * Integer.parseInt(View.flightInfo.getData()[6]));
+                View.paymentForm.setTotalPrice(selectedSeats.size() * Integer.parseInt(View.flightInfo.getData()[6].substring(0, View.flightInfo.getData()[6].length() - 2)));
                 View.goToOrderTicket(selectedSeats);
             }
         };
@@ -361,7 +361,7 @@ public abstract class Controller {
                     showMessageDialog(null, "Selected " + selectedSeats.size() + " seats, required " + returnPlaneLayout.getAmountToChoose(),
                             "Wrong amount of seats selected", JOptionPane.ERROR_MESSAGE);
                 } else {
-                    View.paymentForm.setTotalPrice(View.ticketsList.length * Integer.parseInt(View.flightInfo.getData()[6]) +
+                    View.paymentForm.setTotalPrice(View.ticketsList.length * Integer.parseInt(View.flightInfo.getData()[6].substring(0, View.flightInfo.getData()[6].length() - 2)) +
                             selectedSeats.size() * Integer.parseInt(View.returnFlightInfo.getData()[6]));
 
                     View.paymentForm.setReturnSeats(selectedSeats);

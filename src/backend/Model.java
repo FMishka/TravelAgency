@@ -1,6 +1,7 @@
 package backend;
 
 import frontend.View;
+import sun.java2d.pipe.SpanShapeRenderer;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
@@ -13,6 +14,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -530,11 +532,18 @@ public class Model {
             try (PreparedStatement statement = conn.prepareStatement(query);
                  ResultSet resultSet = statement.executeQuery()) {
 
+                SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
+
                 while (resultSet.next()) {
-                    // Создание строки для каждой записи в результате запроса
                     String[] row = new String[resultSet.getMetaData().getColumnCount()];
                     for (int i = 1; i <= resultSet.getMetaData().getColumnCount(); i++) {
-                        row[i - 1] = resultSet.getString(i);
+
+                        if(resultSet.getMetaData().getColumnType(i)==Types.TIMESTAMP){
+                            Timestamp timestamp = resultSet.getTimestamp(i);
+                            row[i -1 ] =dateFormat.format(timestamp);
+                        } else {
+                            row[i - 1] = resultSet.getString(i);
+                        }
                     }
                     resultsList.add(row);
                 }

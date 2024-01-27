@@ -16,7 +16,8 @@ public class Main {
             System.out.println();
 
 
-        Model model = new Model();
+
+
 
 
         }

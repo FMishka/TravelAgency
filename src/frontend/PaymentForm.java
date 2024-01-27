@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import static javax.swing.JOptionPane.showMessageDialog;
@@ -25,6 +26,11 @@ public class PaymentForm {
     private JPanel content;
     private JCheckBox savePaymentData;
     private JTextField cardHolder;
+    private ArrayList<String> returnSeats;
+
+    public void setReturnSeats(ArrayList<String> returnSeats) {
+        this.returnSeats = returnSeats;
+    }
 
     public void refresh() {
         String[] paymentData = new String[0];
@@ -51,7 +57,10 @@ public class PaymentForm {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    if(Model.isCorrectCreditCardDetails(creditCard.getText(), cardHolder.getText(), expireDate.getText(), Integer.parseInt(cvv.getText()))) {
+                    String creditCardValue = creditCard.getText().substring(0, 4) + creditCard.getText().substring(5, 9)
+                            + creditCard.getText().substring(10, 14) + creditCard.getText().substring(15, 19);
+
+                    if(Model.isCorrectCreditCardDetails(creditCardValue, cardHolder.getText(), expireDate.getText(), Integer.parseInt(cvv.getText()))) {
                         for(OrderTicket ticketForm : View.ticketsList) {
                             Model.orderingTicket(View.flightInfo.curFlightId, Model.userId,
                                     Integer.parseInt(ticketForm.seatName.getText().split(" ")[0]),
@@ -61,8 +70,30 @@ public class PaymentForm {
                                     ticketForm.maleRadioButton.isSelected() ? 'M' : 'F', Integer.parseInt(ticketForm.passport.getText()));
                         }
 
+
+                        int returnTicketIndex = 0;
+                        for(OrderTicket ticketForm : View.ticketsList) {
+
+
+                            if(ticketForm.needReturnTicketCheckBox.isSelected()) {
+                                String seat = returnSeats.get(returnTicketIndex);
+                                returnTicketIndex++;
+
+                                int seatRow = Integer.parseInt(seat.split(" ")[0]);
+                                int seatColumn = seat.split(" ")[1].charAt(0) - 'A' + 1;
+
+                                Model.orderingTicket(View.returnFlightInfo.curFlightId, Model.userId,
+                                        seatRow,
+                                        seatColumn,
+                                        true, ticketForm.firstName.getText(), ticketForm.secondName.getText(),
+                                        LocalDate.parse(ticketForm.birthDate.getText(), DateTimeFormatter.ofPattern("yyyy-MM-dd")).atStartOfDay(),
+                                        ticketForm.maleRadioButton.isSelected() ? 'M' : 'F', Integer.parseInt(ticketForm.passport.getText()));
+                            }
+                        }
+
+
                         if(savePaymentData.isSelected())
-                            Model.addPaymentData(Model.userId, creditCard.getText(), expireDate.getText(), cardHolder.getText(), cvv.getText());
+                            Model.addPaymentData(Model.userId, creditCardValue, expireDate.getText(), cardHolder.getText(), cvv.getText());
 
                         View.goToFlightsPage();
                     } else throw new Exception("Invalid credit card details");

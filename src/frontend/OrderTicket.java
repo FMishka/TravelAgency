@@ -18,6 +18,8 @@ public class OrderTicket {
     JTextField seatName;
     JRadioButton maleRadioButton;
     JRadioButton femaleRadioButton;
+    JCheckBox needReturnTicketCheckBox;
+
     public OrderTicket(String flight, String seat, int curNum, int totalNum) {
         ticketNumber.setText("Ticket " + (curNum + 1) + "/" + totalNum);
 

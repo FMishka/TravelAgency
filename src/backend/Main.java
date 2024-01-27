@@ -24,7 +24,7 @@ public class Main {
     public static void main(String[] args) throws Exception {
 
 
-        //Model model = new Model();
+        Model model = new Model();
         Model.initConnection();
 
         String[][] str = Model.sortFlightsBy("arrivaldateDOWN");

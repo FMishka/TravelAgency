@@ -18,7 +18,6 @@ public class FlightsPage {
     private JScrollPane scrollPane;
     private JButton addFlightButton;
     private JButton refresh;
-    private JPanel filterPanel;
     private JButton priceUp;
     private JButton priceDown;
     private JButton popularityUp;
@@ -43,13 +42,19 @@ public class FlightsPage {
 
     public void refreshTable() {
         String[][] rowData;
-        if(tableSortBy.isEmpty()) {
-            rowData = Model.getAllFlights();
-        } else {
-            rowData = Model.sortFlightsBy(tableSortBy);
+//        if(tableSortBy.isEmpty()) {
+//            rowData = Model.getAllFlights();
+//        } else {
+//            rowData = Model.sortFlightsBy(tableSortBy);
+//        }
+        rowData = Model.sortFlightsBy(tableSortBy);
+
+        for(String[] row : rowData) {
+            row[6] += " ₪";
         }
 
-        String[] columnNames = new String[]{"flight_ID", "flightname", "departureDate", "arrivalDate", "departureCountry", "arrivalCountry", "price", "fk_plane_ID"};
+
+        String[] columnNames = new String[]{"flight_ID", "Flight", "Departure time", "Arrival time", "Departure country", "Arrival country", "Price", "fk_plane_ID" , "Sold"};
         table.setModel(new AbstractTableModel() {
             public String getColumnName(int column) { return columnNames[column].toString(); }
             public int getRowCount() { return rowData.length; }
@@ -64,9 +69,14 @@ public class FlightsPage {
 
         TableColumnModel tcm = table.getColumnModel();
         tcm.removeColumn(tcm.getColumn(7));
-        tcm.removeColumn(tcm.getColumn(6));
         tcm.removeColumn(tcm.getColumn(0));
         table.moveColumn(2, 3);
+
+        table.getColumnModel().getColumn(0).setMaxWidth(100);
+        table.getColumnModel().getColumn(5).setMaxWidth(100);
+        table.getColumnModel().getColumn(6).setMaxWidth(100);
+
+
 //        table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 //        table.getColumnModel().getColumn(0).setPreferredWidth(100);
 //        table.getColumnModel().getColumn(1).setPreferredWidth(150);
@@ -104,34 +114,6 @@ public class FlightsPage {
             @Override
             public void actionPerformed(ActionEvent e) {
                 tableSortBy = "";
-                refreshTable();
-            }
-        });
-        priceUp.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                tableSortBy = "priceUP";
-                refreshTable();
-            }
-        });
-        priceDown.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                tableSortBy = "priceDOWN";
-                refreshTable();
-            }
-        });
-        popularityUp.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                tableSortBy = "ticketsUp";
-                refreshTable();
-            }
-        });
-        popularityDown.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                tableSortBy = "ticketsDown";
                 refreshTable();
             }
         });

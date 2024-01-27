@@ -13,6 +13,7 @@ public class HomePage {
     private JPanel navigation;
     private JButton flightsButton;
     private JPanel cats;
+    private JPanel mainPanel;
     private JLabel label;
 
     public JPanel getContent() {

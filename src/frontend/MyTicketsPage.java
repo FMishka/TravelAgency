@@ -3,10 +3,7 @@ package frontend;
 import backend.Model;
 
 import javax.swing.*;
-import javax.swing.table.AbstractTableModel;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.JTableHeader;
-import javax.swing.table.TableModel;
+import javax.swing.table.*;
 import java.awt.*;
 
 public class MyTicketsPage {
@@ -36,7 +33,12 @@ public class MyTicketsPage {
     public void refreshTable()  {
         try {
             String[][] rowData = Model.getUsersAllTickets();
-            String[] columnNames = new String[]{"ticket_ID", "flightName", "firstName", "secondName", "departureDate", "arrivalDate", "departureCountry", "arrivalCountry"};
+
+            for(String[] row : rowData) {
+                row[3] += " " + row[2].charAt(0) + ".";
+            }
+
+            String[] columnNames = new String[]{"ticket_ID", "Flight", "firstName", "Passenger", "Departure", "Arrival", "From", "To"};
             table.setModel(new AbstractTableModel() {
                 public String getColumnName(int column) {
                     return columnNames[column].toString();
@@ -63,6 +65,13 @@ public class MyTicketsPage {
                     fireTableCellUpdated(row, col);
                 }
             });
+
+            TableColumnModel tcm = table.getColumnModel();
+            tcm.removeColumn(tcm.getColumn(2));
+            tcm.removeColumn(tcm.getColumn(0));
+            table.moveColumn(3, 4);
+            table.getColumnModel().getColumn(0).setMaxWidth(100);
+
 
             table.setRowHeight(25);
             DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();

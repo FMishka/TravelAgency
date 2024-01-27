@@ -68,7 +68,6 @@ public class FlightAdd {
 
                     reset();
                 } catch (Exception ex) {
-                    ex.printStackTrace();
                     showMessageDialog(null, ex.getMessage(), "Invalid data", JOptionPane.ERROR_MESSAGE);
                 }
             }

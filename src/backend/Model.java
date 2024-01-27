@@ -730,7 +730,12 @@ public class Model {
         for (int i = 0; i < countRows; i++){
             resultSet.next();
             for (int j = 0; j < countColumns; j++){
-                userTickets[i][j] = resultSet.getString(j + 1);
+                if (j == 4 || j == 5){ // Date without seconds and milliseconds
+                    userTickets[i][j] = String.format(resultSet.getString(j + 1).substring(0, 16));
+                }
+                else{
+                    userTickets[i][j] = resultSet.getString(j + 1);
+                }
             }
         }
         return userTickets;
@@ -751,7 +756,13 @@ public class Model {
         resultSet = statement.executeQuery(ticket);
         resultSet.next();
         for (int i = 0; i < countColumns; i++){
-            infoAboutTicket[i] = resultSet.getString(i + 1);
+            if (i == 4 || i == 5){ // Date without seconds and milliseconds
+                infoAboutTicket[i] = String.format(resultSet.getString(i + 1).substring(0, 16));
+            }
+            else{
+                infoAboutTicket[i] = resultSet.getString(i + 1);
+
+            }
         }
         return infoAboutTicket;
     }

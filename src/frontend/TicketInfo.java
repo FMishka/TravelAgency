@@ -12,12 +12,14 @@ public class TicketInfo {
     private JTextField secondName;
     private JTextField arrDate;
     private JTextField arrCountry;
-    private JTextField price;
-    private JTextField plane;
+    private JTextField depDate;
+    private JTextField depCountry;
     private JTextField firstName;
-    private JPanel topPanel;
     private JButton back;
     private JPanel content;
+    private JTextField seat;
+    private JTextField passport;
+    private JTextField price;
 
     public TicketInfo() {
         back.addActionListener(Controller.navigateMyTickets());
@@ -34,7 +36,13 @@ public class TicketInfo {
         flightName.setText(data[1]);
         firstName.setText(data[2]);
         secondName.setText(data[3]);
-
+        depDate.setText(data[4]);
+        arrDate.setText(data[5]);
+        depCountry.setText(data[6]);
+        arrCountry.setText(data[7]);
+        seat.setText(data[8] + " " + (char)('A' + Integer.parseInt(data[9])));
+        passport.setText(data[10]);
+        price.setText(data[11]);
     }
 
     public JPanel getContent() {

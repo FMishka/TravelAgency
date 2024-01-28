@@ -173,6 +173,8 @@ public abstract class Controller {
                         data[i] = table.getModel().getValueAt(row, i).toString();
                     }
 
+                    data[6] = data[6].substring(0, data[6].length() - 2);
+
                     curFlightId = Integer.parseInt(data[0]);
                     View.goToFlightInfo(data);
                 }
@@ -332,7 +334,7 @@ public abstract class Controller {
                     return;
                 }
 
-                View.paymentForm.setTotalPrice(selectedSeats.size() * Integer.parseInt(View.flightInfo.getData()[6].substring(0, View.flightInfo.getData()[6].length() - 2)));
+                View.paymentForm.setTotalPrice(selectedSeats.size() * Integer.parseInt(View.flightInfo.getData()[6]));
                 View.goToOrderTicket(selectedSeats);
             }
         };
@@ -356,12 +358,11 @@ public abstract class Controller {
 
                 if(selectedSeats.isEmpty()) {
                     showMessageDialog(null, "No seats selected", "Select seats", JOptionPane.ERROR_MESSAGE);
-                    return;
                 } else if(selectedSeats.size() != returnPlaneLayout.getAmountToChoose()) {
                     showMessageDialog(null, "Selected " + selectedSeats.size() + " seats, required " + returnPlaneLayout.getAmountToChoose(),
                             "Wrong amount of seats selected", JOptionPane.ERROR_MESSAGE);
                 } else {
-                    View.paymentForm.setTotalPrice(View.ticketsList.length * Integer.parseInt(View.flightInfo.getData()[6].substring(0, View.flightInfo.getData()[6].length() - 2)) +
+                    View.paymentForm.setTotalPrice(View.ticketsList.length * Integer.parseInt(View.flightInfo.getData()[6]) +
                             selectedSeats.size() * Integer.parseInt(View.returnFlightInfo.getData()[6]));
 
                     View.paymentForm.setReturnSeats(selectedSeats);

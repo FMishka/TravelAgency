@@ -39,9 +39,9 @@ public class ReturnFlights {
 
     public void refreshTable(String departureCountryName, String arrivalCountryName, LocalDateTime arrivalTime) {
         System.out.println(arrivalCountryName + " : " + departureCountryName + " : " + arrivalTime);
-        System.out.println(Arrays.deepToString(Model.checkingBackFlihgts(arrivalCountryName, departureCountryName, arrivalTime)));
+        System.out.println(Arrays.deepToString(Model.checkingBackFlihgts(departureCountryName, arrivalCountryName, arrivalTime)));
 
-        String[][] rowData = Model.checkingBackFlihgts(arrivalCountryName, departureCountryName, arrivalTime);
+        String[][] rowData = Model.checkingBackFlihgts(departureCountryName, arrivalCountryName, arrivalTime);
         tableIsEmpty = rowData.length == 0;
 
         String[] columnNames = new String[]{"flight_ID", "flightname", "departureDate", "arrivalDate", "departureCountry", "arrivalCountry", "price", "fk_plane_ID"};

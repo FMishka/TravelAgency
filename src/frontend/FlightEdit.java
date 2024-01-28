@@ -9,7 +9,6 @@ import java.awt.event.ActionListener;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-import static frontend.Utility.setDateTimeFormat;
 import static javax.swing.JOptionPane.showMessageDialog;
 
 public class FlightEdit {
@@ -62,8 +61,9 @@ public class FlightEdit {
         for(Component component : topPanel.getComponents())
             component.addMouseListener(Controller.backMouseButton());
 
-        setDateTimeFormat(depDate, null);
-        setDateTimeFormat(arrDate, null);
+        Utility.setDateTimeFormat(depDate, null);
+        Utility.setDateTimeFormat(arrDate, null);
+        Utility.setFlightNameFormat(flightName);
 
         cancel.addActionListener(Controller.navigateFlightInfo());
 

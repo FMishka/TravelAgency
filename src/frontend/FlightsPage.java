@@ -49,17 +49,12 @@ public class FlightsPage {
 //        }
         rowData = Model.sortFlightsBy(tableSortBy);
 
-        for(String[] row : rowData) {
-            row[6] += " ₪";
-        }
-
-
         String[] columnNames = new String[]{"flight_ID", "Flight", "Departure time", "Arrival time", "Departure country", "Arrival country", "Price", "fk_plane_ID" , "Sold"};
         table.setModel(new AbstractTableModel() {
             public String getColumnName(int column) { return columnNames[column].toString(); }
             public int getRowCount() { return rowData.length; }
             public int getColumnCount() { return columnNames.length; }
-            public Object getValueAt(int row, int col) { return rowData[row][col]; }
+            public Object getValueAt(int row, int col) { return col == 6 ? rowData[row][col] + " ₪" : rowData[row][col]; }
             public boolean isCellEditable(int row, int column) { return false; }
             public void setValueAt(String value, int row, int col) {
                 rowData[row][col] = value;

@@ -35,7 +35,10 @@ public class FlightInfo {
     }
 
     public String[] getData() {
-        return data;
+        String[] res = data;
+        res[6] = res[6].substring(0, res[6].length() - 2);
+
+        return res;
     }
 
     public void setData(String[] data) {

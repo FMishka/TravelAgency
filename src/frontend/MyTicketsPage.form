@@ -17,27 +17,33 @@
         </properties>
         <border type="none"/>
         <children>
-          <component id="9ac25" class="javax.swing.JButton" binding="myTicketsPageButton" default-binding="true">
-            <constraints>
-              <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-            </constraints>
-            <properties>
-              <text value="My tickets"/>
-            </properties>
-          </component>
-          <component id="d1fba" class="javax.swing.JButton" binding="flightsButton" default-binding="true">
+          <component id="58049" class="javax.swing.JButton" binding="flightsButton" default-binding="true">
             <constraints>
               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
+              <font name="Droid Sans" size="18" style="1"/>
+              <foreground color="-16777216"/>
               <text value="Flights"/>
             </properties>
           </component>
-          <component id="e4f11" class="javax.swing.JButton" binding="homePageButton" default-binding="true">
+          <component id="d28d5" class="javax.swing.JButton" binding="myTicketsPageButton" default-binding="true">
+            <constraints>
+              <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties>
+              <font name="Droid Sans" size="18" style="1"/>
+              <foreground color="-16777216"/>
+              <text value="My tickets"/>
+            </properties>
+          </component>
+          <component id="640a1" class="javax.swing.JButton" binding="homePageButton" default-binding="true">
             <constraints>
               <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
             <properties>
+              <font name="Droid Sans" size="18" style="1"/>
+              <foreground color="-16777216"/>
               <text value="Home page"/>
             </properties>
           </component>

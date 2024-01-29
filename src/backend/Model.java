@@ -449,7 +449,12 @@ public class Model {
             int rowIndex = 0;
             while (resultSet.next()) {
                 for (int colIndex = 1; colIndex <= columnCount; colIndex++) {
-                    filteredFlights[rowIndex][colIndex - 1] = resultSet.getString(colIndex);
+                    if (resultSet.getMetaData().getColumnName(colIndex).equals("departuredate") || resultSet.getMetaData().getColumnName(colIndex).equals("arrivaldate")){
+                        filteredFlights[rowIndex][colIndex - 1] = resultSet.getString(colIndex).substring(0,16);
+                    }
+                    else{
+                        filteredFlights[rowIndex][colIndex - 1] = resultSet.getString(colIndex);
+                    }
                 }
                 rowIndex++;
             }
@@ -599,27 +604,6 @@ public class Model {
         return matchingRows;
     }
 
-
-    public static void printSortedFlights(String sortBy) {
-        String[][] sortedFlights = sortFlightsBy(sortBy);
-
-        if (sortedFlights.length == 0) {
-            System.out.println("No data to display.");
-            return;
-        }
-        for (int i = 1; i <= sortedFlights[0].length; i++) {
-            System.out.print(sortedFlights[0][i - 1] + "\t\t");
-        }
-        System.out.println();
-
-        // Вывод данных
-        for (int i = 1; i < sortedFlights.length; i++) {
-            for (int j = 1; j <= sortedFlights[i].length; j++) {
-                System.out.print(sortedFlights[i][j - 1] + "\t\t");
-            }
-            System.out.println();
-        }
-    }
     //Умоляю сделайте эти методы
 
     public static String[] getAllCountries() {

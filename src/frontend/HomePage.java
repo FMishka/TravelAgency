@@ -26,9 +26,9 @@ public class HomePage {
         flightsButton.addActionListener(Controller.navigateFlights());
         logout.addActionListener(Controller.logout());
 
-        cats.setLayout(new GridLayout(1, 2));
+        cats.setLayout(new GridLayout(1, 3));
 
-        for(int i = 0; i < 2; i++) {
+        for(int i = 0; i < 3; i++) {
             JLabel label = new JLabel(new ImageIcon(Objects.requireNonNull(getClass().getResource("icons/cat.gif"))));
             cats.add(label);
         }

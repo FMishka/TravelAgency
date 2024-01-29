@@ -25,6 +25,7 @@ public abstract class View {
     static final ReturnFlightInfo returnFlightInfo = new ReturnFlightInfo();
     static final ReturnPlaneLayout returnPlaneLayout = new ReturnPlaneLayout();
     static final TicketInfo ticketInfo = new TicketInfo();
+    static final FilterForm filterForm = new FilterForm();
     static OrderTicket[] ticketsList;
     static int curTicketIndex = 0;
 
@@ -92,7 +93,7 @@ public abstract class View {
     }
 
     public static void goToTicketInfo() {
-        setSize(600, 700);
+        setSize(600, 750);
         mainFrame.setContentPane(ticketInfo.getContent());
         mainFrame.revalidate();
     }
@@ -121,6 +122,12 @@ public abstract class View {
         setSize(600, 700);
         returnPlaneLayout.refresh(flightId);
         mainFrame.setContentPane(returnPlaneLayout.getContent());
+        mainFrame.revalidate();
+    }
+
+    public static void goToFilterForm() {
+        setSize(600, 700);
+        mainFrame.setContentPane(filterForm.getContent());
         mainFrame.revalidate();
     }
 

@@ -18,10 +18,7 @@ public class FlightsPage {
     private JScrollPane scrollPane;
     private JButton addFlightButton;
     private JButton refresh;
-    private JButton priceUp;
-    private JButton priceDown;
-    private JButton popularityUp;
-    private JButton popularityDown;
+    private JButton search;
     private String tableSortBy = "";
 
     public void setTableSortBy(String filter) {
@@ -41,15 +38,21 @@ public class FlightsPage {
     }
 
     public void refreshTable() {
-        String[][] rowData;
-//        if(tableSortBy.isEmpty()) {
-//            rowData = Model.getAllFlights();
-//        } else {
-//            rowData = Model.sortFlightsBy(tableSortBy);
-//        }
-        rowData = Model.sortFlightsBy(tableSortBy);
+        refreshTable(null);
+    }
 
-        String[] columnNames = new String[]{"flight_ID", "Flight", "Departure time", "Arrival time", "Departure country", "Arrival country", "Price", "fk_plane_ID" , "Sold"};
+    public void refreshTable(String[][] data) {
+        String[][] rowData;
+        String[] columnNames;
+
+        if(data == null) {
+            rowData = Model.sortFlightsBy(tableSortBy);
+            columnNames = new String[]{"flight_ID", "Flight", "Departure time", "Arrival time", "Departure country", "Arrival country", "Price", "fk_plane_ID" , "Sold"};
+        } else {
+            rowData = data;
+            columnNames = new String[]{"flight_ID", "Flight", "Departure time", "Arrival time", "Departure country", "Arrival country", "Price", "fk_plane_ID"};
+        }
+
         table.setModel(new AbstractTableModel() {
             public String getColumnName(int column) { return columnNames[column].toString(); }
             public int getRowCount() { return rowData.length; }
@@ -69,12 +72,8 @@ public class FlightsPage {
 
         table.getColumnModel().getColumn(0).setMaxWidth(100);
         table.getColumnModel().getColumn(5).setMaxWidth(100);
-        table.getColumnModel().getColumn(6).setMaxWidth(100);
+        if(data == null) table.getColumnModel().getColumn(6).setMaxWidth(100);
 
-
-//        table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-//        table.getColumnModel().getColumn(0).setPreferredWidth(100);
-//        table.getColumnModel().getColumn(1).setPreferredWidth(150);
         table.setRowHeight(25);
 
         DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
@@ -100,6 +99,7 @@ public class FlightsPage {
         myTicketsPageButton.addActionListener(Controller.navigateMyTickets());
         flightsButton.addActionListener(Controller.navigateFlights());
         addFlightButton.addActionListener(Controller.navigateFlightAdd());
+        search.addActionListener(Controller.navigateFilterForm());
 
         table.addMouseListener(Controller.tableMouseClick(table));
         table.getTableHeader().addMouseListener(Controller.tableHeaderMouseClick(table));

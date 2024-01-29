@@ -5,9 +5,16 @@ import frontend.inputVerifiers.*;
 import javax.swing.*;
 import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.MaskFormatter;
+import javax.swing.text.NumberFormatter;
 import java.awt.*;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.text.NumberFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.ResolverStyle;
+
+import static javax.swing.JOptionPane.showMessageDialog;
 
 public abstract class Utility {
     public static final String DEFAULT_DATETIME = "2000-01-01 00:00";
@@ -85,8 +92,80 @@ public abstract class Utility {
             MaskFormatter formatter = new MaskFormatter("UU-###");
             formatter.setPlaceholderCharacter('_');
             field.setFormatterFactory(new DefaultFormatterFactory(formatter));
+        } catch (Exception ignored) {}
+    }
 
-            //field.setInputVerifier(new ExpireDateInputVerifier());
+    public static void setPriceFormat(JFormattedTextField field) {
+        try {
+            NumberFormat format = NumberFormat.getInstance();
+            NumberFormatter formatter = new NumberFormatter(format);
+            formatter.setValueClass(Integer.class);
+            formatter.setMinimum(0);
+            formatter.setMaximum(Integer.MAX_VALUE);
+            formatter.setAllowsInvalid(false);
+            formatter.setCommitsOnValidEdit(true);
+
+            field.setFormatterFactory(new DefaultFormatterFactory(formatter));
+        } catch (Exception ignored) {}
+    }
+
+    public static void setPriceOrNoneFormat(JFormattedTextField field) {
+        try {
+            field.setDocument(new PriceOrNoneDocument());
+
+            field.setText("-");
+            field.addFocusListener(new FocusListener() {
+                @Override
+                public void focusGained(FocusEvent e) {
+                    if (field.getText().equals("-")) {
+                        field.setText("");
+                    }
+                }
+                @Override
+                public void focusLost(FocusEvent e) {
+                    if (field.getText().isEmpty()) {
+                        field.setText("-");
+                    }
+                }
+            });
+        } catch (Exception ignored) {}
+    }
+
+    public static void setDateTimeOrNoneFormat(JFormattedTextField field) {
+        try {
+            DateTimeFormatter dateTimeFormatter = DateTimeFormatter
+                    .ofPattern("uuuu-MM-dd HH:mm")
+                    .withResolverStyle(ResolverStyle.STRICT);
+
+            MaskFormatter formatter = new MaskFormatter("####-##-## ##:##");
+            formatter.setPlaceholderCharacter('_');
+            DefaultFormatterFactory formatterFactory = new DefaultFormatterFactory(formatter);
+
+            field.setText("-");
+            field.addFocusListener(new FocusListener() {
+                @Override
+                public void focusGained(FocusEvent e) {
+                    if (field.getText().equals("-")) {
+                        field.setText("");
+                        field.setFormatterFactory(formatterFactory);
+                    }
+                }
+                @Override
+                public void focusLost(FocusEvent e) {
+                    if (field.getText().equals("____-__-__ __:__")) {
+                        field.setFormatterFactory(new DefaultFormatterFactory());
+                        field.setText("-");
+                    } else {
+                        try {
+                            LocalDateTime dateTime = LocalDateTime.parse(field.getText(), dateTimeFormatter);
+                        } catch (Exception ex) {
+                            field.setFormatterFactory(new DefaultFormatterFactory());
+                            field.setText("-");
+                            showMessageDialog(null, "Required format: \nyyyy-MM-dd HH:mm", "Invalid datetime format", JOptionPane.ERROR_MESSAGE);
+                        }
+                    }
+                }
+            });
         } catch (Exception ignored) {}
     }
 

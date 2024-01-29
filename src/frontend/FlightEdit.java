@@ -64,7 +64,7 @@ public class FlightEdit {
         Utility.setDateTimeFormat(depDate, null);
         Utility.setDateTimeFormat(arrDate, null);
         Utility.setFlightNameFormat(flightName);
-        Utility.setPriceFormat(price);
+        //Utility.setPriceFormat(price);
 
         cancel.addActionListener(Controller.navigateFlightInfo());
 

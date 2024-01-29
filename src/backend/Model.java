@@ -449,7 +449,12 @@ public class Model {
             int rowIndex = 0;
             while (resultSet.next()) {
                 for (int colIndex = 1; colIndex <= columnCount; colIndex++) {
-                    filteredFlights[rowIndex][colIndex - 1] = resultSet.getString(colIndex);
+                    if (resultSet.getMetaData().getColumnName(colIndex).equals("departuredate") || resultSet.getMetaData().getColumnName(colIndex).equals("arrivaldate")){
+                        filteredFlights[rowIndex][colIndex - 1] = resultSet.getString(colIndex).substring(0,16);
+                    }
+                    else{
+                        filteredFlights[rowIndex][colIndex - 1] = resultSet.getString(colIndex);
+                    }
                 }
                 rowIndex++;
             }

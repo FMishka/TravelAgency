@@ -346,7 +346,7 @@ public class Model {
     public static void addFlight(String flightName, LocalDateTime departureTime, LocalDateTime arrivalTime, String departureCountryName, String arrivalCountryName, String planeModel, int price) throws Exception {
         LocalDateTime check = LocalDateTime.now();
         if (checkingFlightNameDuplicates(flightName) > 0) throw new Exception("Flight name is duplicated!");
-        if (departureTime.isBefore(check) || arrivalTime.isBefore(check)) throw new Exception("Date is not valid!");
+        if (departureTime.isBefore(check) || arrivalTime.isBefore(check) || arrivalTime.isBefore(departureTime)) throw new Exception("Date is not valid!");
         if (departureTime.isAfter(arrivalTime)) throw new Exception("Date is not valid");
         DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         Statement statement;
@@ -359,7 +359,7 @@ public class Model {
     public static void editFlight(int flightID, String flightName, LocalDateTime departureTime, LocalDateTime arrivalTime, String departureCountryName, String arrivalCountryName, String planeModel, int price) throws Exception {
         LocalDateTime check = LocalDateTime.now();
         if (!flightName.equals(searchingFlightName(flightID)) && checkingFlightNameDuplicates(flightName) > 0) throw new Exception("Flight name is duplicated!");
-        if (departureTime.isBefore(check) || arrivalTime.isBefore(check)) throw new Exception("Date is not valid!");
+        if (departureTime.isBefore(check) || arrivalTime.isBefore(check) || arrivalTime.isBefore(departureTime)) throw new Exception("Date is not valid!");
         DateTimeFormatter format = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
         Statement statement;
         String editFlightQuery = String.format("UPDATE flights SET flightname = '%s', departuredate = '%s', arrivaldate = '%s', departurecountry_id = %d, arrivalcountry_id = %d, price = %d, fk_plane_id = %d " +

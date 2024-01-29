@@ -45,6 +45,7 @@ public class FlightAdd {
         Utility.setDateTimeFormat(arrDate, Utility.DEFAULT_DATETIME);
         Utility.setDateTimeFormat(depDate, Utility.DEFAULT_DATETIME);
         Utility.setFlightNameFormat(flightName);
+        Utility.setPriceFormat(price);
 
         reset();
 

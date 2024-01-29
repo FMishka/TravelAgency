@@ -43,8 +43,8 @@ CREATE TABLE IF NOT EXISTS users
 
 INSERT INTO users(login, userpassword, isAdmin) VALUES ('admin','', TRUE);
 INSERT INTO users(login, userpassword, isAdmin) VALUES ('Eduard',12345, TRUE);
+INSERT INTO users(login, userpassword, isAdmin) VALUES ('Andrey', 123, FALSE);
 INSERT INTO users(login, userpassword, isAdmin) VALUES ('Shimon','j1krd7', FALSE);
-INSERT INTO users(login, userpassword, isAdmin) VALUES ('Andrey','9ztnga', FALSE);
 INSERT INTO users(login, userpassword, isAdmin) VALUES ('Bicalel','bao5lx', FALSE);
 INSERT INTO users(login, userpassword, isAdmin) VALUES ('Avigail','vp9m0i', FALSE);
 INSERT INTO users(login, userpassword, isAdmin) VALUES ('David','9g3ai0', FALSE);
@@ -61,7 +61,7 @@ CREATE TABLE IF NOT EXISTS flights
     fk_plane_ID integer REFERENCES planes (plane_ID) not NULL
     );
 INSERT INTO flights(flightname, departureDate, arrivalDate, departureCountry_ID, arrivalCountry_ID, price, fk_plane_ID) VALUES ('AZ-428','10-02-2024 09:30:00', '10-02-2024 11:45:00', 4, 1, 800, 2);
-INSERT INTO flights(flightname, departureDate, arrivalDate, departureCountry_ID, arrivalCountry_ID, price, fk_plane_ID) VALUES ('AZ-429','11-02-2023 13:30:00', '11-02-2024 18:00:00', 1, 4, 900, 2);
+INSERT INTO flights(flightname, departureDate, arrivalDate, departureCountry_ID, arrivalCountry_ID, price, fk_plane_ID) VALUES ('AZ-429','11-02-2024 13:30:00', '11-02-2024 18:00:00', 1, 4, 900, 2);
 INSERT INTO flights(flightname, departureDate, arrivalDate, departureCountry_ID, arrivalCountry_ID, price, fk_plane_ID) VALUES ('AZ-433','15-02-2024 06:00:00', '15-02-2024 17:00:00', 4, 2, 3000, 1);
 INSERT INTO flights(flightname, departureDate, arrivalDate, departureCountry_ID, arrivalCountry_ID, price, fk_plane_ID) VALUES ('AZ-434','15-02-2024 20:00:00', '16-02-2024 07:00:00', 2, 4, 2999, 1);
 INSERT INTO flights(flightname, departureDate, arrivalDate, departureCountry_ID, arrivalCountry_ID, price, fk_plane_ID) VALUES ('AZ-467','17-02-2024 12:45:00', '17-02-2024 18:00:00', 4, 3, 600, 1);

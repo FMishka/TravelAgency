@@ -250,7 +250,7 @@
               <background color="-8004419"/>
               <font name="Droid Sans" size="16" style="1"/>
               <foreground color="-16777216"/>
-              <text value="Yes"/>
+              <text value="Male"/>
             </properties>
           </component>
           <component id="32de0" class="javax.swing.JRadioButton" binding="femaleRadioButton">
@@ -261,7 +261,7 @@
               <background color="-8004419"/>
               <font name="Droid Sans" size="16" style="1"/>
               <foreground color="-16777216"/>
-              <text value="No"/>
+              <text value="Female"/>
             </properties>
           </component>
           <component id="4f1f7" class="javax.swing.JCheckBox" binding="needReturnTicketCheckBox" default-binding="true">

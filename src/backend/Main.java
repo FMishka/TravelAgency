@@ -6,7 +6,7 @@ public class Main {
         Model model = new Model();
         Model.initConnection();
 
-        String[][] str = Model.sortFlightsBy("afds");
+        String[][] str = Model.sortFlightsBy("priceUP");
         for(int i = 0; i < str.length; i++){
             for (int j = 0; j < str[0].length; j++){
                 System.out.print(str[i][j] + " ");
